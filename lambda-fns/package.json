@@ -1,0 +1,22 @@
+{
+  "name": "placechatter.cdk.lambda-fns",
+  "author": "Echowaves Corp.",
+  "license": "MIT",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "echo 'buiding sharp!!!!!!!!!!!!!!!!!!!!!!!' && yarn && rm -rf node_modules/sharp && SHARP_IGNORE_GLOBAL_LIBVIPS=1 npm_config_arch=x64 npm_config_platform=linux yarn add sharp"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-lambda-nodejs": "1.172.0",
+    "aws-sdk": "2.1213.0",
+    "class-transformer": "0.5.1",
+    "moment": "2.29.4",
+    "serverless-postgres": "1.10.3",
+    "sharp": "^0.31.0",
+    "sitemap": "7.1.1",
+    "uuid": "9.0.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "8.3.4"
+  }
+}

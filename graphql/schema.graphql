@@ -1,0 +1,38 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+# ... ******************************************************
+# ...                   types
+# ... ******************************************************
+
+
+# ... ******************************************************
+# ...                   queries
+# ... ******************************************************
+type Query {
+  generateUploadUrl(
+    assetKey: String!
+    contentType: String!
+    ): String!
+}
+
+# ... ******************************************************
+# ...                    mutations
+# ... ******************************************************
+type Mutation {
+  
+  # helloWorld(helloMessage: String!): String!
+   
+}
+
+# ... ******************************************************
+# ...                    subscriptions
+# ... ******************************************************
+# onSendMessage(chatUuid: String!): Message!
+
+# only works with nullable return types, the return type must match corresponding mutation
+type Subscription {
+}
