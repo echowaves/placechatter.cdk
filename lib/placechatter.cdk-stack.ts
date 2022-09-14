@@ -15,6 +15,9 @@ import {Rule, Schedule,} from '@aws-cdk/aws-events'
 import * as rds from '@aws-cdk/aws-rds'
 import * as appsync from '@aws-cdk/aws-appsync'
 import * as iam from '@aws-cdk/aws-iam'
+
+import * as cognito from '@aws-cdk/aws-cognito'
+
 // import {ISecret, Secret,} from "@aws-cdk/aws-secretsmanager"
 // import * as path from 'path'
 
@@ -228,6 +231,44 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     })
     new cdk.CfnOutput(this, 'ProjectRegion', {
       value: this.region,
+    })
+
+
+
+    // 👇 User Pool
+    const userPool = new cognito.UserPool(this, `${deployEnv()}_placechatter_userpool`, {
+      userPoolName: `${deployEnv()}_placechatter_userpool`,
+      selfSignUpEnabled: true,
+      signInAliases: {
+        phone: true,
+      },
+      autoVerify: {
+        phone: true,
+      },
+      standardAttributes: {
+        givenName: {
+          required: true,
+          mutable: true,
+        },
+        familyName: {
+          required: true,
+          mutable: true,
+        },
+      },
+      customAttributes: {
+        country: new cognito.StringAttribute({mutable: true}),
+        city: new cognito.StringAttribute({mutable: true}),
+        isAdmin: new cognito.StringAttribute({mutable: true}),
+      },
+      passwordPolicy: {
+        minLength: 6,
+        requireLowercase: true,
+        requireDigits: true,
+        requireUppercase: false,
+        requireSymbols: false,
+      },
+      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
+      removalPolicy: cdk.RemovalPolicy.RETAIN,
     })
   }
 }
