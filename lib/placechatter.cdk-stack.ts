@@ -71,11 +71,7 @@ export class PlaceChatterCdkStack extends cdk.Stack {
         xrayEnabled: true,
       })
 
-    // const prototypeDS = api.addNoneDataSource(`prototypeDataSource`, {
-    //   name: "Prototype",
-    //   description: "Prototype graphql responses",
-    // })
-
+    
     const layerArn = 'arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14'
     const insightsVersion  = lambda.LambdaInsightsVersion.fromInsightVersionArn(layerArn)
     const logRetention = logs.RetentionDays.TWO_WEEKS
