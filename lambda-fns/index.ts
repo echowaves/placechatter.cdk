@@ -1,6 +1,7 @@
 // ******************************************************
 //                       queries
 // ******************************************************
+import generateUploadUrl from './controllers/places/generateUploadUrl'
 
 
 // ******************************************************
@@ -52,14 +53,7 @@ exports.handler = async (event:AppSyncEvent) => {
       return await generateUploadUrl(
         event.arguments.assetKey,
         event. arguments.contentType,
-      )
-    case 'generateUploadUrlForMessage':
-      return await generateUploadUrlForMessage(
-        event.arguments.uuid,
-        event.arguments.photoHash,
-        event. arguments.contentType,
-      )
-
+      )    
       // ******************************************************
       //                       mutations
       // ******************************************************

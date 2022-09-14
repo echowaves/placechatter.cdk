@@ -170,13 +170,13 @@ export class PlaceChatterCdkStack extends cdk.Stack {
 
     imgBucket.grantDelete(processDeletedImageLambdaFunction)
 
-    processUploadedImageLambdaFunction.addToRolePolicy(new iam.PolicyStatement({
-      effect: iam.Effect.ALLOW,
-      // permission policy to allow label detection from rekognition across all resources
-      actions: [
-      ],
-      resources: ['*',],
-    }))
+    // processUploadedImageLambdaFunction.addToRolePolicy(new iam.PolicyStatement({
+    //   effect: iam.Effect.ALLOW,
+    //   // permission policy to allow label detection from rekognition across all resources
+    //   // actions: [
+    //   // ],
+    //   resources: ['*',],
+    // }))
 
     // expiration can't be configured on the exiting bucket programmatically -- has to be done in the admin UI
     // imgBucket.addLifecycleRule({
