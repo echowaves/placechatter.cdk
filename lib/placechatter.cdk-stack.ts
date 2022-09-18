@@ -235,40 +235,40 @@ export class PlaceChatterCdkStack extends cdk.Stack {
 
 
 
-    // 👇 User Pool
-    const userPool = new cognito.UserPool(this, `${deployEnv()}_placechatter_userpool`, {
-      userPoolName: `${deployEnv()}_placechatter_userpool`,
-      selfSignUpEnabled: true,
-      signInAliases: {
-        phone: true,
-      },
-      autoVerify: {
-        phone: true,
-      },
-      standardAttributes: {
-        givenName: {
-          required: true,
-          mutable: true,
-        },
-        familyName: {
-          required: true,
-          mutable: true,
-        },
-      },
-      customAttributes: {
-        country: new cognito.StringAttribute({mutable: true}),
-        city: new cognito.StringAttribute({mutable: true}),
-        isAdmin: new cognito.StringAttribute({mutable: true}),
-      },
-      passwordPolicy: {
-        minLength: 6,
-        requireLowercase: true,
-        requireDigits: true,
-        requireUppercase: false,
-        requireSymbols: false,
-      },
-      accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
-      removalPolicy: cdk.RemovalPolicy.RETAIN,
-    })
+    // // 👇 User Pool
+    // const userPool = new cognito.UserPool(this, `${deployEnv()}_placechatter_userpool`, {
+    //   userPoolName: `${deployEnv()}_placechatter_userpool`,
+    //   selfSignUpEnabled: true,
+    //   signInAliases: {
+    //     phone: true,
+    //   },
+    //   autoVerify: {
+    //     phone: true,
+    //   },
+    //   standardAttributes: {
+    //     givenName: {
+    //       required: true,
+    //       mutable: true,
+    //     },
+    //     familyName: {
+    //       required: true,
+    //       mutable: true,
+    //     },
+    //   },
+    //   customAttributes: {
+    //     country: new cognito.StringAttribute({mutable: true}),
+    //     city: new cognito.StringAttribute({mutable: true}),
+    //     isAdmin: new cognito.StringAttribute({mutable: true}),
+    //   },
+    //   passwordPolicy: {
+    //     minLength: 6,
+    //     requireLowercase: true,
+    //     requireDigits: true,
+    //     requireUppercase: false,
+    //     requireSymbols: false,
+    //   },
+    //   accountRecovery: cognito.AccountRecovery.EMAIL_ONLY,
+    //   removalPolicy: cdk.RemovalPolicy.RETAIN,
+    // })
   }
 }

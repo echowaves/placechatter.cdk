@@ -36,6 +36,7 @@
     "mocha": "10.0.0",
     "nyc": "15.1.0",
     "pg": "8.8.0",
+    "prettier": "2.7.1",
     "regenerator-runtime": "0.13.9",
     "sequelize": "6.21.6",
     "sequelize-cli": "6.4.1",
@@ -44,11 +45,11 @@
     "typescript": "4.8.3"
   },
   "dependencies": {
-    "@aws-cdk/aws-cognito": "1.172.0",
     "@aws-cdk/aws-appsync": "1.172.0",
     "@aws-cdk/aws-certificatemanager": "1.172.0",
     "@aws-cdk/aws-cloudfront": "1.172.0",
     "@aws-cdk/aws-cloudfront-origins": "1.172.0",
+    "@aws-cdk/aws-cognito": "1.172.0",
     "@aws-cdk/aws-ec2": "1.172.0",
     "@aws-cdk/aws-events-targets": "1.172.0",
     "@aws-cdk/aws-iam": "1.172.0",
