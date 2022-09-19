@@ -1,6 +1,8 @@
 {
   "name": "placechatter.cdk",
   "version": "0.1.0",
+  "author": "Echowaves Corp.",
+  "license": "MIT",
   "bin": {
     "placechatter.cdk": "bin/placechatter.cdk.js"
   },
@@ -24,10 +26,10 @@
     "@babel/core": "7.19.0",
     "@babel/preset-env": "7.19.0",
     "@babel/register": "7.18.9",
+    "@babel/eslint-parser" : "7.19.1",
     "@types/node": "18.7.18",
     "eslint-config-prettier": "^8.5.0",
     "aws-cdk": "2.41.0",
-    "babel-eslint": "10.1.0",
     "chai": "4.3.6",
     "chai-http": "4.3.0",
     "dotenv": "16.0.2",
@@ -62,7 +64,7 @@
     "@aws-cdk/core": "1.172.0",
     "global": "4.4.0",
     "moment": "2.29.4",
-    "node-fetch": "^3.2.6",
+    "node-fetch": "3.2.10",
     "serverless-postgres": "1.10.3",
     "source-map-support": "0.5.21",
     "uuid": "9.0.0"

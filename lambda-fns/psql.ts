@@ -1,5 +1,5 @@
-const ServerlessClient = require('serverless-postgres')
-const {env,} = process
+const ServerlessClient = require("serverless-postgres")
+const { env } = process
 
 const psql = new ServerlessClient({
   ...env,
