@@ -1,36 +1,34 @@
-// import * as moment from 'moment'
+import psql from "../../psql"
 
-const AWS = require("aws-sdk")
-
-// import AbuseReport from '../../models/abuseReport'
+const dayjs = require("dayjs")
+const srs = require("secure-random-string")
 
 export default async function main(uuid: string, phoneNumber: string) {
-  const updatedAt = moment().format("YYYY-MM-DD HH:mm:ss.SSS")
-  const secretValid = newSecret.length >= 5 && newSecret.length <= 512
-
-  if (!secretValid) {
-    throw new Error(`Invalid new Secret`)
-  }
   await psql.connect()
+  const createdAt = dayjs().format("YYYY-MM-DD HH:mm:ss.SSS") // display
+  const smsCode = srs({ length: 4, alphanumeric: true })
 
-  const updatedSecret = (
+  const activationCode = (
     await psql.query(`
-    UPDATE "Secrets"
-                  SET
-                    "secret" = '${_hash(newSecret)}',
-                    "updatedAt" =  '${updatedAt}'                
-                  WHERE
-                    "uuid" = '${uuid}'
-                    AND
-                    "nickName" = '${nickName.toLowerCase()}'
-                    AND
-                    "secret" = '${_hash(secret)}'
-                  returning *
-                  `)
-  ).rows
-  if (updatedSecret.length !== 1) {
-    throw new Error(`Failed to update secret`)
-  }
+                    INSERT INTO "ActivationRequests"
+                    (
+                        "uuid",
+                        "phoneNumber",
+                        "smsCode",
+                        "createdAt",
+                    ) values (
+                      '${uuid}',
+                      '${phoneNumber}',
+                      '${smsCode}',                      
+                      '${createdAt}',
+                    )
+                    returning *
+                    `)
+  ).rows[0]
 
-  return "the code" // 4 alpha numeric
+  await psql.clean()
+
+  // send sms to a phoneNumber here
+
+  return smsCode // 4 alpha numeric
 }

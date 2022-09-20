@@ -46,7 +46,6 @@ exports.handler = async (event: AppSyncEvent) => {
       )
     case "nickNameTypeAhead":
       return await nickNameTypeAhead(
-        event.arguments.uuid,
         event.arguments.phoneNumber,
         event.arguments.nickName,
       )
@@ -54,6 +53,7 @@ exports.handler = async (event: AppSyncEvent) => {
       return await activatePhone(
         event.arguments.uuid,
         event.arguments.phoneNumber,
+        event.arguments.nickName,
         event.arguments.smsCode,
       )
 
