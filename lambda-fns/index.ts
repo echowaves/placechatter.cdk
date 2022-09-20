@@ -1,7 +1,9 @@
 // ******************************************************
 //                       queries
 // ******************************************************
-import generateUploadUrl from "./controllers/places/generateUploadUrl"
+import nickNameTypeAhead from "./controllers/phones/nickNameTypeAhead"
+import generateActivationCode from "./controllers/phones/generateActivationCode"
+import activatePhone from "./controllers/phones/activatePhone"
 
 // ******************************************************
 //                       mutations
@@ -16,27 +18,17 @@ type AppSyncEvent = {
     fieldName: string
   }
   arguments: {
-    // photo: Photo,
-    // abuseReport: AbuseReport,
-    placeId: string
     uuid: string
     lat: number
     lon: number
     pageNumber: number
-    searchTerm: string
-    description: string
     commentId: bigint
     video: boolean
     assetKey: string
-    contentType: string
     nickName: string
-    secret: string
-    newSecret: string
-    friendshipUuid: string
-    invitedByUuid: string
-    chatUuid: string
-    messageUuid: string
-    text: string
+    token: string
+    phoneNumber: string
+    smsCode: string
   }
 }
 
@@ -46,11 +38,25 @@ exports.handler = async (event: AppSyncEvent) => {
     //                       queries
     // ******************************************************
 
-    case "generateUploadUrl":
-      return await generateUploadUrl(
-        event.arguments.assetKey,
-        event.arguments.contentType
+    // Phones
+    case "generateActivationCode":
+      return await generateActivationCode(
+        event.arguments.uuid,
+        event.arguments.phoneNumber
       )
+    case "nickNameTypeAhead":
+      return await nickNameTypeAhead(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.nickName
+      )
+    case "activatePhone":
+      return await activatePhone(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.smsCode
+      )
+
     // ******************************************************
     //                       mutations
     // ******************************************************

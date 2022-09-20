@@ -7,6 +7,23 @@ schema {
 # ... ******************************************************
 # ...                   types
 # ... ******************************************************
+type Phone {
+  uuid: String!
+  phoneNumber: String!
+  nickName: String!
+  token: String!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type ActivationRequest {
+  uuid: String!
+  phoneNumber: String!
+  smsCode: String!
+  confirmed: Boolean!
+  createdAt: AWSDateTime!
+  confirmedAt: AWSDateTime!
+}
 
 
 # ... ******************************************************

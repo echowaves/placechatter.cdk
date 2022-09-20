@@ -1,7 +1,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface
-      .createTable("Phones", {
+      .createTable("ActivationRequests", {
         uuid: {
           type: Sequelize.UUID,
           allowNull: false,
@@ -10,39 +10,34 @@ module.exports = {
           type: Sequelize.TEXT,
           allowNull: false,
         },
-        nickName: {
-          type: Sequelize.TEXT,
-          allowNull: false,
-        },
-        token: {
+        smsCode: {
           type: Sequelize.TEXT,
           allowNull: false,
           defaultValue: "none",
+        },
+        confirmed: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
         },
 
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,
         },
-        updatedAt: {
+        confirmedAt: {
           allowNull: false,
           type: Sequelize.DATE,
         },
       })
-      .then(() => queryInterface.addIndex("Phones", ["uuid"], { unique: true }))
+      .then(() => queryInterface.addIndex("ActivationRequests", ["uuid"]))
       .then(() =>
-        queryInterface.addIndex("Phones", ["phoneNumber"], { unique: true })
-      )
-      .then(() =>
-        queryInterface.addIndex("Phones", ["nickName"], { unique: true })
-      )
-      .then(() =>
-        queryInterface.addIndex("Phones", ["token"], { unique: true })
+        queryInterface.addIndex("ActivationRequests", ["phoneNumber"])
       ),
   down: (
     queryInterface,
     Sequelize // eslint-disable-line no-unused-vars
-  ) => queryInterface.dropTable("Phones"),
+  ) => queryInterface.dropTable("ActivationRequests"),
 }
 // https://gis.stackexchange.com/questions/159434/resolving-postgis-type-geometry-does-not-exist-issue-on-installing-tiger-geoco
 // https://stackoverflow.com/questions/28417409/type-geometry-does-not-exists
