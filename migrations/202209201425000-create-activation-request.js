@@ -1,7 +1,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface
-      .createTable("ActivationRequests", {
+      .createTable('ActivationRequests', {
         uuid: {
           type: Sequelize.UUID,
           allowNull: false,
@@ -13,7 +13,7 @@ module.exports = {
         smsCode: {
           type: Sequelize.TEXT,
           allowNull: false,
-          defaultValue: "none",
+          defaultValue: 'none',
         },
         confirmed: {
           type: Sequelize.BOOLEAN,
@@ -30,14 +30,14 @@ module.exports = {
           type: Sequelize.DATE,
         },
       })
-      .then(() => queryInterface.addIndex("ActivationRequests", ["uuid"]))
+      .then(() => queryInterface.addIndex('ActivationRequests', ['uuid']))
       .then(() =>
-        queryInterface.addIndex("ActivationRequests", ["phoneNumber,"]),
+        queryInterface.addIndex('ActivationRequests', ['phoneNumber,']),
       ),
   down: (
     queryInterface,
     Sequelize, // eslint-disable-line no-unused-vars
-  ) => queryInterface.dropTable("ActivationRequests"),
+  ) => queryInterface.dropTable('ActivationRequests'),
 }
 // https://gis.stackexchange.com/questions/159434/resolving-postgis-type-geometry-does-not-exist-issue-on-installing-tiger-geoco
 // https://stackoverflow.com/questions/28417409/type-geometry-does-not-exists
