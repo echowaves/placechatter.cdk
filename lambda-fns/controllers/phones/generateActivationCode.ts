@@ -1,3 +1,6 @@
+var AWS = require("aws-sdk")
+var SNS = new AWS.SNS()
+
 import psql from "../../psql"
 
 const dayjs = require("dayjs")
@@ -29,6 +32,11 @@ export default async function main(uuid: string, phoneNumber: string) {
   await psql.clean()
 
   // send sms to a phoneNumber here
+  var params = {
+    PhoneNumber: phoneNumber,
+    Message: `Activation Code: ${smsCode}`,
+  }
+  await SNS.publish(params)
 
   return smsCode // 4 alpha numeric
 }
