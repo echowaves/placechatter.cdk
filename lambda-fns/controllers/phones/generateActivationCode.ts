@@ -38,8 +38,14 @@ export default async function main(uuid: string, phoneNumber: string) {
 
   // send sms to a phoneNumber here
   var params = {
-    PhoneNumber: `1${phoneNumber}`,
+    PhoneNumber: `+1${phoneNumber}`,
     Message: `Activation Code: ${smsCode}`,
+    MessageAttributes: {
+      'AWS.SNS.SMS.SMSType': {
+        DataType: 'String',
+        StringValue: 'Transactional',
+      },
+    },
   }
   await SNS.publish(params)
 
