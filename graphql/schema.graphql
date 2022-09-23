@@ -25,31 +25,25 @@ type ActivationRequest {
   confirmedAt: AWSDateTime!
 }
 
-
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************
 type Query {
-  generateUploadUrl(
-    assetKey: String!
-    contentType: String!
-    ): String!
+  generateActivationCode(uuid: String!, phoneNumber: String!): String! # returns smsCode
 }
 
 # ... ******************************************************
 # ...                    mutations
 # ... ******************************************************
 type Mutation {
-  
-  # helloWorld(helloMessage: String!): String!
-   
+  helloWorld(helloMessage: String!): String!
 }
 
 # ... ******************************************************
 # ...                    subscriptions
 # ... ******************************************************
-# onSendMessage(chatUuid: String!): Message!
 
 # only works with nullable return types, the return type must match corresponding mutation
 type Subscription {
+  onSendMessage(chatUuid: String!): String!
 }

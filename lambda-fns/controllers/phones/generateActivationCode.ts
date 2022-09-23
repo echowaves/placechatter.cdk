@@ -1,16 +1,19 @@
-var AWS = require("aws-sdk")
+var AWS = require('aws-sdk')
 var SNS = new AWS.SNS()
 
-import psql from "../../psql"
+import psql from '../../psql'
 
-const dayjs = require("dayjs")
-const srs = require("secure-random-string")
+const dayjs = require('dayjs')
+const srs = require('secure-random-string')
 
 export default async function main(uuid: string, phoneNumber: string) {
+  console.log('called generateActivationCode fucntion')
   await psql.connect()
-  const createdAt = dayjs().format("YYYY-MM-DD HH:mm:ss.SSS") // display
-  const smsCode = srs({ length: 4, alphanumeric: true })
+  const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss.SSS') // display
+  console.log({ createdAt })
 
+  const smsCode = srs({ length: 4, alphanumeric: true })
+  console.log({ smsCode })
   const activationCode = (
     await psql.query(`
                     INSERT INTO "ActivationRequests"
@@ -38,5 +41,5 @@ export default async function main(uuid: string, phoneNumber: string) {
   }
   await SNS.publish(params)
 
-  return smsCode // 4 alpha numeric
+  return 'smsCode' // 4 alpha numeric
 }
