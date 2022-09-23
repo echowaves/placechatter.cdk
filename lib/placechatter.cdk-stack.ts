@@ -79,11 +79,11 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       },
     )
 
-    // const layerArn =
-    //   'arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14'
-    // const insightsVersion =
-    //   lambda.LambdaInsightsVersion.fromInsightVersionArn(layerArn)
-    // const logRetention = logs.RetentionDays.TWO_WEEKS
+    const layerArn =
+      'arn:aws:lambda:us-east-1:580247275435:layer:LambdaInsightsExtension:14'
+    const insightsVersion =
+      lambda.LambdaInsightsVersion.fromInsightVersionArn(layerArn)
+    const logRetention = logs.RetentionDays.TWO_WEEKS
 
     // Create the Lambda function that will map GraphQL operations into Postgres
     const placechatterFn = new lambda.Function(
@@ -92,8 +92,8 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       {
         runtime: lambda.Runtime.NODEJS_16_X,
         code: lambda.Code.fromAsset('lambda-fns/lambdas.zip'),
-        // insightsVersion,
-        // logRetention,
+        insightsVersion,
+        logRetention,
         // code: new lambda.AssetCode('lambda-fns'),
         handler: 'index.handler',
         // memorySize: 10240,
@@ -117,8 +117,8 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       {
         runtime: lambda.Runtime.NODEJS_16_X,
         code: lambda.Code.fromAsset('lambda-fns/lambdas.zip'),
-        // insightsVersion,
-        // logRetention,
+        insightsVersion,
+        logRetention,
         // code: lambda.Code.fromAsset(path.join(__dirname, '/../lambda-fns/controllers/photos')),
         handler: 'lambdas/processUploadedImage.main',
         memorySize: 3008,
@@ -137,8 +137,8 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       {
         runtime: lambda.Runtime.NODEJS_16_X,
         code: lambda.Code.fromAsset('lambda-fns/lambdas.zip'),
-        // insightsVersion,
-        // logRetention,
+        insightsVersion,
+        logRetention,
         // code: lambda.Code.fromAsset(path.join(__dirname, '/../lambda-fns/controllers/photos')),
         handler: 'lambdas/processDeletedImage.main',
         memorySize: 3008,
@@ -212,7 +212,7 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     // ******************************************************
     lambdaDs.createResolver({
       typeName: 'Query',
-      fieldName: 'generateUploadUrl',
+      fieldName: 'generateActivationCode',
     })
 
     // ******************************************************

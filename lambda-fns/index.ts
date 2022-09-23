@@ -1,9 +1,9 @@
 // ******************************************************
 //                       queries
 // ******************************************************
-import nickNameTypeAhead from "./controllers/phones/nickNameTypeAhead"
-import generateActivationCode from "./controllers/phones/generateActivationCode"
-import activatePhone from "./controllers/phones/activatePhone"
+import nickNameTypeAhead from './controllers/phones/nickNameTypeAhead'
+import generateActivationCode from './controllers/phones/generateActivationCode'
+import activatePhone from './controllers/phones/activatePhone'
 
 // ******************************************************
 //                       mutations
@@ -39,17 +39,17 @@ exports.handler = async (event: AppSyncEvent) => {
     // ******************************************************
 
     // Phones
-    case "generateActivationCode":
+    case 'generateActivationCode':
       return await generateActivationCode(
         event.arguments.uuid,
         event.arguments.phoneNumber,
       )
-    case "nickNameTypeAhead":
+    case 'nickNameTypeAhead':
       return await nickNameTypeAhead(
         event.arguments.phoneNumber,
         event.arguments.nickName,
       )
-    case "activatePhone":
+    case 'activatePhone':
       return await activatePhone(
         event.arguments.uuid,
         event.arguments.phoneNumber,
