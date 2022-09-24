@@ -2,12 +2,20 @@ var AWS = require('aws-sdk')
 var SNS = new AWS.SNS()
 
 import psql from '../../psql'
+import * as valid from '../../valid'
 
 import * as dayjs from 'dayjs'
 
 const srs = require('secure-random-string')
 
 export default async function main(uuid: string, phoneNumber: string) {
+  if (!valid.phoneNumber(phoneNumber)) {
+    throw 'Invalid phone number'
+  }
+  if (!valid.uuid(uuid)) {
+    throw 'Invalid uuid'
+  }
+
   await psql.connect()
   const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss.SSS') // display
   console.log({ createdAt })
@@ -32,7 +40,7 @@ export default async function main(uuid: string, phoneNumber: string) {
                     returning *
                     `)
   ).rows[0]
-  console.log({ activationCode })
+  // console.log({ activationCode })
 
   await psql.clean()
 
@@ -60,7 +68,7 @@ export default async function main(uuid: string, phoneNumber: string) {
     to: `+1${phoneNumber}`,
   })
 
-  console.log({ message })
+  // console.log({ message })
 
   return smsCode // 4 alpha numeric
 }
