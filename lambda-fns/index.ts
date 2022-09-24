@@ -37,29 +37,28 @@ exports.handler = async (event: AppSyncEvent) => {
     // ******************************************************
     //                       queries
     // ******************************************************
-
+    case 'nickNameTypeAhead':
+      return await nickNameTypeAhead(
+        event.arguments.phoneNumber,
+        event.arguments.nickName,
+      )
+    // ******************************************************
+    //                       mutations
+    // ******************************************************
     // Phones
     case 'generateActivationCode':
       return await generateActivationCode(
         event.arguments.uuid,
         event.arguments.phoneNumber,
       )
-    case 'nickNameTypeAhead':
-      return await nickNameTypeAhead(
-        event.arguments.phoneNumber,
-        event.arguments.nickName,
-      )
+
     case 'activatePhone':
       return await activatePhone(
         event.arguments.uuid,
         event.arguments.phoneNumber,
-        event.arguments.nickName,
         event.arguments.smsCode,
+        event.arguments.nickName,
       )
-
-    // ******************************************************
-    //                       mutations
-    // ******************************************************
 
     default:
       return null

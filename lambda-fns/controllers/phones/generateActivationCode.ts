@@ -17,7 +17,7 @@ export default async function main(uuid: string, phoneNumber: string) {
   }
 
   await psql.connect()
-  const createdAt = dayjs().format('YYYY-MM-DD HH:mm:ss.SSS') // display
+  const createdAt = dayjs().format(valid.dateFormat) // display
   console.log({ createdAt })
 
   const smsCode = srs({ length: 4, alphanumeric: true })

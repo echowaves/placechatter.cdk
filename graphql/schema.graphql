@@ -1,6 +1,6 @@
 schema {
   query: Query
-  # mutation: Mutation
+  mutation: Mutation
   # subscription: Subscription
 }
 
@@ -29,15 +29,21 @@ type ActivationRequest {
 # ...                   queries
 # ... ******************************************************
 type Query {
-  generateActivationCode(uuid: String!, phoneNumber: String!): String! # returns smsCode
+  nickNameTypeAhead(phoneNumber: String!, nickName: String!): Int!
 }
 
 # ... ******************************************************
 # ...                    mutations
 # ... ******************************************************
-# type Mutation {
-#   helloWorld(helloMessage: String!): String!
-# }
+type Mutation {
+  generateActivationCode(uuid: String!, phoneNumber: String!): String! # returns smsCode
+  activatePhone(
+    uuid: String!
+    phoneNumber: String!
+    smsCode: String!
+    nickName: String!
+  ): String! # returns secure token
+}
 
 # ... ******************************************************
 # ...                    subscriptions

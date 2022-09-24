@@ -1,16 +1,30 @@
-import psql from "../../psql"
+import psql from '../../psql'
+import * as valid from '../../valid'
 
-const dayjs = require("dayjs")
-const srs = require("secure-random-string")
+const dayjs = require('dayjs')
+const srs = require('secure-random-string')
 
 export default async function main(
   uuid: string,
   phoneNumber: string,
-  nickName: string,
   smsCode: string,
+  nickName: string,
 ) {
+  if (!valid.phoneNumber(phoneNumber)) {
+    throw 'Invalid phone number'
+  }
+  if (!valid.uuid(uuid)) {
+    throw 'Invalid uuid'
+  }
+  if (!valid.smsCode(smsCode)) {
+    throw 'Invalid smsCode'
+  }
+  if (!valid.nickName(nickName)) {
+    throw 'Invalid nickName'
+  }
+
   await psql.connect()
-  const createdAt = dayjs().format("YYYY-MM-DD HH:mm:ss.SSS") // display
+  const createdAt = dayjs().format(valid.dateFormat) // display
   const token = srs({ length: 256, alphanumeric: true })
 
   const ActivationRequest = (
@@ -20,8 +34,7 @@ export default async function main(
         "uuid" = ${uuid} 
         and "phoneNumber" = ${phoneNumber}
         and "smsCode" = ${smsCode}
-        and confirmed = false
-      LIMIT 1
+        and confirmed = false                
       `)
   ).rows[0]
 
