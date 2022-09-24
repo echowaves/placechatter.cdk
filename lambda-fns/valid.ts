@@ -1,7 +1,7 @@
 export const dateFormat = 'YYYY-MM-DD HH:mm:ss.SSS'
 
 export function phoneNumber(phoneNumber: string) {
-  if (phoneNumber.length === 10 && /^-?\d+$/.test(phoneNumber)) {
+  if (/^([0-9]){10}$/.test(phoneNumber)) {
     return true
   }
   return false
@@ -19,18 +19,14 @@ export function uuid(uuid: string) {
 }
 
 export function nickName(nickName: string) {
-  if (
-    nickName.length > 3 &&
-    nickName.length < 30 &&
-    /^[a-zA-Z0-9]$/gi.test(nickName)
-  ) {
+  if (/^([a-zA-Z0-9_-]){4,30}$/.test(nickName)) {
     return true
   }
   return false
 }
 
 export function smsCode(smsCode: string) {
-  if (nickName.length === 4 && /^[a-zA-Z0-9]$/gi.test(smsCode)) {
+  if (/^([a-zA-Z0-9]){4}$/.test(smsCode)) {
     return true
   }
   return false

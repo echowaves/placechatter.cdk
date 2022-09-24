@@ -26,19 +26,19 @@ export default async function main(
   await psql.connect()
   const createdAt = dayjs().format(valid.dateFormat) // display
   const token = srs({ length: 256, alphanumeric: true })
-
-  const ActivationRequest = (
-    await psql.query(`
+  console.log('1..............................')
+  const ActivationRequest = await psql.query(`
       SELECT * FROM "ActivationRequests"
       WHERE
         "uuid" = ${uuid} 
         and "phoneNumber" = ${phoneNumber}
         and "smsCode" = ${smsCode}
-        and confirmed = false                
+        and "confirmed" = ${false}                
       `)
-  ).rows[0]
+  console.log('2..............................')
 
   console.log({ ActivationRequest })
+  console.log('3..............................')
 
   const Phones = await psql.query(`
       INSERT INTO "Phones"
@@ -60,30 +60,35 @@ export default async function main(
       ON CONFLICT("phoneNumber" ) 
       DO UPDATE 
       SET 
-      "uuid" = '${uuid}'                 
-      "nickName" = '${nickName}' 
+      "uuid" = '${uuid}',                 
+      "nickName" = '${nickName}', 
       "token" = '${token}',
       "updatedAt" =  '${createdAt}'       
       returning *         
       `).rows
+  console.log('4..............................')
 
   console.log({ Phones })
+  console.log('5..............................')
 
   const updatedActivationRequest = (
     await psql.query(`
     UPDATE "ActivationRequests"
       SET 
-        "confirmed" = true
+        "confirmed" = true,
         "confirmedAt" =   '${createdAt}'
       WHERE
       "uuid" = ${uuid} 
       and "phoneNumber" = ${phoneNumber}
       and "smsCode" = ${smsCode}
-      and confirmed = false
+      and "confirmed" = ${false}
       returning *`)
   ).rows[0]
+  console.log('6..............................')
 
   console.log({ updatedActivationRequest })
+  console.log({ token })
+  console.log('7..............................')
 
   return token
 }
