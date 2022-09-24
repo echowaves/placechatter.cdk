@@ -27,20 +27,21 @@ export default async function main(
   const createdAt = dayjs().format(valid.dateFormat) // display
   const token = srs({ length: 256, alphanumeric: true })
   console.log('1..............................')
-  const ActivationRequest = await psql.query(`
+  const ActivationRequest = (
+    await psql.query(`
       SELECT * FROM "ActivationRequests"
       WHERE
-        "uuid" = ${uuid} 
-        and "phoneNumber" = ${phoneNumber}
-        and "smsCode" = ${smsCode}
+        "uuid" = '${uuid}' 
+        and "phoneNumber" = '${phoneNumber}'
+        and "smsCode" = '${smsCode}'
         and "confirmed" = ${false}                
       `)
-  console.log('2..............................')
+  ).rows[0]
+  if (!ActivationRequest) {
+    throw 'No valid pending activation request found'
+  }
 
-  console.log({ ActivationRequest })
-  console.log('3..............................')
-
-  const Phones = await psql.query(`
+  await psql.query(`
       INSERT INTO "Phones"
         (
           "uuid",
@@ -65,30 +66,19 @@ export default async function main(
       "token" = '${token}',
       "updatedAt" =  '${createdAt}'       
       returning *         
-      `).rows
-  console.log('4..............................')
+      `)
 
-  console.log({ Phones })
-  console.log('5..............................')
-
-  const updatedActivationRequest = (
-    await psql.query(`
+  await psql.query(`
     UPDATE "ActivationRequests"
       SET 
-        "confirmed" = true,
+        "confirmed" = ${true},
         "confirmedAt" =   '${createdAt}'
       WHERE
-      "uuid" = ${uuid} 
-      and "phoneNumber" = ${phoneNumber}
-      and "smsCode" = ${smsCode}
+      "uuid" = '${uuid}' 
+      and "phoneNumber" = '${phoneNumber}'
+      and "smsCode" = '${smsCode}'
       and "confirmed" = ${false}
       returning *`)
-  ).rows[0]
-  console.log('6..............................')
-
-  console.log({ updatedActivationRequest })
-  console.log({ token })
-  console.log('7..............................')
 
   return token
 }
