@@ -31,3 +31,10 @@ export function smsCode(smsCode: string) {
   }
   return false
 }
+
+export function token(token: string) {
+  if (/^([a-zA-Z0-9]){128}$/.test(token)) {
+    return true
+  }
+  return false
+}

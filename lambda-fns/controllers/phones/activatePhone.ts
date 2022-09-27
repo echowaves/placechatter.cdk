@@ -25,9 +25,9 @@ export default async function main(
 
   await psql.connect()
   const createdAt = dayjs().format(valid.dateFormat) // display
-  const token = srs({ length: 256, alphanumeric: true })
-  console.log('1..............................')
-  const ActivationRequest = (
+  const token = srs({ length: 128, alphanumeric: true })
+  // console.log('1..............................')
+  const activationRequest = (
     await psql.query(`
       SELECT * FROM "ActivationRequests"
       WHERE
@@ -37,7 +37,8 @@ export default async function main(
         and "confirmed" = ${false}                
       `)
   ).rows[0]
-  if (!ActivationRequest) {
+  // console.log({ activationRequest })
+  if (!activationRequest) {
     throw 'No valid pending activation request found'
   }
 
@@ -72,7 +73,7 @@ export default async function main(
     UPDATE "ActivationRequests"
       SET 
         "confirmed" = ${true},
-        "confirmedAt" =   '${createdAt}'
+        "confirmedAt" = '${createdAt}'
       WHERE
       "uuid" = '${uuid}' 
       and "phoneNumber" = '${phoneNumber}'
