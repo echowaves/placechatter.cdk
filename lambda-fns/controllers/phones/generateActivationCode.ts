@@ -63,7 +63,7 @@ export default async function main(uuid: string, phoneNumber: string) {
   const client = require('twilio')(accountSid, authToken)
 
   const message = await client.messages.create({
-    body: `Activation Code: ${smsCode}`,
+    body: `${smsCode} is your activation code`,
     from: '+19303365867',
     to: `+1${phoneNumber}`,
   })
