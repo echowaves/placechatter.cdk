@@ -5,6 +5,8 @@ import nickNameTypeAhead from './controllers/phones/nickNameTypeAhead'
 import generateActivationCode from './controllers/phones/generateActivationCode'
 import activatePhone from './controllers/phones/activatePhone'
 
+import createPlace from './controllers/places/createPlace'
+
 // ******************************************************
 //                       mutations
 // ******************************************************
@@ -29,6 +31,18 @@ type AppSyncEvent = {
     token: string
     phoneNumber: string
     smsCode: string
+
+    placeName: string
+    streetAddress1: string
+    streetAddress2: string
+    city: string
+    country: string
+    district: string
+    isoCountryCode: string
+    postalCode: string
+    region: string
+    subregion: string
+    timezone: string
   }
 }
 
@@ -58,6 +72,26 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.phoneNumber,
         event.arguments.smsCode,
         event.arguments.nickName,
+      )
+    case 'createPlace':
+      return await createPlace(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeName,
+        event.arguments.streetAddress1,
+        event.arguments.streetAddress2,
+        event.arguments.city,
+        event.arguments.country,
+        event.arguments.district,
+        event.arguments.isoCountryCode,
+        event.arguments.postalCode,
+        event.arguments.region,
+        event.arguments.subregion,
+        event.arguments.timezone,
+        event.arguments.lat,
+        event.arguments.lon,
       )
 
     default:

@@ -226,6 +226,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Mutation',
       fieldName: 'activatePhone',
     })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'createPlace',
+    })
     // CFN Outputs
     new cdk.CfnOutput(this, 'AppSyncAPIURL', {
       value: api.graphqlUrl,

@@ -25,6 +25,33 @@ type ActivationRequest {
   confirmedAt: AWSDateTime!
 }
 
+type Place {
+  placeUuid: String!
+  placeName: String!
+  streetAddress1: String!
+  streetAddress2: String!
+  city: String!
+  country: String!
+  district: String!
+  isoCountryCode: String!
+  postalCode: String!
+  region: String!
+  subregion: String!
+  timezone: String!
+  location: AWSJSON!
+
+  createdAt: AWSDateTime!
+  confirmedAt: AWSDateTime!
+}
+
+type PlaceOwner {
+  placeUuid: String!
+  phoneNumber: String!
+  role: String!
+  createdAt: AWSDateTime!
+  confirmedAt: AWSDateTime!
+}
+
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************
@@ -43,6 +70,25 @@ type Mutation {
     smsCode: String!
     nickName: String!
   ): String! # returns secure token
+  createPlace(
+    uuid: String!
+    phoneNumber: String!
+    token: String!
+
+    placeName: String!
+    streetAddress1: String!
+    streetAddress2: String!
+    city: String!
+    country: String!
+    district: String!
+    isoCountryCode: String!
+    postalCode: String!
+    region: String!
+    subregion: String!
+    timezone: String!
+    lat: Float!
+    lon: Float!
+  ): Place!
 }
 
 # ... ******************************************************
