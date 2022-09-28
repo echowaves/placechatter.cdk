@@ -32,7 +32,7 @@ module.exports = {
       })
       .then(() => queryInterface.addIndex('ActivationRequests', ['uuid']))
       .then(() =>
-        queryInterface.addIndex('ActivationRequests', ['phoneNumber,']),
+        queryInterface.addIndex('ActivationRequests', ['phoneNumber']),
       ),
   down: (
     queryInterface,
