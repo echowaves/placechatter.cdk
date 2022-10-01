@@ -27,7 +27,7 @@ export default async function main(
   lat: number,
   lon: number,
 ) {
-  if (!VALID.auth(uuid, phoneNumber, token)) {
+  if (!(await VALID.auth(uuid, phoneNumber, token))) {
     throw 'Autentication failed'
   }
 
