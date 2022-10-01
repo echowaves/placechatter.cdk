@@ -31,7 +31,7 @@ export default async function main(uuid: string, phoneNumber: string) {
                         "uuid",
                         "phoneNumber",
                         "smsCode",
-                        ,"createdAt"
+                        "createdAt"
                     ) values (
                       '${uuid}',
                       '${phoneNumber}',
