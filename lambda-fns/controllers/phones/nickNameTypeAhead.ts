@@ -1,15 +1,15 @@
 import psql from '../../psql'
-import * as valid from '../../valid'
+import { VALID } from '../../valid'
 
 export default async function main(
   // uuid: string,
   phoneNumber: string,
   nickName: string,
 ) {
-  if (!valid.phoneNumber(phoneNumber)) {
+  if (!VALID.phoneNumber(phoneNumber)) {
     throw 'Invalid phone number'
   }
-  if (!valid.nickName(nickName)) {
+  if (!VALID.nickName(nickName)) {
     throw 'Invalid nickName'
   }
 

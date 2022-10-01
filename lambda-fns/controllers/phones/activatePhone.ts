@@ -1,5 +1,5 @@
 import psql from '../../psql'
-import * as valid from '../../valid'
+import { VALID } from '../../valid'
 
 const dayjs = require('dayjs')
 const srs = require('secure-random-string')
@@ -10,21 +10,21 @@ export default async function main(
   smsCode: string,
   nickName: string,
 ) {
-  if (!valid.phoneNumber(phoneNumber)) {
+  if (!VALID.phoneNumber(phoneNumber)) {
     throw 'Invalid phone number'
   }
-  if (!valid.uuid(uuid)) {
+  if (!VALID.uuid(uuid)) {
     throw 'Invalid uuid'
   }
-  if (!valid.smsCode(smsCode)) {
+  if (!VALID.smsCode(smsCode)) {
     throw 'Invalid smsCode'
   }
-  if (!valid.nickName(nickName)) {
+  if (!VALID.nickName(nickName)) {
     throw 'Invalid nickName'
   }
 
   await psql.connect()
-  const createdAt = dayjs().format(valid.dateFormat) // display
+  const createdAt = dayjs().format(VALID.dateFormat) // display
   const token = srs({ length: 128, alphanumeric: true })
   // console.log('1..............................')
   const activationRequest = (

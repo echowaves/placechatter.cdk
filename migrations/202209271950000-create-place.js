@@ -59,10 +59,6 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DATE,
         },
-        confirmedAt: {
-          allowNull: true,
-          type: Sequelize.DATE,
-        },
       })
       .then(() =>
         queryInterface.createTable('PlaceOwners', {
@@ -81,10 +77,6 @@ module.exports = {
 
           createdAt: {
             allowNull: false,
-            type: Sequelize.DATE,
-          },
-          confirmedAt: {
-            allowNull: true,
             type: Sequelize.DATE,
           },
         }),

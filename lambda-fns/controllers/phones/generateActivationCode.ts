@@ -2,22 +2,23 @@ var AWS = require('aws-sdk')
 var SNS = new AWS.SNS()
 
 import psql from '../../psql'
-import * as valid from '../../valid'
+
+import { VALID } from '../../valid'
 
 import * as dayjs from 'dayjs'
 
 const srs = require('secure-random-string')
 
 export default async function main(uuid: string, phoneNumber: string) {
-  if (!valid.phoneNumber(phoneNumber)) {
+  if (!VALID.phoneNumber(phoneNumber)) {
     throw 'Invalid phone number'
   }
-  if (!valid.uuid(uuid)) {
+  if (!VALID.uuid(uuid)) {
     throw 'Invalid uuid'
   }
 
   await psql.connect()
-  const createdAt = dayjs().format(valid.dateFormat) // display
+  const createdAt = dayjs().format(VALID.dateFormat) // display
   console.log({ createdAt })
 
   const smsCode = srs({ length: 4, alphanumeric: true })
@@ -27,15 +28,15 @@ export default async function main(uuid: string, phoneNumber: string) {
     await psql.query(`
                     INSERT INTO "ActivationRequests"
                     (
-                        "uuid"
-                        ,"phoneNumber"
-                        ,"smsCode"
+                        "uuid",
+                        "phoneNumber",
+                        "smsCode",
                         ,"createdAt"
                     ) values (
-                      '${uuid}'
-                      ,'${phoneNumber}'
-                      ,'${smsCode}'                      
-                      ,'${createdAt}'
+                      '${uuid}',
+                      '${phoneNumber}',
+                      '${smsCode}',
+                      '${createdAt}'
                     )
                     returning *
                     `)
@@ -62,11 +63,11 @@ export default async function main(uuid: string, phoneNumber: string) {
   const authToken = process.env.TWILIO_AUTH_TOKEN
   const client = require('twilio')(accountSid, authToken)
 
-  const message = await client.messages.create({
-    body: `${smsCode} is your activation code`,
-    from: '+19303365867',
-    to: `+1${phoneNumber}`,
-  })
+  // const message = await client.messages.create({
+  //   body: `${smsCode} is your activation code`,
+  //   from: '+19303365867',
+  //   to: `+1${phoneNumber}`,
+  // })
 
   // console.log({ message })
 

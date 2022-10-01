@@ -1,16 +1,15 @@
 var AWS = require('aws-sdk')
-var SNS = new AWS.SNS()
 
 import psql from '../../psql'
-import * as valid from '../../valid'
+
+import { VALID } from '../../valid'
 
 import * as dayjs from 'dayjs'
 
-const srs = require('secure-random-string')
+import { v4 as uuidv4 } from 'uuid'
 
 export default async function main(
   uuid: string,
-
   phoneNumber: string,
   token: string,
 
@@ -28,66 +27,73 @@ export default async function main(
   lat: number,
   lon: number,
 ) {
-  if (!valid.phoneNumber(phoneNumber)) {
-    throw 'Invalid phone number'
+  if (!VALID.auth(uuid, phoneNumber, token)) {
+    throw 'Autentication failed'
   }
-  if (!valid.uuid(uuid)) {
-    throw 'Invalid uuid'
-  }
+
+  const placeUuid = uuidv4()
+  const createdAt = dayjs().format(VALID.dateFormat) // display
 
   await psql.connect()
-  const createdAt = dayjs().format(valid.dateFormat) // display
-  console.log({ createdAt })
 
-  const smsCode = srs({ length: 4, alphanumeric: true })
-  console.log({ smsCode })
-
-  const activationCode = (
+  const place = (
     await psql.query(`
-                    INSERT INTO "ActivationRequests"
+                    INSERT INTO "Places"
                     (
-                        "uuid"
-                        ,"phoneNumber"
-                        ,"smsCode"
-                        ,"createdAt"
+                        "placeUuid",
+                        "placeName",
+                        "streetAddress1",
+                        "streetAddress2",
+                        "city",
+                        "country",
+                        "district",
+                        "isoCountryCode",
+                        "postalCode",
+                        "region",
+                        "subregion",
+                        "timezone",
+                        "location",
+                        "createdAt"
                     ) values (
-                      '${uuid}'
-                      ,'${phoneNumber}'
-                      ,'${smsCode}'                      
-                      ,'${createdAt}'
+                      '${placeUuid}',
+                      '${placeName}',
+                      '${streetAddress1}',
+                      '${streetAddress2}',
+                      '${city}',
+                      '${country}',
+                      '${district}',
+                      '${isoCountryCode}',
+                      '${postalCode}',
+                      '${region}',
+                      '${subregion}',
+                      '${timezone}',
+                      ST_MakePoint(${lat}, ${lon}),
+                      '${createdAt}'
                     )
                     returning *
                     `)
   ).rows[0]
-  // console.log({ activationCode })
+  // console.log({ place })
+
+  const placeOwner = (
+    await psql.query(`
+                    INSERT INTO "PlaceOwners"
+                    (
+                        "placeUuid",
+                        "phoneNumber",
+                        "role",
+                        "createdAt"
+                    ) values (
+                      '${placeUuid}',
+                      '${phoneNumber}',
+                      'owner',
+                      '${createdAt}'
+                    )
+                    returning *
+                    `)
+  ).rows[0]
 
   await psql.clean()
 
-  // send sms to a phoneNumber here
-  // var params = {
-  //   PhoneNumber: `+1${phoneNumber}`,
-  //   Message: `Activation Code: ${smsCode}`,
-  //   MessageAttributes: {
-  //     'AWS.SNS.SMS.SMSType': {
-  //       DataType: 'String',
-  //       StringValue: 'Transactional',
-  //     },
-  //   },
-  // }
-  // const publish_resp = await SNS.publish(params).promise()
-  // console.log({ publish_resp })
-
-  const accountSid = process.env.TWILIO_ACCOUNT_SID
-  const authToken = process.env.TWILIO_AUTH_TOKEN
-  const client = require('twilio')(accountSid, authToken)
-
-  const message = await client.messages.create({
-    body: `${smsCode} is your activation code`,
-    from: '+19303365867',
-    to: `+1${phoneNumber}`,
-  })
-
-  // console.log({ message })
-
-  return smsCode // 4 alpha numeric
+  return { place, placeOwner } // 4 alpha numeric
 }

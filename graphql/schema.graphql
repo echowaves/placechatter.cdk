@@ -51,6 +51,10 @@ type PlaceOwner {
   createdAt: AWSDateTime!
   confirmedAt: AWSDateTime!
 }
+type CreatedPlace {
+  place: Place!
+  placeOwner: PlaceOwner!
+}
 
 # ... ******************************************************
 # ...                   queries
@@ -88,7 +92,7 @@ type Mutation {
     timezone: String!
     lat: Float!
     lon: Float!
-  ): Place!
+  ): CreatedPlace!
 }
 
 # ... ******************************************************
