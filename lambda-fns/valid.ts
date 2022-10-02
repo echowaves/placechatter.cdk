@@ -27,7 +27,7 @@ export const VALID = {
   },
 
   token: function (param: string) {
-    return /^([a-zA-Z0-9]){128}$/.test(param)
+    return /^(\w){128}$/.test(param)
   },
 
   placeName: function (param: string) {
@@ -47,6 +47,9 @@ export const VALID = {
   },
 
   auth: async function (uuid: string, phoneNumber: string, token: string) {
+    console.log({ uuid: VALID.uuid(uuid) })
+    console.log({ phoneNumber: VALID.phoneNumber(phoneNumber) })
+    console.log({ token: VALID.token(token) })
     if (
       !VALID.uuid(uuid) ||
       !VALID.phoneNumber(phoneNumber) ||
@@ -54,6 +57,7 @@ export const VALID = {
     ) {
       return false
     }
+
     await psql.connect()
 
     const count = (
