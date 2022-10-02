@@ -18,16 +18,20 @@ export const VALID = {
     return false
   },
 
-  nickName: function (nickName: string) {
-    return /^([a-zA-Z0-9_-]){4,30}$/.test(nickName)
+  nickName: function (param: string) {
+    return /^([a-zA-Z0-9_-]){4,30}$/.test(param)
   },
 
-  smsCode: function (smsCode: string) {
-    return /^([a-zA-Z0-9]){4}$/.test(smsCode)
+  smsCode: function (param: string) {
+    return /^([a-zA-Z0-9]){4}$/.test(param)
   },
 
-  token: function (token: string) {
-    return /^([a-zA-Z0-9]){128}$/.test(token)
+  token: function (param: string) {
+    return /^([a-zA-Z0-9]){128}$/.test(param)
+  },
+
+  placeName: function (param: string) {
+    return /^([\w_@./#&+-\s]){4,50}$/.test(param)
   },
 
   auth: async function (uuid: string, phoneNumber: string, token: string) {
