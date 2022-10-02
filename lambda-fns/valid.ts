@@ -33,6 +33,18 @@ export const VALID = {
   placeName: function (param: string) {
     return /^([\w_@./#&+-\s]){4,50}$/.test(param)
   },
+  streetAddress: function (param: string) {
+    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+  },
+  city: function (param: string) {
+    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+  },
+  region: function (param: string) {
+    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+  },
+  postalCode: function (param: string) {
+    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+  },
 
   auth: async function (uuid: string, phoneNumber: string, token: string) {
     if (
