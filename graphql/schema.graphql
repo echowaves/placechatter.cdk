@@ -41,7 +41,6 @@ type Place {
   location: AWSJSON!
 
   createdAt: AWSDateTime!
-  confirmedAt: AWSDateTime!
 }
 
 type PlaceOwner {
@@ -49,7 +48,6 @@ type PlaceOwner {
   phoneNumber: String!
   role: String!
   createdAt: AWSDateTime!
-  confirmedAt: AWSDateTime!
 }
 type CreatedPlace {
   place: Place!
