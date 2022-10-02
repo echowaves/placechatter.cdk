@@ -2,10 +2,10 @@
 //                       queries
 // ******************************************************
 import nickNameTypeAhead from './controllers/phones/nickNameTypeAhead'
-import generateActivationCode from './controllers/phones/generateActivationCode'
-import activatePhone from './controllers/phones/activatePhone'
+import activationCodeGenerate from './controllers/phones/activationCodeGenerate'
+import phoneActivate from './controllers/phones/phoneActivate'
 
-import createPlace from './controllers/places/createPlace'
+import placeCreate from './controllers/places/placeCreate'
 
 // ******************************************************
 //                       mutations
@@ -60,21 +60,21 @@ exports.handler = async (event: AppSyncEvent) => {
     //                       mutations
     // ******************************************************
     // Phones
-    case 'generateActivationCode':
-      return await generateActivationCode(
+    case 'activationCodeGenerate':
+      return await activationCodeGenerate(
         event.arguments.uuid,
         event.arguments.phoneNumber,
       )
 
-    case 'activatePhone':
-      return await activatePhone(
+    case 'phoneActivate':
+      return await phoneActivate(
         event.arguments.uuid,
         event.arguments.phoneNumber,
         event.arguments.smsCode,
         event.arguments.nickName,
       )
-    case 'createPlace':
-      return await createPlace(
+    case 'placeCreate':
+      return await placeCreate(
         event.arguments.uuid,
         event.arguments.phoneNumber,
         event.arguments.token,

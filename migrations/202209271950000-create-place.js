@@ -10,6 +10,11 @@ module.exports = {
           type: Sequelize.STRING(100),
           allowNull: false,
         },
+        description: {
+          type: Sequelize.STRING(1024),
+          allowNull: false,
+          defaultValue: '',
+        },
         streetAddress1: {
           type: Sequelize.STRING(200),
           allowNull: false,
