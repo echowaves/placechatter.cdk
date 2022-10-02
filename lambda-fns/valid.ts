@@ -4,10 +4,7 @@ export const VALID = {
   dateFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
 
   phoneNumber: function (phoneNumber: string) {
-    if (/^([0-9]){10}$/.test(phoneNumber)) {
-      return true
-    }
-    return false
+    return /^([0-9]){10}$/.test(phoneNumber)
   },
 
   uuid: function (uuid: string) {
@@ -22,24 +19,15 @@ export const VALID = {
   },
 
   nickName: function (nickName: string) {
-    if (/^([a-zA-Z0-9_-]){4,30}$/.test(nickName)) {
-      return true
-    }
-    return false
+    return /^([a-zA-Z0-9_-]){4,30}$/.test(nickName)
   },
 
   smsCode: function (smsCode: string) {
-    if (/^([a-zA-Z0-9]){4}$/.test(smsCode)) {
-      return true
-    }
-    return false
+    return /^([a-zA-Z0-9]){4}$/.test(smsCode)
   },
 
   token: function (token: string) {
-    if (/^([a-zA-Z0-9]){128}$/.test(token)) {
-      return true
-    }
-    return false
+    return /^([a-zA-Z0-9]){128}$/.test(token)
   },
 
   auth: async function (uuid: string, phoneNumber: string, token: string) {
