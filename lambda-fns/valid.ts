@@ -47,9 +47,9 @@ export const VALID = {
   },
 
   auth: async function (uuid: string, phoneNumber: string, token: string) {
-    console.log({ uuid: VALID.uuid(uuid) })
-    console.log({ phoneNumber: VALID.phoneNumber(phoneNumber) })
-    console.log({ token: VALID.token(token) })
+    // console.log({ uuid: VALID.uuid(uuid) })
+    // console.log({ phoneNumber: VALID.phoneNumber(phoneNumber) })
+    // console.log({ token: VALID.token(token) })
     if (
       !VALID.uuid(uuid) ||
       !VALID.phoneNumber(phoneNumber) ||
@@ -70,8 +70,9 @@ export const VALID = {
                 AND "token" = '${token}'
       `)
     ).rows[0].count
-    await psql.clean()
 
-    return count === 1 ? true : false
+    await psql.clean()
+    // console.log({ count })
+    return count === '1'
   },
 }
