@@ -27,7 +27,7 @@ export default async function main(
   lat: number,
   lon: number,
 ) {
-  console.log({ uuid, phoneNumber, token })
+  // console.log({ uuid, phoneNumber, token })
   if (!(await VALID.auth(uuid, phoneNumber, token))) {
     throw 'Autentication failed'
   }
@@ -54,7 +54,8 @@ export default async function main(
                         "subregion",
                         "timezone",
                         "location",
-                        "createdAt"
+                        "createdAt",
+                        "updatedAt"
                     ) values (
                       '${placeUuid}',
                       '${placeName}',
@@ -69,6 +70,7 @@ export default async function main(
                       '${subregion}',
                       '${timezone}',
                       ST_MakePoint(${lat}, ${lon}),
+                      '${createdAt}',
                       '${createdAt}'
                     )
                     returning *
@@ -96,5 +98,5 @@ export default async function main(
 
   await psql.clean()
 
-  return { place, placeOwner } // 4 alpha numeric
+  return { place, placeOwner }
 }

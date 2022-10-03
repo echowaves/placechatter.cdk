@@ -6,6 +6,8 @@ import activationCodeGenerate from './controllers/phones/activationCodeGenerate'
 import phoneActivate from './controllers/phones/phoneActivate'
 
 import placeCreate from './controllers/places/placeCreate'
+import placeDetails from './controllers/places/placeDetails'
+import placeDescriptionUpdate from './controllers/places/placeDescriptionUpdate'
 
 // ******************************************************
 //                       mutations
@@ -43,6 +45,9 @@ type AppSyncEvent = {
     region: string
     subregion: string
     timezone: string
+
+    description: string
+    placeUuid: string
   }
 }
 
@@ -55,6 +60,14 @@ exports.handler = async (event: AppSyncEvent) => {
       return await nickNameTypeAhead(
         event.arguments.phoneNumber,
         event.arguments.nickName,
+      )
+    case 'placeDetails':
+      return await placeDetails(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
       )
     // ******************************************************
     //                       mutations
@@ -92,6 +105,15 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.timezone,
         event.arguments.lat,
         event.arguments.lon,
+      )
+    case 'placeDescriptionUpdate':
+      return await placeDescriptionUpdate(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+        event.arguments.description,
       )
 
     default:

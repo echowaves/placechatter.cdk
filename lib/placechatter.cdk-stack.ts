@@ -214,6 +214,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Query',
       fieldName: 'nickNameTypeAhead',
     })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'placeDetails',
+    })
 
     // ******************************************************
     //                       mutations
@@ -229,6 +233,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     lambdaDs.createResolver({
       typeName: 'Mutation',
       fieldName: 'placeCreate',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placeDescriptionUpdate',
     })
     // CFN Outputs
     new cdk.CfnOutput(this, 'AppSyncAPIURL', {

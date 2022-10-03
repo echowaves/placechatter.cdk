@@ -64,6 +64,10 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DATE,
         },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
       })
       .then(() =>
         queryInterface.createTable('PlaceOwners', {
