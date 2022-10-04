@@ -10,6 +10,8 @@ export default async function main(
   smsCode: string,
   nickName: string,
 ) {
+  // console.log({ phoneNumber, nickName })
+
   if (!VALID.phoneNumber(phoneNumber)) {
     throw 'Invalid phone number'
   }
