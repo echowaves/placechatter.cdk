@@ -7,11 +7,11 @@ module.exports = {
           allowNull: false,
         },
         phoneNumber: {
-          type: Sequelize.TEXT,
+          type: Sequelize.STRING(20),
           allowNull: false,
         },
         smsCode: {
-          type: Sequelize.TEXT,
+          type: Sequelize.STRING(10),
           allowNull: false,
           defaultValue: 'none',
         },

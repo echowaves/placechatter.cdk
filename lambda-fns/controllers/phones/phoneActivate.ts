@@ -62,13 +62,13 @@ export default async function main(
           '${createdAt}',
           '${createdAt}'
         )
-      ON CONFLICT("phoneNumber" ) 
+      ON CONFLICT("phoneNumber") 
       DO UPDATE 
       SET 
-      "uuid" = '${uuid}',                 
-      "nickName" = '${nickName}', 
-      "token" = '${token}',
-      "updatedAt" =  '${createdAt}'       
+      "uuid" = EXCLUDED."uuid",                 
+      "nickName" = EXCLUDED."nickName", 
+      "token" = EXCLUDED."token",
+      "updatedAt" =  EXCLUDED."updatedAt"       
       returning *         
       `)
 

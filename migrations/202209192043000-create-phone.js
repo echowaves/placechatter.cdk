@@ -7,15 +7,15 @@ module.exports = {
           allowNull: false,
         },
         phoneNumber: {
-          type: Sequelize.TEXT,
+          type: Sequelize.STRING(20),
           allowNull: false,
         },
         nickName: {
-          type: Sequelize.TEXT,
+          type: Sequelize.STRING(50),
           allowNull: false,
         },
         token: {
-          type: Sequelize.TEXT,
+          type: Sequelize.STRING(256),
           allowNull: false,
           defaultValue: 'none',
         },
