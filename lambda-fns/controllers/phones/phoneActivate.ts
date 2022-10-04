@@ -32,10 +32,12 @@ export default async function main(
       SELECT * FROM "ActivationRequests"
       WHERE
         "uuid" = '${uuid}' 
-        and "phoneNumber" = '${phoneNumber}'
-        and "smsCode" = '${smsCode}'
-        and "confirmed" = ${false} 
-        and "createdAt" >= '${createdAt.subtract(3, 'minute')}'
+        AND "phoneNumber" = '${phoneNumber}'
+        AND "smsCode" = '${smsCode}'
+        AND "confirmed" = ${false} 
+        AND "createdAt" >= '${dayjs()
+          .subtract(3, 'minute')
+          .format(VALID.dateFormat)}'
       `)
   ).rows[0]
   // console.log({ activationRequest })
