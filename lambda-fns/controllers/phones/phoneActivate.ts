@@ -34,7 +34,8 @@ export default async function main(
         "uuid" = '${uuid}' 
         and "phoneNumber" = '${phoneNumber}'
         and "smsCode" = '${smsCode}'
-        and "confirmed" = ${false}                
+        and "confirmed" = ${false} 
+        and "createdAt" >= '${createdAt.subtract(3, 'minute')}'
       `)
   ).rows[0]
   // console.log({ activationRequest })
