@@ -21,6 +21,10 @@ export default async function main(
     throw 'Autentication failed'
   }
 
+  if (!(await VALID.isPlaceInRole(uuid, phoneNumber, placeUuid, 'owner'))) {
+    throw 'Not the owner of this place'
+  }
+
   const updatedAt = dayjs().format(VALID.dateFormat) // display
 
   await psql.connect()

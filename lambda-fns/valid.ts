@@ -78,4 +78,36 @@ export const VALID = {
     // console.log({ count })
     return count === '1'
   },
+
+  isPlaceInRole: async function (
+    uuid: string,
+    phoneNumber: string,
+    placeUuid: string,
+    role: string,
+  ) {
+    if (
+      !VALID.uuid(uuid) ||
+      !VALID.phoneNumber(phoneNumber) ||
+      !VALID.uuid(placeUuid)
+    ) {
+      return false
+    }
+
+    await psql.connect()
+
+    const count = (
+      await psql.query(`
+        SELECT COUNT(*)
+                FROM "PlaceRoles"
+                WHERE 
+                "placeUuid" = '${placeUuid}'
+                AND "phoneNumber" = '${phoneNumber}'
+                AND "role" = '${role}'
+      `)
+    ).rows[0].count
+
+    await psql.clean()
+    // console.log({ count })
+    return count === '1'
+  },
 }
