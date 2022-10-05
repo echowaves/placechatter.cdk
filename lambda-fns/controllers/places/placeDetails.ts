@@ -26,7 +26,7 @@ export default async function main(
     await psql.query(`
                     SELECT * from "Places"
                     WHERE
-                    placeUuid = '${placeUuid}' 
+                    "placeUuid" = '${placeUuid}' 
                     `)
   ).rows[0]
   console.log({ place })
@@ -34,7 +34,7 @@ export default async function main(
     await psql.query(`
                     SELECT * from "PlaceOwners"
                     WHERE
-                    placeUuid = '${placeUuid}' 
+                    "placeUuid" = '${placeUuid}' 
                     `)
   ).rows[0]
   console.log({ place, placeOwner })
