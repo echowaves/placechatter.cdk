@@ -29,7 +29,7 @@ export default async function main(
     await psql.query(`
                     UPDATE "Places"
                     SET 
-                      "description" = ${description},
+                      "description" = '${description}',
                       "updatedAt" = '${updatedAt}'
                     WHERE
                       "placeUuid" = '${placeUuid}'                     
