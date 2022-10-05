@@ -51,23 +51,19 @@ type PlaceOwner {
   role: String!
   createdAt: AWSDateTime!
 }
-type PlaceDetails {
-  place: Place!
-  placeOwner: PlaceOwner!
-}
 
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************
 type Query {
   nickNameTypeAhead(phoneNumber: String!, nickName: String!): Int!
-  placeDetails(
+  placeRead(
     uuid: String!
     phoneNumber: String!
     token: String!
 
     placeUuid: String!
-  ): PlaceDetails!
+  ): Place!
 }
 
 # ... ******************************************************
@@ -99,7 +95,7 @@ type Mutation {
     timezone: String!
     lat: Float!
     lon: Float!
-  ): PlaceDetails!
+  ): Place!
 
   placeDescriptionUpdate(
     uuid: String!

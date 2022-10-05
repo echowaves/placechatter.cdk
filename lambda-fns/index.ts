@@ -6,7 +6,7 @@ import activationCodeGenerate from './controllers/phones/activationCodeGenerate'
 import phoneActivate from './controllers/phones/phoneActivate'
 
 import placeCreate from './controllers/places/placeCreate'
-import placeDetails from './controllers/places/placeDetails'
+import placeRead from './controllers/places/placeRead'
 import placeDescriptionUpdate from './controllers/places/placeDescriptionUpdate'
 
 // ******************************************************
@@ -61,8 +61,8 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.phoneNumber,
         event.arguments.nickName,
       )
-    case 'placeDetails':
-      return await placeDetails(
+    case 'placeRead':
+      return await placeRead(
         event.arguments.uuid,
         event.arguments.phoneNumber,
         event.arguments.token,
