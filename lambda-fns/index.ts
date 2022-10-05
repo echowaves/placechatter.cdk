@@ -46,7 +46,7 @@ type AppSyncEvent = {
     subregion: string
     timezone: string
 
-    description: string
+    placeDescription: string
     placeUuid: string
   }
 }
@@ -113,7 +113,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.token,
 
         event.arguments.placeUuid,
-        event.arguments.description,
+        event.arguments.placeDescription,
       )
 
     default:

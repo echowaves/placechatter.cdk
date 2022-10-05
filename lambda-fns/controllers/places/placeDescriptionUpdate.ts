@@ -14,7 +14,7 @@ export default async function main(
   token: string,
 
   placeUuid: string,
-  description: string,
+  placeDescription: string,
 ) {
   // console.log({ uuid, phoneNumber, token })
   if (!(await VALID.auth(uuid, phoneNumber, token))) {
@@ -29,7 +29,7 @@ export default async function main(
     await psql.query(`
                     UPDATE "Places"
                     SET 
-                      "description" = '${description}',
+                      "placeDescription" = '${placeDescription}',
                       "updatedAt" = '${updatedAt}'
                     WHERE
                       "placeUuid" = '${placeUuid}'                     

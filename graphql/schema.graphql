@@ -28,7 +28,7 @@ type ActivationRequest {
 type Place {
   placeUuid: String!
   placeName: String!
-  description: String!
+  placeDescription: String!
   streetAddress1: String!
   streetAddress2: String!
   city: String!
@@ -107,7 +107,7 @@ type Mutation {
     token: String!
 
     placeUuid: String!
-    description: String!
+    placeDescription: String!
   ): String! # return 'OK' if it worked
 }
 
