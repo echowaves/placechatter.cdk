@@ -30,14 +30,13 @@ export default async function main(
                     `)
   ).rows[0]
   console.log({ place })
-  // const placeOwner = (
+  // const placeRole = (
   //   await psql.query(`
-  //                   SELECT * from "PlaceOwners"
+  //                   SELECT * from "PlaceRoles"
   //                   WHERE
   //                   "placeUuid" = '${placeUuid}'
   //                   `)
   // ).rows[0]
-  // console.log({ place, placeOwner })
 
   await psql.clean()
 

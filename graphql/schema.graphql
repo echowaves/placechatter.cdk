@@ -45,7 +45,7 @@ type Place {
   updatedAt: AWSDateTime!
 }
 
-type PlaceOwner {
+type PlaceRole {
   placeUuid: String!
   phoneNumber: String!
   role: String!

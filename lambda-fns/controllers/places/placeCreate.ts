@@ -78,9 +78,9 @@ export default async function main(
   ).rows[0]
   // console.log({ place })
 
-  const placeOwner = (
-    await psql.query(`
-                    INSERT INTO "PlaceOwners"
+  // const placeRole = (
+  await psql.query(`
+                    INSERT INTO "PlaceRoles"
                     (
                         "placeUuid",
                         "phoneNumber",
@@ -94,9 +94,9 @@ export default async function main(
                     )
                     returning *
                     `)
-  ).rows[0]
+  // ).rows[0]
 
   await psql.clean()
 
-  return { place, placeOwner }
+  return place
 }
