@@ -30,8 +30,16 @@ export default async function main(
                     `)
   ).rows[0]
   console.log({ place })
+  const placeOwner = (
+    await psql.query(`
+                    SELECT * from "PlaceOwners"
+                    WHERE
+                    placeUuid = '${placeUuid}' 
+                    `)
+  ).rows[0]
+  console.log({ place, placeOwner })
 
   await psql.clean()
 
-  return place
+  return { place, placeOwner }
 }

@@ -51,7 +51,7 @@ type PlaceOwner {
   role: String!
   createdAt: AWSDateTime!
 }
-type PlaceCreated {
+type PlaceDetails {
   place: Place!
   placeOwner: PlaceOwner!
 }
@@ -67,7 +67,7 @@ type Query {
     token: String!
 
     placeUuid: String!
-  ): Place!
+  ): PlaceDetails!
 }
 
 # ... ******************************************************
@@ -99,7 +99,7 @@ type Mutation {
     timezone: String!
     lat: Float!
     lon: Float!
-  ): PlaceCreated!
+  ): PlaceDetails!
 
   placeDescriptionUpdate(
     uuid: String!
