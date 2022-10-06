@@ -218,6 +218,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Query',
       fieldName: 'placeRead',
     })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'placesFeed',
+    })
 
     // ******************************************************
     //                       mutations

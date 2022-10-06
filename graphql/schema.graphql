@@ -40,6 +40,7 @@ type Place {
   subregion: String!
   timezone: String!
   location: AWSJSON!
+  distance: Float
 
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -50,6 +51,12 @@ type PlaceRole {
   phoneNumber: String!
   role: String!
   createdAt: AWSDateTime!
+}
+
+type PlacesFeed {
+  places: [Place]
+  # batch: String!
+  # noMoreData: Boolean!
 }
 
 # ... ******************************************************
@@ -64,6 +71,8 @@ type Query {
 
     placeUuid: String!
   ): Place!
+
+  placesFeed(lat: Float!, lon: Float!): PlacesFeed
 }
 
 # ... ******************************************************

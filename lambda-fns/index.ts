@@ -8,6 +8,7 @@ import phoneActivate from './controllers/phones/phoneActivate'
 import placeCreate from './controllers/places/placeCreate'
 import placeRead from './controllers/places/placeRead'
 import placeDescriptionUpdate from './controllers/places/placeDescriptionUpdate'
+import placesFeed from './controllers/places/placesFeed'
 
 // ******************************************************
 //                       mutations
@@ -69,6 +70,8 @@ exports.handler = async (event: AppSyncEvent) => {
 
         event.arguments.placeUuid,
       )
+    case 'placesFeed':
+      return await placesFeed(event.arguments.lat, event.arguments.lon)
     // ******************************************************
     //                       mutations
     // ******************************************************
