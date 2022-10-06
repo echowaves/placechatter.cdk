@@ -16,7 +16,7 @@ export default async function main(lat: number, lon: number) {
     SELECT
     *
     , 
-    ST_Distance(ST_MakePoint(${lat}, ${lon})::geography, "location"::geography)
+    ST_Distance(ST_SetSRID(ST_MakePoint(${lon}, ${lat} ), 4326)::geography, "location"::geography)
       as "distance"
     FROM "Places"
     ORDER BY "distance"

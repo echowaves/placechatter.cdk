@@ -69,7 +69,7 @@ export default async function main(
                       '${region}',
                       '${subregion}',
                       '${timezone}',
-                      ST_MakePoint(${lat}, ${lon}),
+                      ST_SetSRID(ST_MakePoint(${lon}, ${lat}), 4326),
                       '${createdAt}',
                       '${createdAt}'
                     )
