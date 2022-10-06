@@ -53,12 +53,27 @@ type PlaceRole {
   createdAt: AWSDateTime!
 }
 
+type Photo {
+  photoUuid: String!
+  placeUuid: String!
+  phoneNumber: String!
+  active: Boolean!
+  imgUrl: String!
+  thumbUrl: String!
+
+  createdAt: AWSDateTime!
+}
+
+type PlaceWithPhotos {
+  place: Place!
+  photos: [Photo]
+}
+
 type PlacesFeed {
-  places: [Place]
+  places: [PlaceWithPhotos]
   # batch: String!
   # noMoreData: Boolean!
 }
-
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************

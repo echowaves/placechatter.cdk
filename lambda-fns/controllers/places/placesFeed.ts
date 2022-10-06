@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 export default async function main(lat: number, lon: number) {
   await psql.connect()
 
-  const places = (
+  const dbPlaces = (
     await psql.query(`
     SELECT
     *
@@ -25,8 +25,13 @@ export default async function main(lat: number, lon: number) {
   `)
   ).rows
   await psql.clean()
-  console.log({ places })
+
   // const places = results.map((photo: any) => plainToClass(Photo, photo))
+  const places = dbPlaces.map((place: any) => {
+    return { place, photos: [] }
+  })
+
+  console.log({ places })
 
   return {
     places,
