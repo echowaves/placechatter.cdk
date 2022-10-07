@@ -9,16 +9,16 @@ import * as dayjs from 'dayjs'
 import { v4 as uuidv4 } from 'uuid'
 
 export default async function main(
-  uuid: string,
-  phoneNumber: string,
-  token: string,
+  // uuid: string,
+  // phoneNumber: string,
+  // token: string,
 
   placeUuid: string,
 ) {
   // console.log({ uuid, phoneNumber, token })
-  if (!(await VALID.auth(uuid, phoneNumber, token))) {
-    throw 'Autentication failed'
-  }
+  // if (!(await VALID.auth(uuid, phoneNumber, token))) {
+  //   throw 'Autentication failed'
+  // }
 
   await psql.connect()
 

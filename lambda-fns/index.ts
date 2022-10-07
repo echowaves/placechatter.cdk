@@ -64,9 +64,9 @@ exports.handler = async (event: AppSyncEvent) => {
       )
     case 'placeRead':
       return await placeRead(
-        event.arguments.uuid,
-        event.arguments.phoneNumber,
-        event.arguments.token,
+        // event.arguments.uuid,
+        // event.arguments.phoneNumber,
+        // event.arguments.token,
 
         event.arguments.placeUuid,
       )

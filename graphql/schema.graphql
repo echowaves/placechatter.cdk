@@ -80,9 +80,9 @@ type PlacesFeed {
 type Query {
   nickNameTypeAhead(phoneNumber: String!, nickName: String!): Int!
   placeRead(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
+    # uuid: String!
+    # phoneNumber: String!
+    # token: String!
 
     placeUuid: String!
   ): Place!
