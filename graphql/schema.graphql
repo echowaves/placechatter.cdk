@@ -55,7 +55,6 @@ type PlaceRole {
 
 type Photo {
   photoUuid: String!
-  placeUuid: String!
   phoneNumber: String!
   active: Boolean!
   imgUrl: String!
@@ -129,6 +128,11 @@ type Mutation {
     placeUuid: String!
     placeDescription: String!
   ): String! # return 'OK' if it worked
+  generateUploadUrl(
+    assetKey: String! # has to be in uuid format
+    contentType: String!
+    placeUuid: String #optional # chatUuid: String # optional
+  ): String!
 }
 
 # ... ******************************************************

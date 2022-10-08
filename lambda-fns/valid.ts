@@ -98,7 +98,7 @@ export const VALID = {
     const count = (
       await psql.query(`
         SELECT COUNT(*)
-                FROM "PlaceRoles"
+                FROM "PlacesPhones"
                 WHERE 
                 "placeUuid" = '${placeUuid}'
                 AND "phoneNumber" = '${phoneNumber}'

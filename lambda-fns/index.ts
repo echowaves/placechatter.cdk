@@ -5,10 +5,14 @@ import nickNameTypeAhead from './controllers/phones/nickNameTypeAhead'
 import activationCodeGenerate from './controllers/phones/activationCodeGenerate'
 import phoneActivate from './controllers/phones/phoneActivate'
 
+// ******************************************************
+//                       mutations
+// ******************************************************
 import placeCreate from './controllers/places/placeCreate'
 import placeRead from './controllers/places/placeRead'
 import placeDescriptionUpdate from './controllers/places/placeDescriptionUpdate'
 import placesFeed from './controllers/places/placesFeed'
+import generateUploadUrl from './controllers/photos/generateUploadUrl'
 
 // ******************************************************
 //                       mutations
@@ -49,6 +53,8 @@ type AppSyncEvent = {
 
     placeDescription: string
     placeUuid: string
+
+    contentType: string
   }
 }
 
@@ -117,6 +123,11 @@ exports.handler = async (event: AppSyncEvent) => {
 
         event.arguments.placeUuid,
         event.arguments.placeDescription,
+      )
+    case 'generateUploadUrl':
+      return await generateUploadUrl(
+        event.arguments.assetKey,
+        event.arguments.contentType,
       )
 
     default:

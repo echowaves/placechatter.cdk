@@ -32,7 +32,7 @@ export default async function main(
   console.log({ place })
   // const placeRole = (
   //   await psql.query(`
-  //                   SELECT * from "PlaceRoles"
+  // SELECT * from "PlacesPhones"
   //                   WHERE
   //                   "placeUuid" = '${placeUuid}'
   //                   `)

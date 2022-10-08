@@ -80,7 +80,7 @@ export default async function main(
 
   // const placeRole = (
   await psql.query(`
-                    INSERT INTO "PlaceRoles"
+                    INSERT INTO "PlacesPhones"
                     (
                         "placeUuid",
                         "phoneNumber",

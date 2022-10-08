@@ -70,7 +70,7 @@ module.exports = {
         },
       })
       .then(() =>
-        queryInterface.createTable('PlaceRoles', {
+        queryInterface.createTable('PlacesPhones', {
           placeUuid: {
             type: Sequelize.UUID,
             allowNull: false,
@@ -94,15 +94,17 @@ module.exports = {
       .then(() => queryInterface.addIndex('Places', ['placeUuid']))
       .then(() => queryInterface.addIndex('Places', ['placeName']))
       .then(() => queryInterface.addIndex('Places', ['location']))
-      .then(() => queryInterface.addIndex('PlaceRoles', ['placeUuid']))
-      .then(() => queryInterface.addIndex('PlaceRoles', ['phoneNumber'])),
-
+      .then(() =>
+        queryInterface.addIndex('PlacesPhones', ['placeUuid', 'phoneNumber'], {
+          unique: true,
+        }),
+      ),
   down: (
     queryInterface,
     Sequelize, // eslint-disable-line no-unused-vars
   ) =>
     queryInterface
-      .dropTable('PlaceRoles')
+      .dropTable('PlacesPhones')
       .then(() => queryInterface.dropTable('Places')),
 }
 // https://gis.stackexchange.com/questions/159434/resolving-postgis-type-geometry-does-not-exist-issue-on-installing-tiger-geoco
