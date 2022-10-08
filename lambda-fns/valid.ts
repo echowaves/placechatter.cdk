@@ -49,6 +49,13 @@ export const VALID = {
     return /^([\w_@./#&+-\s]){2,50}$/.test(param)
   },
 
+  contentType: function (param: string) {
+    if (param === 'image/jpeg') {
+      return true
+    }
+    return false
+  },
+
   auth: async function (uuid: string, phoneNumber: string, token: string) {
     // console.log({ uuid: VALID.uuid(uuid) })
     // console.log({ phoneNumber: VALID.phoneNumber(phoneNumber) })
@@ -79,7 +86,7 @@ export const VALID = {
     return count === '1'
   },
 
-  isPlaceInRole: async function (
+  isPhoneInRoleForPlace: async function (
     uuid: string,
     phoneNumber: string,
     placeUuid: string,

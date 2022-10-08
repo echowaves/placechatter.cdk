@@ -126,8 +126,13 @@ exports.handler = async (event: AppSyncEvent) => {
       )
     case 'generateUploadUrl':
       return await generateUploadUrl(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
         event.arguments.assetKey,
         event.arguments.contentType,
+        event.arguments.placeUuid,
       )
 
     default:

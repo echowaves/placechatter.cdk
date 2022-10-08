@@ -21,7 +21,9 @@ export default async function main(
     throw 'Autentication failed'
   }
 
-  if (!(await VALID.isPlaceInRole(uuid, phoneNumber, placeUuid, 'owner'))) {
+  if (
+    !(await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner'))
+  ) {
     throw 'Not the owner of this place'
   }
 

@@ -129,6 +129,10 @@ type Mutation {
     placeDescription: String!
   ): String! # return 'OK' if it worked
   generateUploadUrl(
+    uuid: String!
+    phoneNumber: String!
+    token: String!
+
     assetKey: String! # has to be in uuid format
     contentType: String!
     placeUuid: String #optional # chatUuid: String # optional
