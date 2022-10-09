@@ -135,13 +135,16 @@ const _activatePhoto = async ({ photoUuid }: { photoUuid: string }) => {
     const updatedAt = dayjs().format(VALID.dateFormat) // display
 
     await psql.connect()
-    await psql.query(`    
+    const updatedPhoto = await psql.query(`    
                     UPDATE "Photos"
-                    set active = true, "updatedAt" = '${updatedAt}'
+                    SET 
+                      active = true, 
+                      "updatedAt" = '${updatedAt}'
                     WHERE
-                    "photoUuid" = ${photoUuid}
+                      "photoUuid" = ${photoUuid}
+                    RETURNING *
                     `)
-    // console.log({result})
+    console.log({ updatedPhoto })
   } catch (err) {
     console.log('Error activating photo')
     console.log({ err })
