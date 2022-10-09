@@ -50,11 +50,13 @@ export default async function main(
                         "photoUuid",
                         "phoneNumber",
                         "active",
-                        "createdAt"
+                        "createdAt",
+                        "updatedAt"
                     ) values (
                       '${photoUuid}',
                       '${phoneNumber}',
                       false,
+                      '${createdAt}',
                       '${createdAt}'
                     )
                     returning *
