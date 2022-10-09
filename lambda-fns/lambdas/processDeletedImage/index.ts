@@ -53,7 +53,7 @@ const _cleanupTables = async ({ photoUuid }: { photoUuid: string }) => {
     await psql.query(`
                     DELETE from "Photos"
                     WHERE
-                    "photoUuid" = ${photoUuid}
+                    "photoUuid" = '${photoUuid}'
                     `)
     //
   } catch (err) {
@@ -66,7 +66,7 @@ const _cleanupTables = async ({ photoUuid }: { photoUuid: string }) => {
     await psql.query(`
         DELETE from "PlacesPhotos"
                     WHERE
-                    "photoUuid" = ${photoUuid}
+                    "photoUuid" = '${photoUuid}'
                     `)
     //
   } catch (err) {

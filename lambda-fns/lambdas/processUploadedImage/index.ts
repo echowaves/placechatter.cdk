@@ -129,7 +129,7 @@ const _deleteUpload = async ({
 }
 
 const _activatePhoto = async ({ photoUuid }: { photoUuid: string }) => {
-  // console.log(`_activatePhoto started  ${photoId}`)
+  console.log(`_activatePhoto started  ${photoUuid}`)
 
   try {
     const updatedAt = dayjs().format(VALID.dateFormat) // display
@@ -141,7 +141,7 @@ const _activatePhoto = async ({ photoUuid }: { photoUuid: string }) => {
                       active = true, 
                       "updatedAt" = '${updatedAt}'
                     WHERE
-                      "photoUuid" = ${photoUuid}
+                      "photoUuid" = '${photoUuid}'
                     RETURNING *
                     `)
     console.log({ updatedPhoto })
