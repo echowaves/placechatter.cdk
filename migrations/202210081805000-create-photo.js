@@ -33,7 +33,7 @@ module.exports = {
             allowNull: false,
           },
           photoUuid: {
-            type: Sequelize.TEXT,
+            type: Sequelize.UUID,
             allowNull: false,
           },
 

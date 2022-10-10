@@ -19,9 +19,7 @@ export default async function main(
 ) {
   const photoUuid = assetKey
 
-  if (!(await VALID.auth(uuid, phoneNumber, token))) {
-    throw 'Autentication failed'
-  }
+  await VALID.auth(uuid, phoneNumber, token)
 
   if (
     !(await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner'))

@@ -84,7 +84,7 @@ type Query {
     # token: String!
 
     placeUuid: String!
-  ): Place!
+  ): PlaceWithPhotos!
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
 }

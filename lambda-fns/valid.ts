@@ -83,6 +83,9 @@ export const VALID = {
 
     await psql.clean()
     // console.log({ count })
+    if (count !== '1') {
+      throw 'Autentication failed'
+    }
     return count === '1'
   },
 

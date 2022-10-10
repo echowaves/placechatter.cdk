@@ -28,9 +28,7 @@ export default async function main(
   lon: number,
 ) {
   // console.log({ uuid, phoneNumber, token })
-  if (!(await VALID.auth(uuid, phoneNumber, token))) {
-    throw 'Autentication failed'
-  }
+  await VALID.auth(uuid, phoneNumber, token)
 
   const placeUuid = uuidv4()
   const createdAt = dayjs().format(VALID.dateFormat) // display

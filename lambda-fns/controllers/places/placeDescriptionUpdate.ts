@@ -17,9 +17,7 @@ export default async function main(
   placeDescription: string,
 ) {
   // console.log({ uuid, phoneNumber, token })
-  if (!(await VALID.auth(uuid, phoneNumber, token))) {
-    throw 'Autentication failed'
-  }
+  await VALID.auth(uuid, phoneNumber, token)
 
   if (
     !(await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner'))

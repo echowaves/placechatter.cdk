@@ -2,6 +2,9 @@ var AWS = require('aws-sdk')
 
 import psql from '../../psql'
 
+import { plainToClass } from 'class-transformer'
+import Photo from '../../models/photo'
+
 import { VALID } from '../../valid'
 
 import * as dayjs from 'dayjs'
@@ -15,11 +18,6 @@ export default async function main(
 
   placeUuid: string,
 ) {
-  // console.log({ uuid, phoneNumber, token })
-  // if (!(await VALID.auth(uuid, phoneNumber, token))) {
-  //   throw 'Autentication failed'
-  // }
-
   await psql.connect()
 
   const place = (
@@ -30,6 +28,19 @@ export default async function main(
                     `)
   ).rows[0]
   console.log({ place })
+
+  const dbPhotos = (
+    await psql.query(`
+    SELECT
+    p.*
+    FROM "Photos" p
+    INNER JOIN "PlacesPhotos" pp
+    ON p."photoUuid" = pp."photoUuid"
+    WHERE pp."placeUuid" = '${placeUuid}' 
+    ORDER BY pp."updatedAt" DESC
+  `)
+  ).rows
+
   // const placeRole = (
   //   await psql.query(`
   // SELECT * from "PlacesPhones"
@@ -40,5 +51,7 @@ export default async function main(
 
   await psql.clean()
 
-  return place
+  // return plainToClass(Photo, photo)
+
+  return { place, photos: [] }
 }

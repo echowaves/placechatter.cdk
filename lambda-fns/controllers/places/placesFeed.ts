@@ -2,6 +2,9 @@ var AWS = require('aws-sdk')
 
 import psql from '../../psql'
 
+import { plainToClass } from 'class-transformer'
+import Photo from '../../models/photo'
+
 import { VALID } from '../../valid'
 
 import * as dayjs from 'dayjs'
@@ -24,15 +27,45 @@ export default async function main(lat: number, lon: number) {
     OFFSET 0
   `)
   ).rows
+
+  console.log({ dbPlaces })
+
+  const dbPhotos = (
+    await psql.query(`
+    SELECT
+    p.*, pp."placeUuid"
+    FROM "Photos" p
+    INNER JOIN "PlacesPhotos" pp
+    ON p."photoUuid" = pp."photoUuid"
+    WHERE pp."placeUuid" in (${dbPlaces
+      .map((place: any) => {
+        return `'${place.placeUuid}'`
+      })
+      .toString()})
+    ORDER BY pp."updatedAt" DESC
+  `)
+  ).rows
+
+  console.log({ dbPhotos })
+
   await psql.clean()
 
   // const places = results.map((photo: any) => plainToClass(Photo, photo))
   const places = dbPlaces.map((place: any) => {
-    return { place, photos: [] }
+    return {
+      place,
+      photos: [
+        ...dbPhotos
+          .filter((photo: any) => place.placeUuid === photo.placeUuid)
+          .map((photo: any) => {
+            return plainToClass(Photo, photo)
+          }),
+      ],
+    }
   })
 
-  console.log({ places })
-
+  console.log({ places: JSON.stringify(places) })
+  // return plainToClass(Photo, photo)
   return {
     places,
     // batch,
