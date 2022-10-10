@@ -28,7 +28,7 @@ export default async function main(lat: number, lon: number) {
   `)
   ).rows
 
-  console.log({ dbPlaces })
+  // console.log({ dbPlaces })
 
   const dbPhotos = (
     await psql.query(`
@@ -46,7 +46,7 @@ export default async function main(lat: number, lon: number) {
   `)
   ).rows
 
-  console.log({ dbPhotos })
+  // console.log({ dbPhotos })
 
   await psql.clean()
 
@@ -64,7 +64,7 @@ export default async function main(lat: number, lon: number) {
     }
   })
 
-  console.log({ places: JSON.stringify(places) })
+  // console.log({ places: JSON.stringify(places) })
   // return plainToClass(Photo, photo)
   return {
     places,

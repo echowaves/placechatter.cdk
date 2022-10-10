@@ -32,11 +32,11 @@ export default async function main(
   const dbPhotos = (
     await psql.query(`
     SELECT
-    p.*
+    p.*, pp."placeUuid"
     FROM "Photos" p
     INNER JOIN "PlacesPhotos" pp
     ON p."photoUuid" = pp."photoUuid"
-    WHERE pp."placeUuid" = '${placeUuid}' 
+    WHERE pp."placeUuid" = '${placeUuid}'
     ORDER BY pp."updatedAt" DESC
   `)
   ).rows
@@ -51,7 +51,14 @@ export default async function main(
 
   await psql.clean()
 
-  // return plainToClass(Photo, photo)
-
-  return { place, photos: [] }
+  return {
+    place,
+    photos: [
+      ...dbPhotos
+        // .filter((photo: any) => place.placeUuid === photo.placeUuid)
+        .map((photo: any) => {
+          return plainToClass(Photo, photo)
+        }),
+    ],
+  }
 }
