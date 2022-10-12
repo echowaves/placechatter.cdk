@@ -29,9 +29,11 @@ export default async function main(lat: number, lon: number) {
   ).rows
 
   // console.log({ dbPlaces })
+  let dbPhotos: any = []
 
-  const dbPhotos = (
-    await psql.query(`
+  if (dbPlaces.length > 0) {
+    dbPhotos = (
+      await psql.query(`
     SELECT
     p.*, pp."placeUuid"
     FROM "Photos" p
@@ -44,8 +46,8 @@ export default async function main(lat: number, lon: number) {
       .toString()})
     ORDER BY pp."updatedAt" DESC
   `)
-  ).rows
-
+    ).rows
+  }
   // console.log({ dbPhotos })
 
   await psql.clean()
