@@ -50,7 +50,7 @@ export const VALID = {
   },
 
   contentType: function (param: string) {
-    if (param === 'image/jpeg') {
+    if (param === 'image/png') {
       return true
     }
     return false
