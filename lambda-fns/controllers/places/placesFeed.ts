@@ -44,6 +44,7 @@ export default async function main(lat: number, lon: number) {
         return `'${place.placeUuid}'`
       })
       .toString()})
+    AND p."active" = true
     ORDER BY pp."updatedAt" DESC
   `)
     ).rows

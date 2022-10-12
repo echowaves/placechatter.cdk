@@ -37,6 +37,7 @@ export default async function main(
     INNER JOIN "PlacesPhotos" pp
     ON p."photoUuid" = pp."photoUuid"
     WHERE pp."placeUuid" = '${placeUuid}'
+    AND p."active" = true
     ORDER BY pp."updatedAt" DESC
   `)
   ).rows

@@ -8,6 +8,9 @@ import * as dayjs from 'dayjs'
 
 import { v4 as uuidv4 } from 'uuid'
 
+import { plainToClass } from 'class-transformer'
+import Photo from '../../models/photo'
+
 export default async function main(
   uuid: string,
   phoneNumber: string,
@@ -20,12 +23,7 @@ export default async function main(
   const photoUuid = assetKey
 
   await VALID.auth(uuid, phoneNumber, token)
-
-  if (
-    !(await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner'))
-  ) {
-    throw 'Not the owner of this place'
-  }
+  await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner')
 
   if (!VALID.uuid(photoUuid)) {
     throw 'Invalid assetKey'
@@ -93,5 +91,5 @@ export default async function main(
 
   const uploadUrl = s3.getSignedUrl('putObject', s3Params)
 
-  return uploadUrl
+  return { uploadUrl, photo: plainToClass(Photo, photo) }
 }

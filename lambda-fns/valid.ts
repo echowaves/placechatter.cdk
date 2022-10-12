@@ -117,6 +117,11 @@ export const VALID = {
     ).rows[0].count
 
     await psql.clean()
+
+    if (count !== '1') {
+      throw 'Not the owner of this place'
+    }
+
     // console.log({ count })
     return count === '1'
   },

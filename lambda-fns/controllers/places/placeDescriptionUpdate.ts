@@ -18,12 +18,7 @@ export default async function main(
 ) {
   // console.log({ uuid, phoneNumber, token })
   await VALID.auth(uuid, phoneNumber, token)
-
-  if (
-    !(await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner'))
-  ) {
-    throw 'Not the owner of this place'
-  }
+  await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner')
 
   const updatedAt = dayjs().format(VALID.dateFormat) // display
 

@@ -73,6 +73,10 @@ type PlacesFeed {
   # batch: String!
   # noMoreData: Boolean!
 }
+type PhotoForUpload {
+  photo: Photo!
+  uploadUrl: String!
+}
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************
@@ -136,7 +140,7 @@ type Mutation {
     assetKey: String! # has to be in uuid format
     contentType: String!
     placeUuid: String #optional # chatUuid: String # optional
-  ): String!
+  ): PhotoForUpload!
 }
 
 # ... ******************************************************
