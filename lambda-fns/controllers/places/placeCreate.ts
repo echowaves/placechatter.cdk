@@ -40,6 +40,7 @@ export default async function main(
                     INSERT INTO "Places"
                     (
                         "placeUuid",
+                        "createdBy", 
                         "placeName",
                         "streetAddress1",
                         "streetAddress2",
@@ -56,6 +57,7 @@ export default async function main(
                         "updatedAt"
                     ) values (
                       '${placeUuid}',
+                      '${phoneNumber}', 
                       '${placeName}',
                       '${streetAddress1}',
                       '${streetAddress2}',

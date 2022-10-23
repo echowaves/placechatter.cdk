@@ -6,14 +6,14 @@ module.exports = {
           type: Sequelize.UUID,
           allowNull: false,
         },
+        createdBy: {
+          // fyi only
+          type: Sequelize.STRING(20), //phone number
+          allowNull: false,
+        },
         placeName: {
           type: Sequelize.STRING(100),
           allowNull: false,
-        },
-        placeDescription: {
-          type: Sequelize.STRING(1024),
-          allowNull: false,
-          defaultValue: '',
         },
         streetAddress1: {
           type: Sequelize.STRING(200),

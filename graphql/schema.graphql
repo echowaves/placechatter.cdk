@@ -27,8 +27,8 @@ type ActivationRequest {
 
 type Place {
   placeUuid: String!
+  createdBy: String! #phone number
   placeName: String!
-  placeDescription: String!
   streetAddress1: String!
   streetAddress2: String!
   city: String!
@@ -55,7 +55,7 @@ type PlaceRole {
 
 type Photo {
   photoUuid: String!
-  phoneNumber: String!
+  createdBy: String! #phone number
   active: Boolean!
   imgUrl: String!
   thumbUrl: String!
@@ -63,13 +63,22 @@ type Photo {
   createdAt: AWSDateTime!
 }
 
-type PlaceWithPhotos {
+type PlaceCard {
+  placeUuid: String!
+  createdBy: String! #phone number
+  cardTitle: String!
+  cardText: String!
+  photoUuid: String
+  createdAt: AWSDateTime!
+}
+
+type PlaceWithCards {
   place: Place!
-  photos: [Photo]
+  cards: [PlaceCard]
 }
 
 type PlacesFeed {
-  places: [PlaceWithPhotos]
+  places: [PlaceWithCards]
   # batch: String!
   # noMoreData: Boolean!
 }
@@ -88,7 +97,7 @@ type Query {
     # token: String!
 
     placeUuid: String!
-  ): PlaceWithPhotos!
+  ): PlaceWithCards!
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
 }
@@ -124,14 +133,6 @@ type Mutation {
     lon: Float!
   ): Place!
 
-  placeDescriptionUpdate(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
-
-    placeUuid: String!
-    placeDescription: String!
-  ): String! # return 'OK' if it worked
   generateUploadUrl(
     uuid: String!
     phoneNumber: String!

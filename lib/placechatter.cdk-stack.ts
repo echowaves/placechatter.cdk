@@ -240,10 +240,6 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     })
     lambdaDs.createResolver({
       typeName: 'Mutation',
-      fieldName: 'placeDescriptionUpdate',
-    })
-    lambdaDs.createResolver({
-      typeName: 'Mutation',
       fieldName: 'generateUploadUrl',
     })
 

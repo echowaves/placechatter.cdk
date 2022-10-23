@@ -33,9 +33,6 @@ export const VALID = {
   placeName: function (param: string) {
     return /^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)
   },
-  placeDescription: function (param: string) {
-    return /^(.|\s){10,1024}$/.test(param)
-  },
   streetAddress: function (param: string) {
     return /^([\w_@./#&+-\s]){2,50}$/.test(param)
   },
@@ -47,6 +44,13 @@ export const VALID = {
   },
   postalCode: function (param: string) {
     return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+  },
+
+  cardTitle: function (param: string) {
+    return /^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)
+  },
+  cardText: function (param: string) {
+    return /^(.|\s){10,1024}$/.test(param)
   },
 
   contentType: function (param: string) {

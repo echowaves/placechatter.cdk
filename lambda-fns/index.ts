@@ -10,7 +10,6 @@ import phoneActivate from './controllers/phones/phoneActivate'
 // ******************************************************
 import placeCreate from './controllers/places/placeCreate'
 import placeRead from './controllers/places/placeRead'
-import placeDescriptionUpdate from './controllers/places/placeDescriptionUpdate'
 import placesFeed from './controllers/places/placesFeed'
 import generateUploadUrl from './controllers/photos/generateUploadUrl'
 
@@ -51,7 +50,6 @@ type AppSyncEvent = {
     subregion: string
     timezone: string
 
-    placeDescription: string
     placeUuid: string
 
     contentType: string
@@ -115,15 +113,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.lat,
         event.arguments.lon,
       )
-    case 'placeDescriptionUpdate':
-      return await placeDescriptionUpdate(
-        event.arguments.uuid,
-        event.arguments.phoneNumber,
-        event.arguments.token,
 
-        event.arguments.placeUuid,
-        event.arguments.placeDescription,
-      )
     case 'generateUploadUrl':
       return await generateUploadUrl(
         event.arguments.uuid,
