@@ -9,6 +9,7 @@ import phoneActivate from './controllers/phones/phoneActivate'
 //                       mutations
 // ******************************************************
 import placeCreate from './controllers/places/placeCreate'
+import placeCardCreate from './controllers/places/placeCardCreate'
 import placeRead from './controllers/places/placeRead'
 import placesFeed from './controllers/places/placesFeed'
 import generateUploadUrl from './controllers/photos/generateUploadUrl'
@@ -53,6 +54,9 @@ type AppSyncEvent = {
     placeUuid: string
 
     contentType: string
+
+    cardTitle: string
+    cardText: string
   }
 }
 
@@ -93,6 +97,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.smsCode,
         event.arguments.nickName,
       )
+
     case 'placeCreate':
       return await placeCreate(
         event.arguments.uuid,
@@ -112,6 +117,17 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.timezone,
         event.arguments.lat,
         event.arguments.lon,
+      )
+
+    case 'placeCardCreate':
+      return await placeCardCreate(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+        event.arguments.cardTitle,
+        event.arguments.cardText,
       )
 
     case 'generateUploadUrl':

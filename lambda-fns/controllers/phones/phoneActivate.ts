@@ -11,19 +11,10 @@ export default async function main(
   nickName: string,
 ) {
   // console.log({ phoneNumber, nickName })
-
-  if (!VALID.phoneNumber(phoneNumber)) {
-    throw 'Invalid phone number'
-  }
-  if (!VALID.uuid(uuid)) {
-    throw 'Invalid uuid'
-  }
-  if (!VALID.smsCode(smsCode)) {
-    throw 'Invalid smsCode'
-  }
-  if (!VALID.nickName(nickName)) {
-    throw 'Invalid nickName'
-  }
+  VALID.uuid(uuid)
+  VALID.phoneNumber(phoneNumber)
+  VALID.smsCode(smsCode)
+  VALID.nickName(nickName)
 
   await psql.connect()
   const createdAt = dayjs().format(VALID.dateFormat) // display

@@ -10,12 +10,8 @@ import * as dayjs from 'dayjs'
 const srs = require('secure-random-string')
 
 export default async function main(uuid: string, phoneNumber: string) {
-  if (!VALID.phoneNumber(phoneNumber)) {
-    throw 'Invalid phone number'
-  }
-  if (!VALID.uuid(uuid)) {
-    throw 'Invalid uuid'
-  }
+  VALID.uuid(uuid)
+  VALID.phoneNumber(phoneNumber)
 
   await psql.connect()
   const createdAt = dayjs().format(VALID.dateFormat) // display

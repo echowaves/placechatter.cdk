@@ -70,6 +70,7 @@ type PlaceCard {
   cardText: String!
 
   photo: Photo
+  active: Boolean!
 
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
@@ -116,6 +117,7 @@ type Mutation {
     smsCode: String!
     nickName: String!
   ): String! # returns secure token
+  #
   placeCreate(
     uuid: String!
     phoneNumber: String!
@@ -135,6 +137,16 @@ type Mutation {
     lat: Float!
     lon: Float!
   ): Place!
+
+  placeCardCreate(
+    uuid: String!
+    phoneNumber: String!
+    token: String!
+
+    placeUuid: String!
+    cardTitle: String!
+    cardText: String!
+  ): PlaceCard!
 
   generateUploadUrl(
     uuid: String!

@@ -4,73 +4,89 @@ export const VALID = {
   dateFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
 
   phoneNumber: function (phoneNumber: string) {
-    return /^([0-9]){10}$/.test(phoneNumber)
+    if (!/^([0-9]){10}$/.test(phoneNumber)) {
+      throw 'Invalid Phone Number format'
+    }
   },
 
   uuid: function (uuid: string) {
     if (
-      /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi.test(
+      !/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi.test(
         uuid,
       )
     ) {
-      return true
+      throw 'Invalid UUID format'
     }
-    return false
   },
 
   nickName: function (param: string) {
-    return /^([a-zA-Z0-9_-]){4,30}$/.test(param)
+    if (!/^([a-zA-Z0-9_-]){4,30}$/.test(param)) {
+      throw 'Invalid NickName format'
+    }
   },
 
   smsCode: function (param: string) {
-    return /^([a-zA-Z0-9]){4}$/.test(param)
+    if (!/^([a-zA-Z0-9]){4}$/.test(param)) {
+      throw 'Invalid SMS Code format'
+    }
   },
 
   token: function (param: string) {
-    return /^(\w){128}$/.test(param)
+    if (!/^(\w){128}$/.test(param)) {
+      throw 'Invalid Token format'
+    }
   },
 
   placeName: function (param: string) {
-    return /^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)
+    if (!/^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)) {
+      throw 'Invalid Place Name format'
+    }
   },
   streetAddress: function (param: string) {
-    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+      throw 'Invalid Street Address format'
+    }
   },
   city: function (param: string) {
-    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+      throw 'Invalid City format'
+    }
   },
   region: function (param: string) {
-    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+      throw 'Invalid Region format'
+    }
   },
   postalCode: function (param: string) {
-    return /^([\w_@./#&+-\s]){2,50}$/.test(param)
+    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+      throw 'Invalid Postal Code format'
+    }
   },
 
   cardTitle: function (param: string) {
-    return /^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)
+    if (!/^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)) {
+      throw 'Invalid Card Title'
+    }
   },
   cardText: function (param: string) {
-    return /^(.|\s){10,1024}$/.test(param)
+    if (!/^(.|\s){4,1024}$/.test(param)) {
+      throw 'Invalid Card Text'
+    }
   },
 
   contentType: function (param: string) {
-    if (param === 'image/png') {
-      return true
+    if (param !== 'image/png') {
+      throw 'Invalid Content Type'
     }
-    return false
   },
 
   auth: async function (uuid: string, phoneNumber: string, token: string) {
     // console.log({ uuid: VALID.uuid(uuid) })
     // console.log({ phoneNumber: VALID.phoneNumber(phoneNumber) })
     // console.log({ token: VALID.token(token) })
-    if (
-      !VALID.uuid(uuid) ||
-      !VALID.phoneNumber(phoneNumber) ||
-      !VALID.token(token)
-    ) {
-      return false
-    }
+    VALID.uuid(uuid)
+    VALID.phoneNumber(phoneNumber)
+    VALID.token(token)
 
     await psql.connect()
 
@@ -90,7 +106,7 @@ export const VALID = {
     if (count !== '1') {
       throw 'Autentication failed'
     }
-    return count === '1'
+    return true
   },
 
   isPhoneInRoleForPlace: async function (
@@ -99,13 +115,9 @@ export const VALID = {
     placeUuid: string,
     role: string,
   ) {
-    if (
-      !VALID.uuid(uuid) ||
-      !VALID.phoneNumber(phoneNumber) ||
-      !VALID.uuid(placeUuid)
-    ) {
-      return false
-    }
+    VALID.uuid(uuid)
+    VALID.phoneNumber(phoneNumber)
+    VALID.uuid(placeUuid)
 
     await psql.connect()
 
@@ -127,6 +139,6 @@ export const VALID = {
     }
 
     // console.log({ count })
-    return count === '1'
+    return true
   },
 }

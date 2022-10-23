@@ -6,12 +6,9 @@ export default async function main(
   phoneNumber: string,
   nickName: string,
 ) {
-  if (!VALID.phoneNumber(phoneNumber)) {
-    throw 'Invalid phone number'
-  }
-  if (!VALID.nickName(nickName)) {
-    throw 'Invalid nickName'
-  }
+  VALID.phoneNumber(phoneNumber)
+
+  VALID.nickName(nickName)
 
   await psql.connect()
 

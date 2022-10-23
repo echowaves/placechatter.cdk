@@ -25,15 +25,9 @@ export default async function main(
   await VALID.auth(uuid, phoneNumber, token)
   await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner')
 
-  if (!VALID.uuid(photoUuid)) {
-    throw 'Invalid assetKey'
-  }
-  if (!VALID.contentType(contentType)) {
-    throw 'Invalid content type'
-  }
-  if (placeUuid && !VALID.uuid(placeUuid)) {
-    throw 'Invalid place reference'
-  }
+  VALID.uuid(photoUuid)
+  VALID.contentType(contentType)
+  VALID.uuid(placeUuid)
 
   const createdAt = dayjs().format(VALID.dateFormat) // display
 
