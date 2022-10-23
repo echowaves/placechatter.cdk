@@ -68,8 +68,8 @@ type PlaceCard {
   createdBy: String! #phone number
   cardTitle: String!
   cardText: String!
-  photoUuid: String
-  thumbUrl: String
+
+  photo: Photo
 
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
