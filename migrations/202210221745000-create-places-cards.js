@@ -34,5 +34,5 @@ module.exports = {
   down: (
     queryInterface,
     Sequelize, // eslint-disable-line no-unused-vars
-  ) => queryInterface.dropTable('Cards'),
+  ) => queryInterface.dropTable('PlacesCards'),
 }
