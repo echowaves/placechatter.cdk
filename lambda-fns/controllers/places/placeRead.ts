@@ -29,16 +29,15 @@ export default async function main(
   ).rows[0]
   console.log({ place })
 
-  const dbPhotos = (
+  const placeCards = (
     await psql.query(`
     SELECT
-    p.*, pp."placeUuid"
-    FROM "Photos" p
-    INNER JOIN "PlacesPhotos" pp
-    ON p."photoUuid" = pp."photoUuid"
-    WHERE pp."placeUuid" = '${placeUuid}'
-    AND p."active" = true
-    ORDER BY pp."updatedAt" DESC
+    pc.*
+    FROM "PlacesCards" pc
+    INNER JOIN "Places" p
+    ON pc."placeUuid" = p."placeUuid"
+    WHERE pc."placeUuid" = '${placeUuid}'    
+    ORDER BY pc."updatedAt" DESC
   `)
   ).rows
 
@@ -54,12 +53,12 @@ export default async function main(
 
   return {
     place,
-    photos: [
-      ...dbPhotos
-        // .filter((photo: any) => place.placeUuid === photo.placeUuid)
-        .map((photo: any) => {
-          return plainToClass(Photo, photo)
-        }),
+    cards: [
+      ...placeCards,
+      // .filter((photo: any) => place.placeUuid === photo.placeUuid)
+      // .map((photo: any) => {
+      //   return plainToClass(Photo, photo)
+      // }),
     ],
   }
 }

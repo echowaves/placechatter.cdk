@@ -69,7 +69,10 @@ type PlaceCard {
   cardTitle: String!
   cardText: String!
   photoUuid: String
+  thumbUrl: String
+
   createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
 }
 
 type PlaceWithCards {
