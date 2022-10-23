@@ -27,38 +27,65 @@ export default async function main(
                     "placeUuid" = '${placeUuid}' 
                     `)
   ).rows[0]
-  console.log({ place })
 
-  const placeCards = (
+  // console.log({ place })
+
+  const placesCards = (
     await psql.query(`
     SELECT
     pc.*
     FROM "PlacesCards" pc
-    INNER JOIN "Places" p
-    ON pc."placeUuid" = p."placeUuid"
     WHERE pc."placeUuid" = '${placeUuid}'    
     ORDER BY pc."updatedAt" DESC
   `)
   ).rows
+  // console.log({ placesCards })
 
-  // const placeRole = (
-  //   await psql.query(`
-  // SELECT * from "PlacesPhones"
-  //                   WHERE
-  //                   "placeUuid" = '${placeUuid}'
-  //                   `)
-  // ).rows[0]
+  const photosUuids = placesCards
+    .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
+    .map((card: any) => {
+      return `'${card.photoUuid}'`
+    })
+  // .toString()
 
+  // console.log({ photosUuds: photosUuids })
+
+  let cardsPhotos: any = []
+  if (photosUuids.length > 0)
+    (
+      await psql.query(`
+      SELECT * from "Photos"
+      WHERE "photoUuid" in (${photosUuids.toString()})                    
+      `)
+    ).rows
+
+  // console.log({ cardsPhotos })
   await psql.clean()
 
-  return {
+  const returnValue = {
     place,
     cards: [
-      ...placeCards,
-      // .filter((photo: any) => place.placeUuid === photo.placeUuid)
-      // .map((photo: any) => {
-      //   return plainToClass(Photo, photo)
-      // }),
+      ...placesCards.map((card: any) => {
+        if (card.photoUuid) {
+          // if photo exists, add to card
+          return {
+            ...card,
+            photo: {
+              ...plainToClass(
+                Photo,
+                cardsPhotos.filter(
+                  (photo: any) => photo.photoUuid === card.photoUuid,
+                )[0],
+              ),
+            },
+          }
+        }
+        return {
+          ...card,
+        }
+      }),
     ],
   }
+  // console.log({ returnValue })
+  return returnValue
 }

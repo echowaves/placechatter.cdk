@@ -23,7 +23,7 @@ export default async function main(lat: number, lon: number) {
       as "distance"
     FROM "Places"
     ORDER BY "distance"
-    LIMIT 1000
+    LIMIT 100
     OFFSET 0
   `)
   ).rows
@@ -31,24 +31,24 @@ export default async function main(lat: number, lon: number) {
   // console.log({ dbPlaces })
   let placeCards: any = []
 
-  // if (dbPlaces.length > 0) {
-  //   dbPhotos = (
-  //     await psql.query(`
-  //   SELECT
-  //   p.*, pp."placeUuid"
-  //   FROM "Photos" p
-  //   INNER JOIN "PlacesPhotos" pp
-  //   ON p."photoUuid" = pp."photoUuid"
-  //   WHERE pp."placeUuid" in (${dbPlaces
-  //     .map((place: any) => {
-  //       return `'${place.placeUuid}'`
-  //     })
-  //     .toString()})
-  //   AND p."active" = true
-  //   ORDER BY pp."updatedAt" DESC
-  // `)
-  //   ).rows
-  // }
+  if (dbPlaces.length > 0) {
+    placeCards = (
+      await psql.query(`
+    SELECT
+    pc.* 
+    FROM "PlacesCards" pc
+    INNER JOIN "Places" p
+    ON pc."placeUuid" = p."placeUuid" 
+    WHERE pc."placeUuid" in (${dbPlaces
+      .map((place: any) => {
+        return `'${place.placeUuid}'`
+      })
+      .toString()})
+    AND pc."active" = true
+    ORDER BY pc."updatedAt" DESC
+  `)
+    ).rows
+  }
   // console.log({ dbPhotos })
 
   await psql.clean()
@@ -59,8 +59,8 @@ export default async function main(lat: number, lon: number) {
       place,
       cards: [
         ...placeCards,
-        // .filter((photo: any) => place.placeUuid === photo.placeUuid)
-        // .map((photo: any) => {
+        // .filter((card: any) => place.placeUuid === card.placeUuid)
+        // .map((card: any) => {
         //   return plainToClass(Photo, photo)
         // }),
       ],
