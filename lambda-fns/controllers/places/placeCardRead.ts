@@ -50,6 +50,6 @@ export default async function main(
 
   return {
     ...card,
-    photo,
+    photo: plainToClass(Photo, photo),
   }
 }
