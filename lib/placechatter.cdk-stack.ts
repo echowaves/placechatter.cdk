@@ -252,7 +252,7 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     })
     lambdaDs.createResolver({
       typeName: 'Mutation',
-      fieldName: 'generateUploadUrl',
+      fieldName: 'generateUploadUrlForCard',
     })
 
     // CFN Outputs

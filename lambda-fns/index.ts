@@ -14,7 +14,7 @@ import placeCardSave from './controllers/places/placeCardSave'
 import placeRead from './controllers/places/placeRead'
 import placeCardRead from './controllers/places/placeCardRead'
 import placesFeed from './controllers/places/placesFeed'
-import generateUploadUrl from './controllers/photos/generateUploadUrl'
+import generateUploadUrlForCard from './controllers/photos/generateUploadUrlForCard'
 
 // ******************************************************
 //                       mutations
@@ -156,8 +156,8 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.cardText,
       )
 
-    case 'generateUploadUrl':
-      return await generateUploadUrl(
+    case 'generateUploadUrlForCard':
+      return await generateUploadUrlForCard(
         event.arguments.uuid,
         event.arguments.phoneNumber,
         event.arguments.token,
@@ -165,6 +165,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.assetKey,
         event.arguments.contentType,
         event.arguments.placeUuid,
+        event.arguments.cardUuid,
       )
 
     default:

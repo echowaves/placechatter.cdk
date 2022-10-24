@@ -19,6 +19,7 @@ export default async function main(
   assetKey: string, // photo uuid generated in the client, as such, need to validate the format
   contentType: string,
   placeUuid: string,
+  cardUuid: string,
 ) {
   const photoUuid = assetKey
 
@@ -28,6 +29,7 @@ export default async function main(
   VALID.uuid(photoUuid)
   VALID.contentType(contentType)
   VALID.uuid(placeUuid)
+  VALID.uuid(cardUuid)
 
   const createdAt = dayjs().format(VALID.dateFormat) // display
 
@@ -38,7 +40,7 @@ export default async function main(
                     INSERT INTO "Photos"
                     (
                         "photoUuid",
-                        "phoneNumber",
+                        "cratedBy",
                         "active",
                         "createdAt",
                         "updatedAt"
@@ -56,18 +58,14 @@ export default async function main(
 
   // const placeRole = (
   await psql.query(`
-                    INSERT INTO "PlacesPhotos"
-                    (
-                        "placeUuid",
-                        "photoUuid",
-                        "createdAt",
-                        "updatedAt"
-                    ) values (
-                      '${placeUuid}',
-                      '${photoUuid}',
-                      '${createdAt}',
-                      '${createdAt}'
-                    )
+                    UPDATE "PlacesCards"
+                    SET
+                      "photoUuid" = '${photoUuid}',
+                      "updatedAt" = '${createdAt}'
+                    WHERE
+                      "cardUuid" = '${cardUuid}'
+                    AND
+                      "placeUuid" = '${placeUuid}'
                     returning *
                     `)
   // ).rows[0]

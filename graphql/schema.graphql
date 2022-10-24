@@ -170,14 +170,15 @@ type Mutation {
     cardText: String!
   ): PlaceCard!
 
-  generateUploadUrl(
+  generateUploadUrlForCard(
     uuid: String!
     phoneNumber: String!
     token: String!
 
     assetKey: String! # has to be in uuid format
     contentType: String!
-    placeUuid: String #optional # chatUuid: String # optional
+    placeUuid: String! #optional # chatUuid: String # optional
+    cardUuid: String!
   ): PhotoForUpload!
 }
 

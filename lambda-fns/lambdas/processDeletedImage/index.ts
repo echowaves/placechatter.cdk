@@ -1,4 +1,6 @@
 import psql from '../../psql'
+import * as dayjs from 'dayjs'
+import { VALID } from '../../valid'
 
 const AWS = require('aws-sdk')
 
@@ -61,13 +63,18 @@ const _cleanupTables = async ({ photoUuid }: { photoUuid: string }) => {
     console.log({ err })
   }
   // console.log(`_cleanupTables ended 1: ${photoId}`)
+  const updatedAt = dayjs().format(VALID.dateFormat) // display
 
   try {
     await psql.query(`
-        DELETE from "PlacesPhotos"
-                    WHERE
-                    "photoUuid" = '${photoUuid}'
-                    `)
+                        UPDATE "PlacesCards"
+                        SET
+                          "photoUuid" = null,
+                          "updatedAt" = '${updatedAt}'
+                        WHERE
+                          "photoUuid" = '${photoUuid}'
+                        returning *
+                        `)
     //
   } catch (err) {
     console.log('Error cleaning up PlacesPhotos')
