@@ -34,6 +34,11 @@ module.exports = {
           defaultValue: false,
         },
 
+        sortOrder: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
+
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,
@@ -45,6 +50,11 @@ module.exports = {
       })
       .then(() =>
         queryInterface.addIndex('PlacesCards', ['cardUuid'], {
+          unique: true,
+        }),
+      )
+      .then(() =>
+        queryInterface.addIndex('PlacesCards', ['placeUuid', 'sortOrder'], {
           unique: true,
         }),
       )

@@ -28,6 +28,7 @@ export default async function main(
                       "cardUuid" = '${cardUuid}'
                     AND
                       "placeUuid" = '${placeUuid}' 
+                    ORDER BY "sortOrder"
                     `)
   ).rows[0]
 

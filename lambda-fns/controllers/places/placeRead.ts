@@ -36,7 +36,7 @@ export default async function main(
     pc.*
     FROM "PlacesCards" pc
     WHERE pc."placeUuid" = '${placeUuid}'    
-    ORDER BY pc."updatedAt" DESC
+    ORDER BY pc."sortOrder" 
   `)
   ).rows
   // console.log({ placesCards })

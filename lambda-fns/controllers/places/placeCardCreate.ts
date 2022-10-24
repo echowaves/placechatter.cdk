@@ -32,6 +32,19 @@ export default async function main(
 
   await psql.connect()
 
+  const sortOrder =
+    ((
+      await psql.query(`
+      SELECT MAX("sortOrder")
+              FROM "PlacesCards"
+              WHERE 
+              "placeUuid" = '${placeUuid}'              
+    `)
+    ).rows[0].max || 0) + // convert null to 0
+    1
+
+  console.log({ sortOrder })
+
   const placeCard = (
     await psql.query(`
                     INSERT INTO "PlacesCards"
@@ -41,6 +54,7 @@ export default async function main(
                         "createdBy", 
                         "cardTitle",
                         "cardText",
+                        "sortOrder",
                         "createdAt",
                         "updatedAt"
                     ) values (
@@ -49,6 +63,7 @@ export default async function main(
                       '${phoneNumber}', 
                       '${cardTitle}',
                       '${cardText}',
+                      ${sortOrder},
                       '${createdAt}',
                       '${createdAt}'
                     )

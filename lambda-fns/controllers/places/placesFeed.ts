@@ -45,7 +45,7 @@ export default async function main(lat: number, lon: number) {
       })
       .toString()})
     AND pc."active" = true
-    ORDER BY pc."updatedAt" DESC
+    ORDER BY pc."sortOrder" 
   `)
     ).rows
   }

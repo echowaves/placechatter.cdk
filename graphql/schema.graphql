@@ -72,6 +72,7 @@ type PlaceCard {
 
   photo: Photo
   active: Boolean!
+  sortOrder: Int!
 
   createdAt: AWSDateTime!
   updatedAt: AWSDateTime!
