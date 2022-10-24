@@ -40,7 +40,7 @@ export default async function main(
                     INSERT INTO "Photos"
                     (
                         "photoUuid",
-                        "cratedBy",
+                        "createdBy",
                         "active",
                         "createdAt",
                         "updatedAt"
