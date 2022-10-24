@@ -2,6 +2,11 @@ module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface
       .createTable('PlacesCards', {
+        cardUuid: {
+          type: Sequelize.UUID,
+          allowNull: false,
+        },
+
         placeUuid: {
           type: Sequelize.UUID,
           allowNull: false,
@@ -38,6 +43,11 @@ module.exports = {
           type: Sequelize.DATE,
         },
       })
+      .then(() =>
+        queryInterface.addIndex('PlacesCards', ['cardUuid'], {
+          unique: true,
+        }),
+      )
       .then(() => queryInterface.addIndex('PlacesCards', ['placeUuid'])),
 
   down: (

@@ -64,6 +64,7 @@ type Photo {
 }
 
 type PlaceCard {
+  cardUuid: String!
   placeUuid: String!
   createdBy: String! #phone number
   cardTitle: String!
@@ -102,6 +103,15 @@ type Query {
 
     placeUuid: String!
   ): PlaceWithCards!
+
+  placeCardRead(
+    # uuid: String!
+    # phoneNumber: String!
+    # token: String!
+
+    placeUuid: String!
+    cardUuid: String!
+  ): PlaceCard!
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
 }
@@ -144,6 +154,18 @@ type Mutation {
     token: String!
 
     placeUuid: String!
+    cardTitle: String!
+    cardText: String!
+  ): PlaceCard!
+
+  placeCardSave(
+    uuid: String!
+    phoneNumber: String!
+    token: String!
+
+    placeUuid: String!
+
+    cardUuid: String!
     cardTitle: String!
     cardText: String!
   ): PlaceCard!

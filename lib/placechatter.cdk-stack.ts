@@ -220,6 +220,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     })
     lambdaDs.createResolver({
       typeName: 'Query',
+      fieldName: 'placeCardRead',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Query',
       fieldName: 'placesFeed',
     })
 
@@ -241,6 +245,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     lambdaDs.createResolver({
       typeName: 'Mutation',
       fieldName: 'placeCardCreate',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placeCardSave',
     })
     lambdaDs.createResolver({
       typeName: 'Mutation',

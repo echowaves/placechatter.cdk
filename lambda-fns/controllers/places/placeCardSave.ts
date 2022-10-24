@@ -14,6 +14,8 @@ export default async function main(
   token: string,
 
   placeUuid: string,
+
+  cardUuid: string,
   cardTitle: string,
   cardText: string,
 ) {
@@ -21,37 +23,30 @@ export default async function main(
   await VALID.auth(uuid, phoneNumber, token)
   await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner')
 
+  await VALID.uuid(cardUuid)
   await VALID.uuid(placeUuid)
 
   await VALID.cardTitle(cardTitle)
   await VALID.cardText(cardText)
 
-  const cardUuid = uuidv4()
+  // const cardUuid = uuidv4()
 
-  const createdAt = dayjs().format(VALID.dateFormat) // display
+  const updatedAt = dayjs().format(VALID.dateFormat) // display
 
   await psql.connect()
 
   const placeCard = (
     await psql.query(`
-                    INSERT INTO "PlacesCards"
-                    (
-                        "cardUuid", 
-                        "placeUuid",
-                        "createdBy", 
-                        "cardTitle",
-                        "cardText",
-                        "createdAt",
-                        "updatedAt"
-                    ) values (
-                      '${cardUuid}',
-                      '${placeUuid}',
-                      '${phoneNumber}', 
-                      '${cardTitle}',
-                      '${cardText}',
-                      '${createdAt}',
-                      '${createdAt}'
-                    )
+                    UPDATE "PlacesCards"
+                    SET
+                      "cardTitle" = '${cardTitle}',
+                      "cardText" = '${cardText}',
+                      "updatedAt" = '${updatedAt}'
+                    WHERE
+                      "cardUuid" = '${cardUuid}'
+                      AND
+                      "placeUuid" = '${placeUuid}'
+                  
                     returning *
                     `)
   ).rows[0]

@@ -10,7 +10,9 @@ import phoneActivate from './controllers/phones/phoneActivate'
 // ******************************************************
 import placeCreate from './controllers/places/placeCreate'
 import placeCardCreate from './controllers/places/placeCardCreate'
+import placeCardSave from './controllers/places/placeCardSave'
 import placeRead from './controllers/places/placeRead'
+import placeCardRead from './controllers/places/placeCardRead'
 import placesFeed from './controllers/places/placesFeed'
 import generateUploadUrl from './controllers/photos/generateUploadUrl'
 
@@ -57,6 +59,7 @@ type AppSyncEvent = {
 
     cardTitle: string
     cardText: string
+    cardUuid: string
   }
 }
 
@@ -78,6 +81,16 @@ exports.handler = async (event: AppSyncEvent) => {
 
         event.arguments.placeUuid,
       )
+    case 'placeCardRead':
+      return await placeCardRead(
+        // event.arguments.uuid,
+        // event.arguments.phoneNumber,
+        // event.arguments.token,
+
+        event.arguments.placeUuid,
+        event.arguments.cardUuid,
+      )
+
     case 'placesFeed':
       return await placesFeed(event.arguments.lat, event.arguments.lon)
     // ******************************************************
@@ -126,6 +139,19 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.token,
 
         event.arguments.placeUuid,
+        event.arguments.cardTitle,
+        event.arguments.cardText,
+      )
+
+    case 'placeCardSave':
+      return await placeCardSave(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+
+        event.arguments.cardUuid,
         event.arguments.cardTitle,
         event.arguments.cardText,
       )
