@@ -69,7 +69,8 @@ const _cleanupTables = async ({ photoUuid }: { photoUuid: string }) => {
     await psql.query(`
                         UPDATE "PlacesCards"
                         SET
-                          "photoUuid" = null                          
+                          "photoUuid" = null,
+                          "updatedAt" = '${updatedAt}'                          
                         WHERE
                           "photoUuid" = '${photoUuid}'
                         returning *

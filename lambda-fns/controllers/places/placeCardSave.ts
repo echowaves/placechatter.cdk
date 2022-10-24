@@ -31,7 +31,7 @@ export default async function main(
 
   // const cardUuid = uuidv4()
 
-  // const updatedAt = dayjs().format(VALID.dateFormat) // display
+  const updatedAt = dayjs().format(VALID.dateFormat) // display
 
   await psql.connect()
 
@@ -40,7 +40,9 @@ export default async function main(
                     UPDATE "PlacesCards"
                     SET
                       "cardTitle" = '${cardTitle}',
-                      "cardText" = '${cardText}'                      
+                      "cardText" = '${cardText}',
+                      "updatedAt" = '${updatedAt}'
+                      
                     WHERE
                       "cardUuid" = '${cardUuid}'
                       AND

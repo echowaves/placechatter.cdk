@@ -48,19 +48,28 @@ export default async function main(
     })
   // .toString()
 
-  console.log({ photosUuids })
-  console.log({ photosUuidsString: `${photosUuids.toString()}` })
+  // console.log({ photosUuids })
+  // console.log({ photosUuidsString: photosUuids.toString() })
 
   let cardsPhotos: any = []
-  if (photosUuids.length > 0)
+
+  if (photosUuids.length > 0) {
     cardsPhotos = (
       await psql.query(`
-      SELECT * from "Photos"
-      WHERE "photoUuid" in (${photosUuids.toString()})                    
+        SELECT *
+        FROM "Photos"
+        WHERE "photoUuid" IN (
+          ${placesCards
+            .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
+            .map((card: any) => {
+              return `'${card.photoUuid}'`
+            })
+            .toString()}
+        )
       `)
     ).rows
-
-  console.log({ cardsPhotos })
+  }
+  // console.log({ cardsPhotos })
 
   await psql.clean()
 
@@ -71,7 +80,7 @@ export default async function main(
         if (card.photoUuid) {
           // if photo exists, add to card
           return {
-            card,
+            ...card,
             photo: plainToClass(
               Photo,
               cardsPhotos.find(
@@ -84,6 +93,6 @@ export default async function main(
       }),
     ],
   }
-  console.log({ returnValue: JSON.stringify(returnValue) })
+  // console.log({ returnValue: JSON.stringify(returnValue) })
   return returnValue
 }
