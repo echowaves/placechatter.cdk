@@ -6,6 +6,7 @@ import { plainToClass } from 'class-transformer'
 import Photo from '../../models/photo'
 
 import { VALID } from '../../valid'
+import * as UTILS from '../../utils'
 
 import * as dayjs from 'dayjs'
 
@@ -29,28 +30,63 @@ export default async function main(lat: number, lon: number) {
   ).rows
 
   // console.log({ dbPlaces })
-  let placeCards: any = []
+
+  let dbPlacesCards: any = []
+
+  // console.log({
+  //   placeUuids: dbPlaces
+  //     .map((place: any) => {
+  //       return `'${place.placeUuid}'`
+  //     })
+  //     .toString(),
+  // })
 
   if (dbPlaces.length > 0) {
-    placeCards = (
+    dbPlacesCards = (
       await psql.query(`
     SELECT
-    pc.* 
-    FROM "PlacesCards" pc
-    INNER JOIN "Places" p
-    ON pc."placeUuid" = p."placeUuid" 
-    WHERE pc."placeUuid" in (${dbPlaces
+    * 
+    FROM "PlacesCards" 
+    WHERE "placeUuid" in (${dbPlaces
       .map((place: any) => {
         return `'${place.placeUuid}'`
       })
       .toString()})
-    AND pc."active" = true
-    ORDER BY pc."sortOrder" 
+    AND "active" = true
+    ORDER BY "sortOrder" 
   `)
     ).rows
   }
-  // console.log({ dbPhotos })
 
+  // console.log({ placesCards: dbPlacesCards })
+
+  const photosUuids = dbPlacesCards
+    .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
+    .map((card: any) => {
+      return card.photoUuid
+    })
+
+  // console.log({ photosUuids })
+
+  let dbCardsPhotos: any = []
+
+  if (photosUuids.length > 0) {
+    dbCardsPhotos = (
+      await psql.query(`
+        SELECT *
+        FROM "Photos"
+        WHERE "photoUuid" IN (
+          ${dbPlacesCards
+            .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
+            .map((card: any) => {
+              return `'${card.photoUuid}'`
+            })
+            .toString()}
+        )
+      `)
+    ).rows
+  }
+  // console.log({ cardsPhotos: dbCardsPhotos })
   await psql.clean()
 
   // const places = results.map((photo: any) => plainToClass(Photo, photo))
@@ -58,17 +94,29 @@ export default async function main(lat: number, lon: number) {
     return {
       place,
       cards: [
-        ...placeCards,
-        // .filter((card: any) => place.placeUuid === card.placeUuid)
-        // .map((card: any) => {
-        //   return plainToClass(Photo, photo)
-        // }),
+        ...dbPlacesCards
+          .filter((placeCard: any) => placeCard.placeUuid === place.placeUuid)
+          .map((card: any) => {
+            if (card.photoUuid) {
+              // if photo exists, add to card
+              return {
+                ...card,
+                photo: plainToClass(
+                  Photo,
+                  dbCardsPhotos.find(
+                    (photo: any) => photo.photoUuid === card.photoUuid,
+                  ),
+                ),
+              }
+            }
+            return card
+          }),
       ],
     }
   })
 
   // console.log({ places: JSON.stringify(places) })
-  // return plainToClass(Photo, photo)
+
   return {
     places,
     // batch,

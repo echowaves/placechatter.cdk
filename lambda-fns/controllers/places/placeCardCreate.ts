@@ -43,7 +43,7 @@ export default async function main(
     ).rows[0].max || 0) + // convert null to 0
     1
 
-  console.log({ sortOrder })
+  // console.log({ sortOrder })
 
   const placeCard = (
     await psql.query(`
@@ -54,6 +54,7 @@ export default async function main(
                         "createdBy", 
                         "cardTitle",
                         "cardText",
+                        "active",
                         "sortOrder",
                         "createdAt",
                         "updatedAt"
@@ -63,6 +64,7 @@ export default async function main(
                       '${phoneNumber}', 
                       '${cardTitle}',
                       '${cardText}',
+                      true, 
                       ${sortOrder},
                       '${createdAt}',
                       '${createdAt}'
