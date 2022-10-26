@@ -62,8 +62,6 @@ type AppSyncEvent = {
     cardTitle: string
     cardText: string
     cardUuid: string
-
-    authContext: {}
   }
 }
 
@@ -99,10 +97,19 @@ exports.handler = async (event: AppSyncEvent) => {
       return await placesFeed(event.arguments.lat, event.arguments.lon)
 
     case 'isValidToken':
-      return await isValidToken(event.arguments.authContext)
+      return await isValidToken(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.nickName,
+        event.arguments.token,
+      )
     case 'isPlaceOwner':
       return await isPlaceOwner(
-        event.arguments.authContext,
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.nickName,
+        event.arguments.token,
+
         event.arguments.placeUuid,
       )
     // ******************************************************

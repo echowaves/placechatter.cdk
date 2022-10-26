@@ -2,8 +2,10 @@ import psql from '../../psql'
 import { VALID } from '../../valid'
 
 export default async function main(
-  // uuid: string,
-  authContext: {},
+  uuid: string,
+  phoneNumber: string,
+  nickName: string,
+  token: string,
 ) {
   //   VALID.phoneNumber(phoneNumber)
 

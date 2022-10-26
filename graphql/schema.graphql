@@ -93,12 +93,6 @@ type PhotoForUpload {
   uploadUrl: String!
 }
 
-type AuthContext {
-  uuid: String!
-  phoneNumber: String!
-  nickName: String!
-  token: String!
-}
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************
@@ -123,8 +117,19 @@ type Query {
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
 
-  isValidToken(authContext: AuthContext!): Boolean!
-  isPlaceOwner(authContext: AuthContext!, placeUuid: String!): Boolean!
+  isValidToken(
+    uuid: String!
+    phoneNumber: String!
+    nickName: String!
+    token: String!
+  ): Boolean!
+  isPlaceOwner(
+    uuid: String!
+    phoneNumber: String!
+    nickName: String!
+    token: String!
+    placeUuid: String!
+  ): Boolean!
 }
 
 # ... ******************************************************
