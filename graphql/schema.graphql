@@ -117,12 +117,7 @@ type Query {
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
 
-  isValidToken(
-    uuid: String!
-    phoneNumber: String!
-    nickName: String!
-    token: String!
-  ): Boolean!
+  isValidToken(uuid: String!, phoneNumber: String!, token: String!): Boolean!
   isPlaceOwner(
     uuid: String!
     phoneNumber: String!

@@ -100,7 +100,6 @@ exports.handler = async (event: AppSyncEvent) => {
       return await isValidToken(
         event.arguments.uuid,
         event.arguments.phoneNumber,
-        event.arguments.nickName,
         event.arguments.token,
       )
     case 'isPlaceOwner':
