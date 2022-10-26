@@ -14,6 +14,8 @@ import placeCardSave from './controllers/places/placeCardSave'
 import placeRead from './controllers/places/placeRead'
 import placeCardRead from './controllers/places/placeCardRead'
 import placesFeed from './controllers/places/placesFeed'
+import isValidToken from './controllers/phones/isValidToken'
+import isPlaceOwner from './controllers/phones/isPlaceOwner'
 import generateUploadUrlForCard from './controllers/photos/generateUploadUrlForCard'
 
 // ******************************************************
@@ -60,6 +62,8 @@ type AppSyncEvent = {
     cardTitle: string
     cardText: string
     cardUuid: string
+
+    authContext: {}
   }
 }
 
@@ -93,6 +97,14 @@ exports.handler = async (event: AppSyncEvent) => {
 
     case 'placesFeed':
       return await placesFeed(event.arguments.lat, event.arguments.lon)
+
+    case 'isValidToken':
+      return await isValidToken(event.arguments.authContext)
+    case 'isPlaceOwner':
+      return await isPlaceOwner(
+        event.arguments.authContext,
+        event.arguments.placeUuid,
+      )
     // ******************************************************
     //                       mutations
     // ******************************************************

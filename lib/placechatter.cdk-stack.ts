@@ -226,6 +226,14 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Query',
       fieldName: 'placesFeed',
     })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'isValidToken',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'isPlaceOwner',
+    })
 
     // ******************************************************
     //                       mutations

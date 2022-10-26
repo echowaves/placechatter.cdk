@@ -122,6 +122,9 @@ type Query {
   ): PlaceCard!
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
+
+  isValidToken(authContext: AuthContext!): Boolean!
+  isPlaceOwner(authContext: AuthContext!, placeUuid: String!): Boolean!
 }
 
 # ... ******************************************************
