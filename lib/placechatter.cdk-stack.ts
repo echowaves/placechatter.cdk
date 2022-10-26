@@ -196,7 +196,7 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       new s3n.LambdaDestination(processDeletedImageLambdaFunction),
       // only invoke lambda if object matches the filter
       // {prefix: 'test/', suffix: '.yaml'},
-      { suffix: '-thumb' },
+      { suffix: '-thumb.webp' },
     )
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -92,6 +92,13 @@ type PhotoForUpload {
   photo: Photo!
   uploadUrl: String!
 }
+
+type AuthContext {
+  uuid: String!
+  phoneNumber: String!
+  nickName: String!
+  token: String!
+}
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************

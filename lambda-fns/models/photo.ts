@@ -13,8 +13,8 @@ class Photo {
       ...this,
       // imgUrl: `https://s3.amazonaws.com/${process.env.S3_BUCKET}/${this.id}`,
       // thumbUrl: `https://s3.amazonaws.com/${process.env.S3_BUCKET}/${this.id}-thumb`,
-      imgUrl: `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${this.photoUuid}`,
-      thumbUrl: `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${this.photoUuid}-thumb`,
+      imgUrl: `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${this.photoUuid}.webp`,
+      thumbUrl: `https://${process.env.S3_BUCKET}.s3.amazonaws.com/${this.photoUuid}-thumb.webp`,
     }
   }
 }

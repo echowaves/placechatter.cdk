@@ -33,8 +33,8 @@ export async function main(event: any = {}, context: any) {
   // console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!   ended 2    photoId: ${photoId}`)
 
   await Promise.all([
-    _genWebpThumb({ image, Bucket, Key: `${photoUuid}-thumb` }),
-    _genWebp({ image, Bucket, Key: `${photoUuid}` }),
+    _genWebpThumb({ image, Bucket, Key: `${photoUuid}-thumb.webp` }),
+    _genWebp({ image, Bucket, Key: `${photoUuid}.webp` }),
   ])
 
   // console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!   ended 3    photoId: ${photoId}`)
