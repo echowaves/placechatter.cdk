@@ -123,13 +123,13 @@ type Query {
     nickName: String!
     token: String!
   ): Boolean!
-  isPlaceOwner(
+  roleInPlace(
     uuid: String!
     phoneNumber: String!
     nickName: String!
     token: String!
     placeUuid: String!
-  ): Boolean!
+  ): String!
 }
 
 # ... ******************************************************

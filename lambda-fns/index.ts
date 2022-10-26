@@ -15,7 +15,7 @@ import placeRead from './controllers/places/placeRead'
 import placeCardRead from './controllers/places/placeCardRead'
 import placesFeed from './controllers/places/placesFeed'
 import isValidToken from './controllers/phones/isValidToken'
-import isPlaceOwner from './controllers/phones/isPlaceOwner'
+import roleInPlace from './controllers/phones/roleInPlace'
 import generateUploadUrlForCard from './controllers/photos/generateUploadUrlForCard'
 
 // ******************************************************
@@ -103,8 +103,8 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.nickName,
         event.arguments.token,
       )
-    case 'isPlaceOwner':
-      return await isPlaceOwner(
+    case 'roleInPlace':
+      return await roleInPlace(
         event.arguments.uuid,
         event.arguments.phoneNumber,
         event.arguments.nickName,

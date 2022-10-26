@@ -26,5 +26,5 @@ export default async function main(
 
   //   await psql.clean()
 
-  return false
+  return 'none'
 }
