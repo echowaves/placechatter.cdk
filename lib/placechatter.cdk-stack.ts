@@ -232,7 +232,7 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     })
     lambdaDs.createResolver({
       typeName: 'Query',
-      fieldName: 'roleInPlace',
+      fieldName: 'roleForPlace',
     })
 
     // ******************************************************

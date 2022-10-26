@@ -123,7 +123,7 @@ type Query {
     nickName: String!
     token: String!
   ): Boolean!
-  roleInPlace(
+  roleForPlace(
     uuid: String!
     phoneNumber: String!
     nickName: String!
