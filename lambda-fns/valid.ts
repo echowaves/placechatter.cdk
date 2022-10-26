@@ -80,7 +80,11 @@ export const VALID = {
     }
   },
 
-  auth: async function (uuid: string, phoneNumber: string, token: string) {
+  isValidToken: async function (
+    uuid: string,
+    phoneNumber: string,
+    token: string,
+  ) {
     // console.log({ uuid: VALID.uuid(uuid) })
     // console.log({ phoneNumber: VALID.phoneNumber(phoneNumber) })
     // console.log({ token: VALID.token(token) })
@@ -99,7 +103,7 @@ export const VALID = {
                 AND "phoneNumber" = '${phoneNumber}'
                 AND "token" = '${token}'
       `)
-    ).rows[0].count
+    )?.rows[0]?.count // should never throw
 
     await psql.clean()
     // console.log({ count })
@@ -109,15 +113,18 @@ export const VALID = {
     return true
   },
 
-  isPhoneInRoleForPlace: async function (
+  isPlaceOwner: async function (
     uuid: string,
     phoneNumber: string,
+    token: string,
     placeUuid: string,
-    role: string,
   ) {
     VALID.uuid(uuid)
     VALID.phoneNumber(phoneNumber)
+    VALID.token(token)
     VALID.uuid(placeUuid)
+
+    await VALID.isValidToken(uuid, phoneNumber, token)
 
     await psql.connect()
 
@@ -126,11 +133,13 @@ export const VALID = {
         SELECT COUNT(*)
                 FROM "PlacesPhones"
                 WHERE 
-                "placeUuid" = '${placeUuid}'
+                    "uuid" = '${uuid}'
                 AND "phoneNumber" = '${phoneNumber}'
-                AND "role" = '${role}'
+                AND "placeUuid" = '${placeUuid}'
+
+                AND "role" = 'owner'
       `)
-    ).rows[0].count
+    )?.rows[0]?.count // should never throw
 
     await psql.clean()
 

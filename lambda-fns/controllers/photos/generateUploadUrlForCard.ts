@@ -23,13 +23,8 @@ export default async function main(
 ) {
   const photoUuid = assetKey
 
-  await VALID.auth(uuid, phoneNumber, token)
-  await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner')
-
-  VALID.uuid(photoUuid)
-  VALID.contentType(contentType)
-  VALID.uuid(placeUuid)
-  VALID.uuid(cardUuid)
+  // await VALID.isValidToken(uuid, phoneNumber, token)
+  await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
 
   const createdAt = dayjs().format(VALID.dateFormat) // display
 

@@ -18,10 +18,8 @@ export default async function main(
   cardText: string,
 ) {
   // console.log({ uuid, phoneNumber, token })
-  await VALID.auth(uuid, phoneNumber, token)
-  await VALID.isPhoneInRoleForPlace(uuid, phoneNumber, placeUuid, 'owner')
-
-  await VALID.uuid(placeUuid)
+  // await VALID.isValidToken(uuid, phoneNumber, token)
+  await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
 
   await VALID.cardTitle(cardTitle)
   await VALID.cardText(cardText)
