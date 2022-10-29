@@ -43,6 +43,7 @@ export default async function main(
     await psql.query(`
       SELECT * from "Photos"
       WHERE "photoUuid" = '${card.photoUuid}'
+      AND "active" = true
       `)
   ).rows[0]
 

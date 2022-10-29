@@ -9,7 +9,7 @@ export async function main(event: any = {}, context: any) {
   const record = event.Records[0]
   const name = record.s3.object.key
 
-  const photoUuid = name.replace('-thumb', '')
+  const photoUuid = name.replace('-thumb.webp', '')
   // we only want to deal with originals
   // console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!deleting image: ${name}`)
   // console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!       photoId: ${photoId}`)

@@ -83,6 +83,7 @@ export default async function main(lat: number, lon: number) {
             })
             .toString()}
         )
+        AND "active" = true
       `)
     ).rows
   }

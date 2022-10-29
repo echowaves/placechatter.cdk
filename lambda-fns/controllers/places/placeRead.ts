@@ -66,6 +66,7 @@ export default async function main(
             })
             .toString()}
         )
+        AND "active" = true
       `)
     ).rows
   }
