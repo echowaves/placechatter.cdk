@@ -11,6 +11,16 @@ module.exports = {
           type: Sequelize.STRING(20), //phone number
           allowNull: false,
         },
+        width: {
+          type: Sequelize.STRING(20),
+          allowNull: false,
+          defaultValue: '100%',
+        },
+        height: {
+          type: Sequelize.STRING(20),
+          allowNull: false,
+          defaultValue: '100%',
+        },
 
         active: {
           type: Sequelize.BOOLEAN,

@@ -59,6 +59,8 @@ type Photo {
   active: Boolean!
   imgUrl: String!
   thumbUrl: String!
+  width: String!
+  height: String!
 
   createdAt: AWSDateTime!
 }

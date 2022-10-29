@@ -32,16 +32,16 @@ export async function main(event: any = {}, context: any) {
     .promise()
   // console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!   ended 2    photoId: ${photoId}`)
 
-  await Promise.all([
+  const [webpThumbMetadata, webpMetadata] = await Promise.all([
     _genWebpThumb({ image, Bucket, Key: `${photoUuid}-thumb.webp` }),
     _genWebp({ image, Bucket, Key: `${photoUuid}.webp` }),
   ])
-
+  // console.log({ webpThumbMetadata, webpMetadata })
   // console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!   ended 3    photoId: ${photoId}`)
 
   await Promise.all([
     _deleteUpload({ Bucket, Key: name }),
-    _activatePhoto({ photoUuid }),
+    _activatePhoto({ photoUuid, metadata: webpMetadata }),
   ])
 
   // console.log(`!!!!!!!!!!!!!!!!!!!!!!!!!!!   ended 4   photoId: ${photoId}`)
@@ -77,7 +77,7 @@ const _genWebpThumb = async ({
     })
     .promise()
 
-  // console.log(`_genWebpThumb ended  ${Key}`)
+  return await _getMetadata({ buffer })
 }
 
 const _genWebp = async ({
@@ -106,7 +106,15 @@ const _genWebp = async ({
       CacheControl: 'max-age=31536000',
     })
     .promise()
-  // console.log(`_genWebp ended  ${Key}`)
+
+  return await _getMetadata({ buffer })
+}
+
+const _getMetadata = async ({ buffer }: { buffer: Buffer }) => {
+  const webpImage = await sharp(buffer)
+  const metadata = await webpImage.metadata()
+  // console.log(metadata.width, metadata.height)
+  return metadata
 }
 
 const _deleteUpload = async ({
@@ -128,23 +136,31 @@ const _deleteUpload = async ({
   // console.log(`_deleteUpload ended  ${Key}`)
 }
 
-const _activatePhoto = async ({ photoUuid }: { photoUuid: string }) => {
+const _activatePhoto = async ({
+  photoUuid,
+  metadata,
+}: {
+  photoUuid: string
+  metadata: any
+}) => {
   console.log(`_activatePhoto started  ${photoUuid}`)
-
+  // console.log({ metadata })
   try {
     const updatedAt = dayjs().format(VALID.dateFormat) // display
 
     await psql.connect()
     const updatedPhoto = await psql.query(`    
                     UPDATE "Photos"
-                    SET 
-                      active = true, 
+                    SET
+                      "width" = '${metadata.width}',
+                      "height" = '${metadata.height}',
+                      "active" = true, 
                       "updatedAt" = '${updatedAt}'
                     WHERE
                       "photoUuid" = '${photoUuid}'
                     RETURNING *
                     `)
-    console.log({ updatedPhoto })
+    // console.log({ updatedPhoto })
   } catch (err) {
     console.log('Error activating photo')
     console.log({ err })
