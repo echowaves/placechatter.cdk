@@ -99,7 +99,7 @@ export const VALID = {
         SELECT COUNT(*)
                 FROM "Phones"
                 WHERE 
-                "uuid" = '${uuid}'
+                    "uuid" = '${uuid}'
                 AND "phoneNumber" = '${phoneNumber}'
                 AND "token" = '${token}'
       `)
@@ -131,13 +131,14 @@ export const VALID = {
     const count = (
       await psql.query(`
         SELECT COUNT(*)
-                FROM "PlacesPhones"
-                WHERE 
-                    "uuid" = '${uuid}'
-                AND "phoneNumber" = '${phoneNumber}'
-                AND "placeUuid" = '${placeUuid}'
+                FROM "PlacesPhones"                 
+                  WHERE                 
+                    "phoneNumber" = '${phoneNumber}'
+                  AND
+                    "placeUuid" = '${placeUuid}'
 
-                AND "role" = 'owner'
+                  AND 
+                    "role" = 'owner'
       `)
     )?.rows[0]?.count // should never throw
 
