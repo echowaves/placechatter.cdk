@@ -192,6 +192,16 @@ type Mutation {
     placeUuid: String! #optional # chatUuid: String # optional
     cardUuid: String!
   ): PhotoForUpload!
+
+  placeCardPhotoDelete(
+    uuid: String!
+    phoneNumber: String!
+    token: String!
+
+    placeUuid: String!
+
+    photoUuid: String!
+  ): Boolean!
 }
 
 # ... ******************************************************

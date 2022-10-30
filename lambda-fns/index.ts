@@ -17,6 +17,7 @@ import placesFeed from './controllers/places/placesFeed'
 import isValidToken from './controllers/phones/isValidToken'
 import isPlaceOwner from './controllers/phones/isPlaceOwner'
 import generateUploadUrlForCard from './controllers/photos/generateUploadUrlForCard'
+import placeCardPhotoDelete from './controllers/photos/placeCardPhotoDelete'
 
 // ******************************************************
 //                       mutations
@@ -62,6 +63,7 @@ type AppSyncEvent = {
     cardTitle: string
     cardText: string
     cardUuid: string
+    photoUuid: string
   }
 }
 
@@ -183,6 +185,17 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.contentType,
         event.arguments.placeUuid,
         event.arguments.cardUuid,
+      )
+
+    case 'placeCardPhotoDelete':
+      return await placeCardPhotoDelete(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+
+        event.arguments.photoUuid,
       )
 
     default:

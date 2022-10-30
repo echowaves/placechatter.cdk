@@ -162,6 +162,8 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     )
     imgBucket.grantPut(placechatterFn)
     imgBucket.grantPutAcl(placechatterFn)
+    imgBucket.grantDelete(placechatterFn)
+
     imgBucket.grantPut(processUploadedImageLambdaFunction)
     imgBucket.grantPutAcl(processUploadedImageLambdaFunction)
     imgBucket.grantDelete(processUploadedImageLambdaFunction)
@@ -261,6 +263,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     lambdaDs.createResolver({
       typeName: 'Mutation',
       fieldName: 'generateUploadUrlForCard',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placeCardPhotoDelete',
     })
 
     // CFN Outputs
