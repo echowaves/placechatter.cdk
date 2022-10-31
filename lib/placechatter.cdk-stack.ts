@@ -268,6 +268,14 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Mutation',
       fieldName: 'placeCardPhotoDelete',
     })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placeCardDelete',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placeDelete',
+    })
 
     // CFN Outputs
     new cdk.CfnOutput(this, 'AppSyncAPIURL', {

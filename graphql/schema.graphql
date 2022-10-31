@@ -202,6 +202,24 @@ type Mutation {
 
     photoUuid: String!
   ): Boolean!
+
+  placeCardDelete(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    placeUuid: String!
+
+    cardUuid: String!
+  ): Boolean!
+
+  placeDelete(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    placeUuid: String!
+  ): Boolean!
 }
 
 # ... ******************************************************
