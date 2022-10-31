@@ -99,13 +99,13 @@ type PhotoForUpload {
 # ...                   queries
 # ... ******************************************************
 type Query {
-  nickNameTypeAhead(phoneNumber: String!, nickName: String!): Int!
+  nickNameTypeAhead(phoneNumber: String, nickName: String): Int!
   placeRead(
     # uuid: String!
     # phoneNumber: String!
     # token: String!
 
-    placeUuid: String!
+    placeUuid: String
   ): PlaceWithCards!
 
   placeCardRead(
@@ -119,12 +119,12 @@ type Query {
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
 
-  isValidToken(uuid: String!, phoneNumber: String!, token: String!): Boolean!
+  isValidToken(uuid: String, phoneNumber: String, token: String): Boolean!
   isPlaceOwner(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
-    placeUuid: String!
+    uuid: String
+    phoneNumber: String
+    token: String
+    placeUuid: String
   ): Boolean!
 }
 
@@ -134,16 +134,16 @@ type Query {
 type Mutation {
   activationCodeGenerate(uuid: String!, phoneNumber: String!): String! # returns smsCode
   phoneActivate(
-    uuid: String!
-    phoneNumber: String!
-    smsCode: String!
-    nickName: String!
+    uuid: String
+    phoneNumber: String
+    smsCode: String
+    nickName: String
   ): String! # returns secure token
   #
   placeCreate(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
+    uuid: String
+    phoneNumber: String
+    token: String
 
     placeName: String!
     streetAddress1: String!
@@ -161,9 +161,9 @@ type Mutation {
   ): Place!
 
   placeCardCreate(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
+    uuid: String
+    phoneNumber: String
+    token: String
 
     placeUuid: String!
     cardTitle: String!
@@ -171,9 +171,9 @@ type Mutation {
   ): PlaceCard!
 
   placeCardSave(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
+    uuid: String
+    phoneNumber: String
+    token: String
 
     placeUuid: String!
 
@@ -183,9 +183,9 @@ type Mutation {
   ): PlaceCard!
 
   generateUploadUrlForCard(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
+    uuid: String
+    phoneNumber: String
+    token: String
 
     assetKey: String! # has to be in uuid format
     contentType: String!
@@ -194,9 +194,9 @@ type Mutation {
   ): PhotoForUpload!
 
   placeCardPhotoDelete(
-    uuid: String!
-    phoneNumber: String!
-    token: String!
+    uuid: String
+    phoneNumber: String
+    token: String
 
     placeUuid: String!
 

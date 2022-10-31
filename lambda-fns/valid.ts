@@ -4,6 +4,9 @@ export const VALID = {
   dateFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
 
   phoneNumber: function (phoneNumber: string) {
+    if (!phoneNumber) {
+      throw 'Need to confirm phone number'
+    }
     if (!/^([0-9]){10}$/.test(phoneNumber)) {
       throw 'Invalid Phone Number format'
     }
@@ -32,6 +35,9 @@ export const VALID = {
   },
 
   token: function (param: string) {
+    if (!param) {
+      throw 'Unconfirmed phone number'
+    }
     if (!/^(\w){128}$/.test(param)) {
       throw 'Invalid Token format'
     }
@@ -108,7 +114,7 @@ export const VALID = {
     await psql.clean()
     // console.log({ count })
     if (count !== '1') {
-      throw 'Autentication failed'
+      throw 'Authentication failed'
     }
     return true
   },

@@ -21,10 +21,11 @@ export default async function main(
 ) {
   // console.log({ uuid, phoneNumber, token })
   // await VALID.isValidToken(uuid, phoneNumber, token)
+
   await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
 
-  await VALID.cardTitle(cardTitle)
-  await VALID.cardText(cardText)
+  VALID.cardTitle(cardTitle)
+  VALID.cardText(cardText)
 
   // const cardUuid = uuidv4()
 
