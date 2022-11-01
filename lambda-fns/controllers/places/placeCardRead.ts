@@ -32,8 +32,12 @@ export default async function main(
                     `)
   ).rows[0]
 
+  if (!card) {
+    return null
+  }
+
   // console.log({ place })
-  if (!card.photoUuid) {
+  if (!card?.photoUuid) {
     return {
       ...card,
     }

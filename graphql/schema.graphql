@@ -115,7 +115,7 @@ type Query {
 
     placeUuid: String!
     cardUuid: String!
-  ): PlaceCard!
+  ): PlaceCard
 
   placesFeed(lat: Float!, lon: Float!): PlacesFeed
 
