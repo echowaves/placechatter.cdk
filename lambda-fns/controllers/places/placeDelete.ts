@@ -21,57 +21,40 @@ export default async function main(
   // await VALID.isValidToken(uuid, phoneNumber, token)
   await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
 
-  const updatedAt = dayjs().format(VALID.dateFormat) // display
+  await psql.connect()
+
+  const count = (
+    await psql.query(`
+      SELECT COUNT(*)
+              FROM "PlacesCards"
+              WHERE 
+                  "placeUuid" = '${placeUuid}'
+    `)
+  )?.rows[0]?.count // should never throw
+
+  await psql.clean()
+  // console.log({ count })
+  if (count !== '0') {
+    throw 'Delete All Cards first'
+  }
 
   await psql.connect()
 
-  const updatedPhoto = await psql.query(`    
-  UPDATE "Photos"
-  SET
-    "active" = false, 
-    "updatedAt" = '${updatedAt}'
-  WHERE
-    "photoUuid" = ''
-  RETURNING *
-  `)
-
-  // console.log({ updatedPhoto })
-
-  // console.log({ photo })
-
-  // const placeRole = (
   await psql.query(`
-                    UPDATE "PlacesCards"
-                    SET
-                      "photoUuid" = null,
-                      "updatedAt" = '${updatedAt}'
+                    DELETE from "PlacesPhones"
                     WHERE
-                      "photoUuid" = ''
-                    AND
-                      "placeUuid" = ''
+                      "placeUuid" = '${placeUuid}'
+                    returning *
+                    `)
+  await psql.query(`
+                    DELETE from "Places"
+                    WHERE
+                      "placeUuid" = '${placeUuid}'
                     returning *
                     `)
   // ).rows[0]
 
   await psql.clean()
 
-  const s3 = new AWS.S3()
-
-  const r1 = await s3
-    .deleteObject({
-      Bucket: process.env.S3_BUCKET,
-      Key: `.webp`,
-    })
-    .promise()
-
-  const r2 = await s3
-    .deleteObject({
-      Bucket: process.env.S3_BUCKET,
-      Key: `$-thumb.webp`,
-    })
-    .promise()
-
-  // console.log({ r1, r2 })
-  // return { uploadUrl, photo: plainToClass(Photo, photo) }
   return true
 }
