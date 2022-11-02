@@ -151,7 +151,8 @@ export const VALID = {
     await psql.clean()
 
     if (count !== '1') {
-      throw 'Not the owner of this place'
+      // throw 'Not the owner of this place'
+      return false
     }
 
     // console.log({ count })
