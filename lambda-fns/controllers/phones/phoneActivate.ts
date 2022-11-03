@@ -19,7 +19,7 @@ export default async function main(
   await psql.connect()
   const createdAt = dayjs().format(VALID.dateFormat) // display
   const token = srs({ length: 128, alphanumeric: true })
-  console.log({ token })
+  // console.log({ token })
   // console.log('1..............................')
   const activationRequest = (
     await psql.query(`
