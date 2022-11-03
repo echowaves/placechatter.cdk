@@ -19,6 +19,7 @@ export default async function main(
   await psql.connect()
   const createdAt = dayjs().format(VALID.dateFormat) // display
   const token = srs({ length: 128, alphanumeric: true })
+  console.log({ token })
   // console.log('1..............................')
   const activationRequest = (
     await psql.query(`
@@ -39,6 +40,15 @@ export default async function main(
   }
 
   await psql.query(`
+      DELETE FROM "Phones"
+        WHERE
+          "uuid" = '${uuid}'
+        OR
+          "phoneNumber" = '${phoneNumber}'
+      returning *         
+      `)
+
+  await psql.query(`
       INSERT INTO "Phones"
         (
           "uuid",
@@ -55,13 +65,6 @@ export default async function main(
           '${createdAt}',
           '${createdAt}'
         )
-      ON CONFLICT("phoneNumber") 
-      DO UPDATE 
-      SET 
-      "uuid" = EXCLUDED."uuid",                 
-      "nickName" = EXCLUDED."nickName", 
-      "token" = EXCLUDED."token",
-      "updatedAt" =  EXCLUDED."updatedAt"       
       returning *         
       `)
 

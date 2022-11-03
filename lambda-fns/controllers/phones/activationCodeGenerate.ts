@@ -41,7 +41,7 @@ export default async function main(uuid: string, phoneNumber: string) {
 
   await psql.clean()
 
-  // send sms to a phoneNumber here
+  // AWS send sms to a phoneNumber here
   // var params = {
   //   PhoneNumber: `+1${phoneNumber}`,
   //   Message: `Activation Code: ${smsCode}`,
@@ -59,11 +59,12 @@ export default async function main(uuid: string, phoneNumber: string) {
   const authToken = process.env.TWILIO_AUTH_TOKEN
   const client = require('twilio')(accountSid, authToken)
 
-  // const message = await client.messages.create({
-  //   body: `${smsCode} is your activation code`,
-  //   from: '+19303365867',
-  //   to: `+1${phoneNumber}`,
-  // })
+  // twilio SMS send
+  const message = await client.messages.create({
+    body: `Your activation code: ${smsCode}`,
+    from: '+19303365867',
+    to: `+1${phoneNumber}`,
+  })
 
   // console.log({ message })
 
