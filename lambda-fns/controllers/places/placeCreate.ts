@@ -78,7 +78,6 @@ export default async function main(
   ).rows[0]
   // console.log({ place })
 
-  // const placeRole = (
   await psql.query(`
                     INSERT INTO "PlacesPhones"
                     (

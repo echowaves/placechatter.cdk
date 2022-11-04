@@ -51,7 +51,6 @@ export default async function main(
   ).rows[0]
   // console.log({ photo })
 
-  // const placeRole = (
   await psql.query(`
                     UPDATE "PlacesCards"
                     SET
