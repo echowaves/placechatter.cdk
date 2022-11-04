@@ -98,6 +98,15 @@ module.exports = {
         queryInterface.addIndex('PlacesPhones', ['placeUuid', 'phoneNumber'], {
           unique: true,
         }),
+      )
+      .then(() =>
+        queryInterface.addIndex(
+          'Places',
+          ['streetAddress1', 'streetAddress2', 'city', 'country', 'postalCode'],
+          {
+            unique: true,
+          },
+        ),
       ),
   down: (
     queryInterface,
