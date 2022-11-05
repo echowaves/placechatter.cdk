@@ -34,20 +34,23 @@ export default async function main(
   await psql.connect()
 
   const placeCard = (
-    await psql.query(`
+    await psql.query(
+      `
                     UPDATE "PlacesCards"
                     SET
-                      "cardTitle" = '${cardTitle}',
-                      "cardText" = '${cardText}',
-                      "updatedAt" = '${updatedAt}'
+                      "cardTitle" = $1,
+                      "cardText" = $2,
+                      "updatedAt" = $3
                       
                     WHERE
-                      "cardUuid" = '${cardUuid}'
+                      "cardUuid" = $4
                       AND
-                      "placeUuid" = '${placeUuid}'
+                      "placeUuid" = $5
                   
                     returning *
-                    `)
+                    `,
+      [cardTitle, cardText, updatedAt, cardUuid, placeUuid],
+    )
   ).rows[0]
   // console.log({ placeCard })
 

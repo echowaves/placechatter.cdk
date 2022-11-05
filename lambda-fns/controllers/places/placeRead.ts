@@ -21,23 +21,29 @@ export default async function main(
   await psql.connect()
 
   const place = (
-    await psql.query(`
+    await psql.query(
+      `
                     SELECT * from "Places"
                     WHERE
-                    "placeUuid" = '${placeUuid}' 
-                    `)
+                    "placeUuid" = $1
+                    `,
+      [placeUuid],
+    )
   ).rows[0]
 
   // console.log({ place })
 
   const placesCards = (
-    await psql.query(`
+    await psql.query(
+      `
     SELECT
     pc.*
     FROM "PlacesCards" pc
-    WHERE pc."placeUuid" = '${placeUuid}'    
+    WHERE pc."placeUuid" = $1
     ORDER BY pc."sortOrder" 
-  `)
+  `,
+      [placeUuid],
+    )
   ).rows
   // console.log({ placesCards })
 
@@ -55,19 +61,23 @@ export default async function main(
 
   if (photosUuids.length > 0) {
     cardsPhotos = (
-      await psql.query(`
+      await psql.query(
+        `
         SELECT *
         FROM "Photos"
-        WHERE "photoUuid" IN (
-          ${placesCards
-            .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
-            .map((card: any) => {
-              return `'${card.photoUuid}'`
-            })
-            .toString()}
+        WHERE "photoUuid" = ANY (
+          $1
         )
         AND "active" = true
-      `)
+      `,
+        [
+          placesCards
+            .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
+            .map((card: any) => {
+              return card.photoUuid
+            }),
+        ],
+      )
     ).rows
   }
   // console.log({ cardsPhotos })

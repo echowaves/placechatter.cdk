@@ -16,17 +16,20 @@ export default async function main(lat: number, lon: number) {
   await psql.connect()
 
   const dbPlaces = (
-    await psql.query(`
+    await psql.query(
+      `
     SELECT
     *
     , 
-    ST_Distance(ST_SetSRID(ST_MakePoint(${lon}, ${lat} ), 4326)::geography, "location"::geography) 
+    ST_Distance(ST_SetSRID(ST_MakePoint( $1, $2 ), 4326)::geography, "location"::geography) 
       as "distance"
     FROM "Places"
     ORDER BY "distance"
     LIMIT 100
     OFFSET 0
-  `)
+  `,
+      [lon, lat],
+    )
   ).rows
 
   // console.log({ dbPlaces })
@@ -41,20 +44,31 @@ export default async function main(lat: number, lon: number) {
   //     .toString(),
   // })
 
+  // console.log({
+  //   uuids: dbPlaces.map((place: any) => {
+  //     return place.placeUuid
+  //   }),
+  // })
+
   if (dbPlaces.length > 0) {
     dbPlacesCards = (
-      await psql.query(`
+      await psql.query(
+        `
     SELECT
     * 
     FROM "PlacesCards" 
-    WHERE "placeUuid" in (${dbPlaces
-      .map((place: any) => {
-        return `'${place.placeUuid}'`
-      })
-      .toString()})
+    WHERE "placeUuid" = ANY ( 
+      $1 
+    ) 
     AND "active" = true
     ORDER BY "sortOrder" 
-  `)
+  `,
+        [
+          dbPlaces.map((place: any) => {
+            return place.placeUuid
+          }),
+        ],
+      )
     ).rows
   }
 
@@ -72,19 +86,23 @@ export default async function main(lat: number, lon: number) {
 
   if (photosUuids.length > 0) {
     dbCardsPhotos = (
-      await psql.query(`
+      await psql.query(
+        `
         SELECT *
         FROM "Photos"
-        WHERE "photoUuid" IN (
-          ${dbPlacesCards
-            .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
-            .map((card: any) => {
-              return `'${card.photoUuid}'`
-            })
-            .toString()}
+        WHERE "photoUuid" = ANY (
+          $1
         )
         AND "active" = true
-      `)
+      `,
+        [
+          dbPlacesCards
+            .filter((card: any) => card.photoUuid) // remove all cards that don't have photos
+            .map((card: any) => {
+              return card.photoUuid
+            }),
+        ],
+      )
     ).rows
   }
   // console.log({ cardsPhotos: dbCardsPhotos })

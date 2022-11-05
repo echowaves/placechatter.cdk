@@ -52,11 +52,14 @@ const _cleanupTables = async ({ photoUuid }: { photoUuid: string }) => {
 
   await psql.connect()
   try {
-    await psql.query(`
+    await psql.query(
+      `
                     DELETE from "Photos"
                     WHERE
-                    "photoUuid" = '${photoUuid}'
-                    `)
+                    "photoUuid" = $1
+                    `,
+      [photoUuid],
+    )
     //
   } catch (err) {
     console.log('Error de-activating photo')
@@ -66,15 +69,18 @@ const _cleanupTables = async ({ photoUuid }: { photoUuid: string }) => {
   const updatedAt = dayjs().format(VALID.dateFormat) // display
 
   try {
-    await psql.query(`
+    await psql.query(
+      `
                         UPDATE "PlacesCards"
                         SET
-                          "photoUuid" = null,
-                          "updatedAt" = '${updatedAt}'                          
+                          "photoUuid" = $1,
+                          "updatedAt" = $2                          
                         WHERE
-                          "photoUuid" = '${photoUuid}'
+                          "photoUuid" = $3
                         returning *
-                        `)
+                        `,
+      [null, updatedAt, photoUuid],
+    )
     //
   } catch (err) {
     console.log('Error cleaning up PlacesPhotos')

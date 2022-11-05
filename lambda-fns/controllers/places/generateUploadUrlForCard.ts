@@ -31,7 +31,8 @@ export default async function main(
   await psql.connect()
 
   const photo = (
-    await psql.query(`
+    await psql.query(
+      `
                     INSERT INTO "Photos"
                     (
                         "photoUuid",
@@ -40,28 +41,33 @@ export default async function main(
                         "createdAt",
                         "updatedAt"
                     ) values (
-                      '${photoUuid}',
-                      '${phoneNumber}',
-                      false,
-                      '${createdAt}',
-                      '${createdAt}'
+                      $1,
+                      $2,
+                      $3,
+                      $4,
+                      $5
                     )
                     returning *
-                    `)
+                    `,
+      [photoUuid, phoneNumber, false, createdAt, createdAt],
+    )
   ).rows[0]
   // console.log({ photo })
 
-  await psql.query(`
+  await psql.query(
+    `
                     UPDATE "PlacesCards"
                     SET
-                      "photoUuid" = '${photoUuid}',
-                      "updatedAt" = '${createdAt}'
+                      "photoUuid" = $1,
+                      "updatedAt" = $2
                     WHERE
-                      "cardUuid" = '${cardUuid}'
+                      "cardUuid" = $3
                     AND
-                      "placeUuid" = '${placeUuid}'
+                      "placeUuid" = $4
                     returning *
-                    `)
+                    `,
+    [photoUuid, createdAt, cardUuid, placeUuid],
+  )
   // ).rows[0]
 
   await psql.clean()

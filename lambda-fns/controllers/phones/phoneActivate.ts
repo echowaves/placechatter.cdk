@@ -22,33 +22,44 @@ export default async function main(
   // console.log({ token })
   // console.log('1..............................')
   const activationRequest = (
-    await psql.query(`
+    await psql.query(
+      `
       SELECT * FROM "ActivationRequests"
       WHERE
-        "uuid" = '${uuid}' 
-        AND "phoneNumber" = '${phoneNumber}'
-        AND "smsCode" = '${smsCode}'
-        AND "confirmed" = ${false} 
-        AND "createdAt" >= '${dayjs()
-          .subtract(3, 'minute')
-          .format(VALID.dateFormat)}'
-      `)
+        "uuid" = $1
+        AND "phoneNumber" = $2
+        AND "smsCode" = $3
+        AND "confirmed" = $4
+        AND "createdAt" >= $5
+      `,
+      [
+        uuid,
+        phoneNumber,
+        smsCode,
+        false,
+        dayjs().subtract(3, 'minute').format(VALID.dateFormat),
+      ],
+    )
   ).rows[0]
   // console.log({ activationRequest })
   if (!activationRequest) {
     throw 'No valid pending activation request found'
   }
 
-  await psql.query(`
+  await psql.query(
+    `
       DELETE FROM "Phones"
         WHERE
-          "uuid" = '${uuid}'
+          "uuid" = $1
         OR
-          "phoneNumber" = '${phoneNumber}'
+          "phoneNumber" = $2
       returning *         
-      `)
+      `,
+    [uuid, phoneNumber],
+  )
 
-  await psql.query(`
+  await psql.query(
+    `
       INSERT INTO "Phones"
         (
           "uuid",
@@ -58,27 +69,32 @@ export default async function main(
           "createdAt",
           "updatedAt"
         ) values (
-          '${uuid}',      
-          '${phoneNumber}',      
-          '${nickName}',      
-          '${token}',      
-          '${createdAt}',
-          '${createdAt}'
+          $1,      
+          $2,      
+          $3,      
+          $4,      
+          $5,
+          $6
         )
       returning *         
-      `)
+      `,
+    [uuid, phoneNumber, nickName, token, createdAt, createdAt],
+  )
 
-  await psql.query(`
+  await psql.query(
+    `
     UPDATE "ActivationRequests"
       SET 
-        "confirmed" = ${true},
-        "confirmedAt" = '${createdAt}'
+        "confirmed" = $1,
+        "confirmedAt" = $2
       WHERE
-      "uuid" = '${uuid}' 
-      and "phoneNumber" = '${phoneNumber}'
-      and "smsCode" = '${smsCode}'
-      and "confirmed" = ${false}
-      returning *`)
+      "uuid" = $3
+      and "phoneNumber" = $4
+      and "smsCode" = $5
+      and "confirmed" = $6
+      returning *`,
+    [true, createdAt, uuid, phoneNumber, smsCode, false],
+  )
 
   return token
 }

@@ -27,31 +27,37 @@ export default async function main(
 
   await psql.connect()
 
-  const updatedPhoto = await psql.query(`    
+  const updatedPhoto = await psql.query(
+    `    
   UPDATE "Photos"
   SET
-    "active" = false, 
-    "updatedAt" = '${updatedAt}'
+    "active" = $1, 
+    "updatedAt" = $2
   WHERE
-    "photoUuid" = '${photoUuid}'
+    "photoUuid" = $3
   RETURNING *
-  `)
+  `,
+    [false, updatedAt, photoUuid],
+  )
 
   // console.log({ updatedPhoto })
 
   // console.log({ photo })
 
-  await psql.query(`
+  await psql.query(
+    `
                     UPDATE "PlacesCards"
                     SET
-                      "photoUuid" = null,
-                      "updatedAt" = '${updatedAt}'
+                      "photoUuid" = $1,
+                      "updatedAt" = $2
                     WHERE
-                      "photoUuid" = '${photoUuid}'
+                      "photoUuid" = $3
                     AND
-                      "placeUuid" = '${placeUuid}'
+                      "placeUuid" = $4
                     returning *
-                    `)
+                    `,
+    [null, updatedAt, photoUuid, placeUuid],
+  )
   // ).rows[0]
 
   await psql.clean()

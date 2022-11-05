@@ -36,7 +36,8 @@ export default async function main(
   await psql.connect()
 
   const place = (
-    await psql.query(`
+    await psql.query(
+      `
                     INSERT INTO "Places"
                     (
                         "placeUuid",
@@ -56,29 +57,54 @@ export default async function main(
                         "createdAt",
                         "updatedAt"
                     ) values (
-                      '${placeUuid}',
-                      '${phoneNumber}', 
-                      '${placeName}',
-                      '${streetAddress1}',
-                      '${streetAddress2}',
-                      '${city}',
-                      '${country}',
-                      '${district}',
-                      '${isoCountryCode}',
-                      '${postalCode}',
-                      '${region}',
-                      '${subregion}',
-                      '${timezone}',
-                      ST_SetSRID(ST_MakePoint(${lon}, ${lat}), 4326),
-                      '${createdAt}',
-                      '${createdAt}'
+                      $1,
+                      $2, 
+                      $3,
+                      $4,
+                      $5,
+                      $6,
+                      $7,
+                      $8,
+                      $9,
+                      $10,
+                      $11,
+                      $12,
+                      $13,
+                      ST_SetSRID(
+                        ST_MakePoint(
+                          $14, 
+                          $15
+                        ),4326),
+                      $16,
+                      $17
                     )
                     returning *
-                    `)
+                    `,
+      [
+        placeUuid,
+        phoneNumber,
+        placeName,
+        streetAddress1,
+        streetAddress2,
+        city,
+        country,
+        district,
+        isoCountryCode,
+        postalCode,
+        region,
+        subregion,
+        timezone,
+        lon,
+        lat,
+        createdAt,
+        createdAt,
+      ],
+    )
   ).rows[0]
   // console.log({ place })
 
-  await psql.query(`
+  await psql.query(
+    `
                     INSERT INTO "PlacesPhones"
                     (
                         "placeUuid",
@@ -86,13 +112,15 @@ export default async function main(
                         "role",
                         "createdAt"
                     ) values (
-                      '${placeUuid}',
-                      '${phoneNumber}',
-                      'owner',
-                      '${createdAt}'
+                      $1,
+                      $2,
+                      $3,
+                      $4
                     )
                     returning *
-                    `)
+                    `,
+    [placeUuid, phoneNumber, 'owner', createdAt],
+  )
   // ).rows[0]
 
   await psql.clean()

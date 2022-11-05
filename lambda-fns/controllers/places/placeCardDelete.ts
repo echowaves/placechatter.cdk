@@ -35,24 +35,30 @@ export default async function main(
 
   await psql.connect()
 
-  await psql.query(`
+  await psql.query(
+    `
                     DELETE from "PlacesCards"                    
                     WHERE
-                      "placeUuid" = '${placeUuid}'
+                      "placeUuid" = $1
                     AND
-                      "cardUuid" = '${cardUuid}'
+                      "cardUuid" = $2
                     returning *
-                    `)
+                    `,
+    [placeUuid, cardUuid],
+  )
 
-  await psql.query(`
+  await psql.query(
+    `
                     UPDATE "Places"
                     SET
-                      "updatedAt" = '${updatedAt}'
+                      "updatedAt" = $1
                       
                     WHERE
-                      "placeUuid" = '${placeUuid}'
+                      "placeUuid" = $2
                     returning *
-                    `)
+                    `,
+    [updatedAt, placeUuid],
+  )
   await psql.clean()
 
   // console.log({ r1, r2 })

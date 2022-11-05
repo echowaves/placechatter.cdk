@@ -101,14 +101,17 @@ export const VALID = {
     await psql.connect()
 
     const count = (
-      await psql.query(`
+      await psql.query(
+        `
         SELECT COUNT(*)
                 FROM "Phones"
                 WHERE 
-                    "uuid" = '${uuid}'
-                AND "phoneNumber" = '${phoneNumber}'
-                AND "token" = '${token}'
-      `)
+                    "uuid" = $1
+                AND "phoneNumber" = $2
+                AND "token" = $3
+      `,
+        [uuid, phoneNumber, token],
+      )
     )?.rows[0]?.count // should never throw
 
     await psql.clean()
@@ -135,17 +138,20 @@ export const VALID = {
     await psql.connect()
 
     const count = (
-      await psql.query(`
+      await psql.query(
+        `
         SELECT COUNT(*)
                 FROM "PlacesPhones"                 
                   WHERE                 
-                    "phoneNumber" = '${phoneNumber}'
+                    "phoneNumber" = $1
                   AND
-                    "placeUuid" = '${placeUuid}'
+                    "placeUuid" = $2
 
                   AND 
                     "role" = 'owner'
-      `)
+      `,
+        [phoneNumber, placeUuid],
+      )
     )?.rows[0]?.count // should never throw
 
     await psql.clean()

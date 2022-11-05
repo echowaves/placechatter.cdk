@@ -24,12 +24,15 @@ export default async function main(
   await psql.connect()
 
   const count = (
-    await psql.query(`
+    await psql.query(
+      `
       SELECT COUNT(*)
               FROM "PlacesCards"
               WHERE 
-                  "placeUuid" = '${placeUuid}'
-    `)
+                  "placeUuid" = $1
+    `,
+      [placeUuid],
+    )
   )?.rows[0]?.count // should never throw
 
   await psql.clean()
@@ -40,18 +43,24 @@ export default async function main(
 
   await psql.connect()
 
-  await psql.query(`
+  await psql.query(
+    `
                     DELETE from "PlacesPhones"
                     WHERE
-                      "placeUuid" = '${placeUuid}'
+                      "placeUuid" = $1
                     returning *
-                    `)
-  await psql.query(`
+                    `,
+    [placeUuid],
+  )
+  await psql.query(
+    `
                     DELETE from "Places"
                     WHERE
-                      "placeUuid" = '${placeUuid}'
+                      "placeUuid" = $1
                     returning *
-                    `)
+                    `,
+    [placeUuid],
+  )
   // ).rows[0]
 
   await psql.clean()

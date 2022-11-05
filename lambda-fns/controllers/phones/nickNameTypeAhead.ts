@@ -13,13 +13,16 @@ export default async function main(
   await psql.connect()
 
   const count = (
-    await psql.query(`
+    await psql.query(
+      `
     SELECT COUNT(*)
             FROM "Phones"
             WHERE 
-            "nickName" = '${nickName}'
-            AND "phoneNumber" != '${phoneNumber}'
-`)
+            "nickName" = $1
+            AND "phoneNumber" != $2
+`,
+      [nickName, phoneNumber],
+    )
   ).rows[0].count
 
   await psql.clean()

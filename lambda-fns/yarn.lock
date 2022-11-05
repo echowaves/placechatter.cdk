@@ -1238,10 +1238,10 @@ semver@^7.3.5, semver@^7.3.7:
   dependencies:
     lru-cache "^6.0.0"
 
-serverless-postgres@1.10.3:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/serverless-postgres/-/serverless-postgres-1.10.3.tgz#47f89d4f932bd359e83095d15276c22a7cfce4e6"
-  integrity sha512-8D2RrvrHINTO0WvmYEBOAgrKtLn1iex5xxpBLDoPspKwqcpnwyQ+PLL71TDQTdTL60Cv2HyTXjgOZQGarv6pXg==
+serverless-postgres@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/serverless-postgres/-/serverless-postgres-2.0.0.tgz#fbb943c0f855ef140c85de960c247069bc42a0ab"
+  integrity sha512-PBvnktXagXYyz5PlGcHed8iYI3IgylwgnProVIGna/BfENUFkn5lb0f4rGt78/ap1pgRxJnrnIHxhgZtW2HWMw==
   dependencies:
     pg "^8.5.1"
 

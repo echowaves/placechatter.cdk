@@ -22,14 +22,17 @@ export default async function main(
   await psql.connect()
 
   const card = (
-    await psql.query(`
+    await psql.query(
+      `
                     SELECT * from "PlacesCards"
                     WHERE
-                      "cardUuid" = '${cardUuid}'
+                      "cardUuid" = $1
                     AND
-                      "placeUuid" = '${placeUuid}' 
+                      "placeUuid" = $2
                     ORDER BY "sortOrder"
-                    `)
+                    `,
+      [cardUuid, placeUuid],
+    )
   ).rows[0]
 
   if (!card) {
@@ -44,11 +47,14 @@ export default async function main(
   }
 
   const photo = (
-    await psql.query(`
+    await psql.query(
+      `
       SELECT * from "Photos"
-      WHERE "photoUuid" = '${card.photoUuid}'
-      AND "active" = true
-      `)
+      WHERE "photoUuid" = $1
+      AND "active" = $2
+      `,
+      [card.photoUuid, true],
+    )
   ).rows[0]
 
   // console.log({ cardsPhotos })
