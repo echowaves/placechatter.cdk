@@ -18,8 +18,9 @@ export default async function main(
 
   placeUuid: string,
 ) {
-  // await VALID.isValidToken(uuid, phoneNumber, token)
-  await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
+  if (!(await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid))) {
+    throw 'Not a place owner'
+  }
 
   await psql.connect()
 

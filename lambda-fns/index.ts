@@ -16,10 +16,16 @@ import placeCardRead from './controllers/places/placeCardRead'
 import placesFeed from './controllers/places/placesFeed'
 import isValidToken from './controllers/phones/isValidToken'
 import isPlaceOwner from './controllers/phones/isPlaceOwner'
+import placePhoneList from './controllers/phones/placePhoneList'
+import feedbackList from './controllers/feedback/feedbackList'
 import generateUploadUrlForCard from './controllers/places/generateUploadUrlForCard'
 import placeCardPhotoDelete from './controllers/places/placeCardPhotoDelete'
 import placeCardDelete from './controllers/places/placeCardDelete'
 import placeDelete from './controllers/places/placeDelete'
+
+import placePhoneCreate from './controllers/phones/placePhoneCreate'
+import placePhoneDelete from './controllers/phones/placePhoneDelete'
+import feedbackCreate from './controllers/feedback/feedbackCreate'
 
 // ******************************************************
 //                       mutations
@@ -66,6 +72,8 @@ type AppSyncEvent = {
     cardText: string
     cardUuid: string
     photoUuid: string
+
+    feedbackText: string
   }
 }
 
@@ -113,6 +121,20 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.token,
 
         event.arguments.placeUuid,
+      )
+    case 'placePhoneList':
+      return await placePhoneList(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+      )
+    case 'feedbackList':
+      return await feedbackList(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
       )
     // ******************************************************
     //                       mutations
@@ -216,6 +238,33 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.token,
 
         event.arguments.placeUuid,
+      )
+
+    case 'placePhoneCreate':
+      return await placePhoneCreate(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.phoneNumber,
+        event.arguments.placeUuid,
+      )
+    case 'placePhoneDelete':
+      return await placePhoneDelete(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.phoneNumber,
+        event.arguments.placeUuid,
+      )
+    case 'feedbackCreate':
+      return await feedbackCreate(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.feedbackText,
       )
 
     default:

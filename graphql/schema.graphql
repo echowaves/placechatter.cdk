@@ -95,6 +95,13 @@ type PhotoForUpload {
   uploadUrl: String!
 }
 
+type Feedback {
+  uuid: String!
+  phoneNumber: String!
+  feedbackText: String!
+  createdAt: AWSDateTime!
+}
+
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************
@@ -126,6 +133,15 @@ type Query {
     token: String
     placeUuid: String
   ): Boolean!
+
+  placePhoneList(
+    uuid: String
+    phoneNumber: String
+    token: String
+    placeUuid: String
+  ): [PlacePhone]
+
+  feedbackList(uuid: String, phoneNumber: String, token: String): [Feedback]
 }
 
 # ... ******************************************************
@@ -219,6 +235,32 @@ type Mutation {
     token: String
 
     placeUuid: String!
+  ): Boolean!
+
+  placePhoneCreate(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    phone: String
+    placeUuid: String
+  ): PlacePhone
+
+  placePhoneDelete(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    phone: String
+    placeUuid: String
+  ): Boolean!
+
+  feedbackCreate(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    feedbackText: String
   ): Boolean!
 }
 

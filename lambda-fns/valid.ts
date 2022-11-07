@@ -80,6 +80,12 @@ export const VALID = {
     }
   },
 
+  feedbackText: function (param: string) {
+    if (!/^(.|\s){4,2000}$/.test(param)) {
+      throw 'Invalid feedback Text'
+    }
+  },
+
   contentType: function (param: string) {
     if (param !== 'image/png') {
       throw 'Invalid Content Type'

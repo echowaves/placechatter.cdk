@@ -17,9 +17,9 @@ export default async function main(
   cardTitle: string,
   cardText: string,
 ) {
-  // console.log({ uuid, phoneNumber, token })
-  // await VALID.isValidToken(uuid, phoneNumber, token)
-  await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
+  if (!(await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid))) {
+    throw 'Not a place owner'
+  }
 
   await VALID.cardTitle(cardTitle)
   await VALID.cardText(cardText)

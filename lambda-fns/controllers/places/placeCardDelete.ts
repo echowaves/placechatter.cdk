@@ -22,8 +22,9 @@ export default async function main(
 
   cardUuid: string,
 ) {
-  // await VALID.isValidToken(uuid, phoneNumber, token)
-  await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
+  if (!(await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid))) {
+    throw 'Not a place owner'
+  }
 
   const updatedAt = dayjs().format(VALID.dateFormat) // display
 

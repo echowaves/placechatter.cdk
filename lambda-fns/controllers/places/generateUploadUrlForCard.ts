@@ -23,8 +23,9 @@ export default async function main(
 ) {
   const photoUuid = assetKey
 
-  // await VALID.isValidToken(uuid, phoneNumber, token)
-  await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid)
+  if (!(await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid))) {
+    throw 'Not a place owner'
+  }
 
   const createdAt = dayjs().format(VALID.dateFormat) // display
 

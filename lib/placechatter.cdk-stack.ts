@@ -236,6 +236,14 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Query',
       fieldName: 'isPlaceOwner',
     })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'placePhoneList',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'feedbackList',
+    })
 
     // ******************************************************
     //                       mutations
@@ -275,6 +283,19 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     lambdaDs.createResolver({
       typeName: 'Mutation',
       fieldName: 'placeDelete',
+    })
+
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placePhoneCreate',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'placePhoneDelete',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'feedbackCreate',
     })
 
     // CFN Outputs
