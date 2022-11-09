@@ -21,6 +21,7 @@ export default async function main(
       FROM "PlacesPhones"
       WHERE "placeUuid" =  $1
       ORDER BY "phoneNumber"
+      LIMIT 100
     `,
       [placeUuid],
     )

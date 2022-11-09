@@ -17,6 +17,7 @@ export default async function main(
       FROM "Feedbacks"
       WHERE "phoneNumber" =  $1
       ORDER BY "createdAt" DESC
+      LIMIT 10
     `,
       [phoneNumber],
     )
