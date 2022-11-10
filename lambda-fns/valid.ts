@@ -38,39 +38,39 @@ export const VALID = {
     if (!param) {
       throw 'Unconfirmed phone number'
     }
-    if (!/^(\w){128}$/.test(param)) {
+    if (!/^(.|\s){128}$/.test(param)) {
       throw 'Invalid Token format'
     }
   },
 
   placeName: function (param: string) {
-    if (!/^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)) {
+    if (!/^(.){4,50}$/.test(param)) {
       throw 'Invalid Place Name format'
     }
   },
   streetAddress: function (param: string) {
-    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+    if (!/^(.){2,50}$/.test(param)) {
       throw 'Invalid Street Address format'
     }
   },
   city: function (param: string) {
-    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+    if (!/^(.){2,50}$/.test(param)) {
       throw 'Invalid City format'
     }
   },
   region: function (param: string) {
-    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+    if (!/^(.){2,50}$/.test(param)) {
       throw 'Invalid Region format'
     }
   },
   postalCode: function (param: string) {
-    if (!/^([\w_@./#&+-\s]){2,50}$/.test(param)) {
+    if (!/^(.){2,50}$/.test(param)) {
       throw 'Invalid Postal Code format'
     }
   },
 
   cardTitle: function (param: string) {
-    if (!/^([\w\s'/_@.#&+-;~]){4,50}$/.test(param)) {
+    if (!/^(.){4,50}$/.test(param)) {
       throw 'Invalid Card Title'
     }
   },
