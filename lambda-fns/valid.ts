@@ -2,6 +2,7 @@ import psql from './psql'
 
 export const VALID = {
   dateFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
+  // renderDateFormat: 'HH:mm MMM DD YYYY',
 
   phoneNumber: function (phoneNumber: string) {
     if (!phoneNumber) {
