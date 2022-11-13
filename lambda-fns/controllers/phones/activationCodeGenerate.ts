@@ -20,6 +20,18 @@ export default async function main(uuid: string, phoneNumber: string) {
   const smsCode = srs({ length: 4, alphanumeric: true })
   console.log({ smsCode })
 
+  await psql.query(
+    `
+      DELETE FROM "Phones"
+        WHERE
+          "uuid" = $1
+        OR
+          "phoneNumber" = $2
+      returning *         
+      `,
+    [uuid, phoneNumber],
+  )
+
   const activationCode = (
     await psql.query(
       `
