@@ -50,6 +50,7 @@ type PlacePhone {
   placeUuid: String!
   phoneNumber: String!
   role: String!
+  nickName: String
   createdAt: AWSDateTime!
 }
 

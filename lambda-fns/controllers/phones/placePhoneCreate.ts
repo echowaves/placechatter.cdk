@@ -47,7 +47,18 @@ export default async function main(
     )
   ).rows[0]
 
+  const phoneJoin = (
+    await psql.query(
+      `
+                  SELECT * FROM "Phones"
+                  WHERE 
+                  "phoneNumber" = $1
+                    `,
+      [phone],
+    )
+  ).rows[0]
+
   await psql.clean()
 
-  return placePhone
+  return { ...placePhone, nickName: phoneJoin?.nickName }
 }
