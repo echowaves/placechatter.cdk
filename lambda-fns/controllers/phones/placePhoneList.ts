@@ -17,10 +17,10 @@ export default async function main(
   const placesPhones = (
     await psql.query(
       `
-      SELECT "PlacesPhones", "Phones"."nickName", 
-      FROM "PlacesPhones", "Phones"
-      LEFT JOIN "PlacesPhones" ON "PlacesPhones"."phoneNumber" = "Phones"."phoneNumber"
-      WHERE "PlacesPhones"."placeUuid" =  $1
+      SELECT "PlacesPhones".*, "Phones"."nickName"
+      FROM "PlacesPhones"
+      LEFT JOIN "Phones" ON "PlacesPhones"."phoneNumber" = "Phones"."phoneNumber"
+      WHERE "PlacesPhones"."placeUuid" = $1
       ORDER BY "PlacesPhones"."phoneNumber"
       LIMIT 100
     `,
