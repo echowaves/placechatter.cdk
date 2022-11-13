@@ -257,7 +257,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.phoneNumber,
         event.arguments.token,
 
-        event.arguments.phoneNumber,
+        event.arguments.phone,
         event.arguments.placeUuid,
       )
     case 'feedbackCreate':

@@ -23,6 +23,8 @@ export default async function main(
     throw 'Not a place owner'
   }
 
+  VALID.phoneNumber(phone)
+
   if (phone === phoneNumber) {
     throw 'Unable to delete self'
   }
