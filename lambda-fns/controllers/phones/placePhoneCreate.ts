@@ -22,6 +22,9 @@ export default async function main(
   if (!(await VALID.isPlaceOwner(uuid, phoneNumber, token, placeUuid))) {
     throw 'Not a place owner'
   }
+
+  VALID.phoneNumber(phone)
+
   const createdAt = dayjs().format(VALID.dateFormat) // display
 
   await psql.connect()
@@ -47,6 +50,7 @@ export default async function main(
     )
   ).rows[0]
 
+  // console.log({ placePhone })
   const phoneJoin = (
     await psql.query(
       `
@@ -57,6 +61,8 @@ export default async function main(
       [phone],
     )
   ).rows[0]
+
+  // console.log({ phoneJoin })
 
   await psql.clean()
 

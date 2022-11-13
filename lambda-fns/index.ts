@@ -47,9 +47,11 @@ type AppSyncEvent = {
     commentId: bigint
     video: boolean
     assetKey: string
-    nickName: string
-    token: string
-    phoneNumber: string
+    nickName: string // used for authentication
+    token: string // used for authentication
+    phoneNumber: string // used for authentication
+    phone: string // to avoid clashing with authentication phoneNumber
+
     smsCode: string
 
     placeName: string
@@ -246,7 +248,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.phoneNumber,
         event.arguments.token,
 
-        event.arguments.phoneNumber,
+        event.arguments.phone,
         event.arguments.placeUuid,
       )
     case 'placePhoneDelete':
