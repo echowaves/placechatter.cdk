@@ -21,6 +21,7 @@ import feedbackList from './controllers/feedback/feedbackList'
 import generateUploadUrlForCard from './controllers/places/generateUploadUrlForCard'
 import placeCardPhotoDelete from './controllers/places/placeCardPhotoDelete'
 import placeCardDelete from './controllers/places/placeCardDelete'
+import placeCardSwap from './controllers/places/placeCardSwap'
 import placeDelete from './controllers/places/placeDelete'
 
 import placePhoneCreate from './controllers/phones/placePhoneCreate'
@@ -73,6 +74,8 @@ type AppSyncEvent = {
     cardTitle: string
     cardText: string
     cardUuid: string
+    cardUuid1: string
+    cardUuid2: string
     photoUuid: string
 
     feedbackText: string
@@ -232,6 +235,17 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.placeUuid,
 
         event.arguments.cardUuid,
+      )
+    case 'placeCardSwap':
+      return await placeCardSwap(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+
+        event.arguments.cardUuid1,
+        event.arguments.cardUuid2,
       )
     case 'placeDelete':
       return await placeDelete(

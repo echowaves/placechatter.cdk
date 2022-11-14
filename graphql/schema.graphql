@@ -230,6 +230,17 @@ type Mutation {
     cardUuid: String!
   ): Boolean!
 
+  placeCardSwap(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    placeUuid: String!
+
+    cardUuid1: String!
+    cardUuid2: String!
+  ): Boolean!
+
   placeDelete(
     uuid: String
     phoneNumber: String

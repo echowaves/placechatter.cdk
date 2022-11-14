@@ -19,6 +19,9 @@ export default async function main(
   placeUuid: string,
   cardUuid: string,
 ) {
+  VALID.uuid(placeUuid)
+  VALID.uuid(cardUuid)
+
   await psql.connect()
 
   const card = (

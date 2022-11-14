@@ -23,6 +23,7 @@ export default async function main(
     throw 'Not a place owner'
   }
 
+  VALID.uuid(cardUuid)
   VALID.cardTitle(cardTitle)
   VALID.cardText(cardText)
 
