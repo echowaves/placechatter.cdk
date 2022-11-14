@@ -67,8 +67,8 @@ export default async function main(
 
   const updatedAt = dayjs().format(VALID.dateFormat) // display
 
-  const card1 = (await placeCardRead(placeUuid, cardUuid1)).card
-  const card2 = (await placeCardRead(placeUuid, cardUuid2)).card
+  const card1 = await placeCardRead(placeUuid, cardUuid1)
+  const card2 = await placeCardRead(placeUuid, cardUuid2)
 
   const sort1 = card1.sortOrder
   const sort2 = card2.sortOrder
