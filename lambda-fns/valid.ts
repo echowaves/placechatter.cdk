@@ -24,7 +24,7 @@ export const VALID = {
   },
 
   nickName: function (param: string) {
-    if (!/^([a-zA-Z0-9_-]){4,30}$/.test(param)) {
+    if (!/^([a-z0-9_-]){4,30}$/.test(param)) {
       throw 'Invalid NickName format'
     }
   },
