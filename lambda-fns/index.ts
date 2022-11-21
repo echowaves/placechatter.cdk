@@ -18,6 +18,11 @@ import isValidToken from './controllers/phones/isValidToken'
 import isPlaceOwner from './controllers/phones/isPlaceOwner'
 import placePhoneList from './controllers/phones/placePhoneList'
 import feedbackList from './controllers/feedback/feedbackList'
+import placeChatList from './controllers/chats/placeChatList'
+import placeChatReadDefault from './controllers/chats/placeChatReadDefault'
+import unreadCounts from './controllers/chats/unreadCounts'
+import messageList from './controllers/chats/messageList'
+
 import generateUploadUrlForCard from './controllers/places/generateUploadUrlForCard'
 import placeCardPhotoDelete from './controllers/places/placeCardPhotoDelete'
 import placeCardDelete from './controllers/places/placeCardDelete'
@@ -79,6 +84,9 @@ type AppSyncEvent = {
     photoUuid: string
 
     feedbackText: string
+
+    chatUuid: string
+    lastLoaded: string
   }
 }
 
@@ -141,6 +149,39 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.phoneNumber,
         event.arguments.token,
       )
+
+    case 'placeChatList':
+      return await placeChatList(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+      )
+    case 'placeChatReadDefault':
+      return await placeChatReadDefault(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.placeUuid,
+      )
+    case 'unreadCounts':
+      return await unreadCounts(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+      )
+    case 'messageList':
+      return await messageList(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.chatUuid,
+        event.arguments.lastLoaded,
+      )
+
     // ******************************************************
     //                       mutations
     // ******************************************************

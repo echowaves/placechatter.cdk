@@ -103,6 +103,29 @@ type Feedback {
   createdAt: AWSDateTime!
 }
 
+type PlaceChat {
+  placeUuid: String!
+  chatUuid: String!
+  chatName: String!
+  defaultChat: Boolean! # should be only one defaultChat true
+  createdAt: AWSDateTime!
+}
+
+type ChatPhone {
+  chatUuid: String!
+  phoneNumber: String!
+  unread: Int!
+  optIn: Boolean!
+}
+
+type ChatMessage {
+  chatUuid: String!
+  messageUuid: String!
+  createdBy: String! #phone number
+  messageText: String!
+  createdAt: AWSDateTime!
+}
+
 # ... ******************************************************
 # ...                   queries
 # ... ******************************************************
@@ -132,6 +155,7 @@ type Query {
     uuid: String
     phoneNumber: String
     token: String
+
     placeUuid: String
   ): Boolean!
 
@@ -139,10 +163,38 @@ type Query {
     uuid: String
     phoneNumber: String
     token: String
+
     placeUuid: String
   ): [PlacePhone]
 
   feedbackList(uuid: String, phoneNumber: String, token: String): [Feedback]
+
+  placeChatList(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    placeUuid: String!
+  ): [PlaceChat]!
+
+  placeChatReadDefault(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    placeUuid: String!
+  ): PlaceChat
+
+  # down below is :TODO
+  unreadCounts(uuid: String, phoneNumber: String, token: String): [ChatPhone]! #list of all unread counts for given phoneNumber
+  messageList(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    chatUuid: String!
+    lastLoaded: AWSDateTime!
+  ): [ChatMessage]!
 }
 
 # ... ******************************************************
@@ -274,6 +326,37 @@ type Mutation {
 
     feedbackText: String
   ): Feedback!
+
+  placeChatCreateDefault(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    placeUuid: String
+    chatUuid: String
+  ): PlaceChat
+
+  # messages
+  messageSend(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    chatUuid: String!
+
+    messageUuid: String!
+    messageText: String!
+    pendingArg: Boolean!
+    chatPhotoHashArg: String!
+  ): ChatMessage!
+
+  unreadCountReset(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    chatUuid: String!
+  ): Boolean!
 }
 
 # ... ******************************************************
@@ -281,6 +364,10 @@ type Mutation {
 # ... ******************************************************
 
 # only works with nullable return types, the return type must match corresponding mutation
-# type Subscription {
-#   onSendMessage(chatUuid: String)
-# }
+type Subscription {
+  onSendMessage(chatUuid: String): ChatMessage
+    @aws_subscribe(mutations: ["messageSend"])
+
+  # onHelloWorld(helloMessage: String): String
+  #   @aws_subscribe(mutations: ["helloWorld"])
+}

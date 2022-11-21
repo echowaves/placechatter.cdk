@@ -1,7 +1,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface
-      .createTable('ChatsUpdates', {
+      .createTable('ChatsPhones', {
         chatUuid: {
           type: Sequelize.UUID,
           allowNull: false,
@@ -10,14 +10,18 @@ module.exports = {
           type: Sequelize.STRING(20),
           allowNull: false,
         },
-
+        optIn: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: true,
+        },
         lastReadAt: {
           allowNull: false,
           type: Sequelize.DATE,
         },
       })
       .then(() =>
-        queryInterface.addIndex('ChatsUpdates', ['chatUuid', 'phoneNumber'], {
+        queryInterface.addIndex('ChatsPhones', ['chatUuid', 'phoneNumber'], {
           unique: true,
         }),
       ),
@@ -25,5 +29,5 @@ module.exports = {
   down: (
     queryInterface,
     Sequelize, // eslint-disable-line no-unused-vars
-  ) => queryInterface.dropTable('ChatsUpdates'),
+  ) => queryInterface.dropTable('ChatsPhones'),
 }

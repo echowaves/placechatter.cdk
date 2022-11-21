@@ -3,10 +3,6 @@ import * as s3 from '@aws-cdk/aws-s3'
 import * as s3n from '@aws-cdk/aws-s3-notifications'
 import * as ec2 from '@aws-cdk/aws-ec2'
 import * as lambda from '@aws-cdk/aws-lambda'
-import * as cloudfront from '@aws-cdk/aws-cloudfront'
-import * as origins from '@aws-cdk/aws-cloudfront-origins'
-import * as acm from '@aws-cdk/aws-certificatemanager'
-import * as route53 from '@aws-cdk/aws-route53'
 import * as logs from '@aws-cdk/aws-logs'
 
 import { LambdaFunction } from '@aws-cdk/aws-events-targets'
@@ -14,8 +10,6 @@ import { Rule, Schedule } from '@aws-cdk/aws-events'
 import * as rds from '@aws-cdk/aws-rds'
 import * as appsync from '@aws-cdk/aws-appsync'
 import * as iam from '@aws-cdk/aws-iam'
-
-import * as cognito from '@aws-cdk/aws-cognito'
 
 // import {ISecret, Secret,} from "@aws-cdk/aws-secretsmanager"
 // import * as path from 'path'
@@ -243,6 +237,23 @@ export class PlaceChatterCdkStack extends cdk.Stack {
     lambdaDs.createResolver({
       typeName: 'Query',
       fieldName: 'feedbackList',
+    })
+
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'placeChatList',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'placeChatReadDefault',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'unreadCounts',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'messageList',
     })
 
     // ******************************************************
