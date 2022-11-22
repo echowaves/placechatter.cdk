@@ -114,8 +114,9 @@ type PlaceChat {
 type ChatPhone {
   chatUuid: String!
   phoneNumber: String!
-  unread: Int!
   optIn: Boolean!
+  lastReadAt: AWSDateTime!
+  unread: Int!
 }
 
 type ChatMessage {
@@ -177,15 +178,14 @@ type Query {
     placeUuid: String!
   ): [PlaceChat]!
 
-  placeChatReadDefault(
+  placeChatReadDefault( # read default chat for place, create one if necessary
     uuid: String
     phoneNumber: String
     token: String
 
     placeUuid: String!
-  ): PlaceChat
+  ): PlaceChat!
 
-  # down below is :TODO
   unreadCounts(uuid: String, phoneNumber: String, token: String): [ChatPhone]! #list of all unread counts for given phoneNumber
   messageList(
     uuid: String
@@ -195,6 +195,14 @@ type Query {
     chatUuid: String!
     lastLoaded: AWSDateTime!
   ): [ChatMessage]!
+
+  isSubscribedToChat(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    chatUuid: String!
+  ): Boolean!
 }
 
 # ... ******************************************************
@@ -327,16 +335,23 @@ type Mutation {
     feedbackText: String
   ): Feedback!
 
-  placeChatCreateDefault(
+  # messages/chats
+  chatSubscribe(
     uuid: String
     phoneNumber: String
     token: String
 
-    placeUuid: String
-    chatUuid: String
-  ): PlaceChat
+    chatUuid: String!
+  ): Boolean!
 
-  # messages
+  chatUnsubscribe(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    chatUuid: String!
+  ): Boolean!
+
   messageSend(
     uuid: String
     phoneNumber: String

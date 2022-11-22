@@ -5,6 +5,7 @@ import psql from '../../psql'
 import { VALID } from '../../valid'
 
 import * as dayjs from 'dayjs'
+import { v4 as uuidv4 } from 'uuid'
 
 export default async function main(
   uuid: string,
@@ -18,7 +19,7 @@ export default async function main(
 
   await psql.connect()
 
-  const placeChats = (
+  let placeChats = (
     await psql.query(
       `
                     SELECT * FROM "PlacesChats"
@@ -31,10 +32,35 @@ export default async function main(
     )
   ).rows
 
+  if (placeChats.length === 0) {
+    const chatUuid = uuidv4()
+    const createdAt = dayjs().format(VALID.dateFormat) // display
+
+    placeChats = (
+      await psql.query(
+        `
+                      INSERT INTO "PlacesChats"
+                      (
+                        "placeUuid",
+                        "chatUuid",
+                        "chatName",
+                        "defaultChat",
+                        "createdAt"
+                    ) values (
+                      $1,
+                      $2,
+                      $3,
+                      $4,
+                      $5
+                    )
+                    returning *                    
+                      `,
+        [placeUuid, chatUuid, 'main chat', true, createdAt],
+      )
+    ).rows
+  }
+
   await psql.clean()
 
-  if (placeChats.length === 0) {
-    return null
-  }
   return placeChats[0]
 }

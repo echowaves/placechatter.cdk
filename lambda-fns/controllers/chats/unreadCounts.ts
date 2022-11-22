@@ -12,34 +12,25 @@ export default async function main(
   token: string,
 ) {
   await VALID.isValidToken(uuid, phoneNumber, token)
-  VALID.feedbackText(feedbackText)
-
-  const createdAt = dayjs().format(VALID.dateFormat) // display
 
   await psql.connect()
 
-  const feedback = (
+  const unreadCounts = (
     await psql.query(
       `
-                    INSERT INTO "Feedbacks"
-                    (
-                        "uuid",
-                        "phoneNumber",
-                        "feedbackText",
-                        "createdAt"
-                    ) values (
-                      $1,
-                      $2,
-                      $3,
-                      $4
-                    )
-                    returning *
-                    `,
-      [uuid, phoneNumber, feedbackText, createdAt],
+          SELECT
+            cp.*,
+            COUNT(CASE WHEN m."createdAt" > cp."lastReadAt" THEN 1 END) AS "unread"
+          FROM "ChatsPhones" cp
+            INNER JOIN "ChatsMessages" cm ON cp."chatUuid" = cm."chatUuid"
+          WHERE cp."phoneNumber" = $1
+          GROUP BY cp."chatUuid", cp."updatedAt"
+      `,
+      [phoneNumber],
     )
-  ).rows[0]
+  ).rows
 
   await psql.clean()
 
-  return feedback
+  return unreadCounts
 }

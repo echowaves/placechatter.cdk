@@ -255,6 +255,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Query',
       fieldName: 'messageList',
     })
+    lambdaDs.createResolver({
+      typeName: 'Query',
+      fieldName: 'isSubscribedToChat',
+    })
 
     // ******************************************************
     //                       mutations

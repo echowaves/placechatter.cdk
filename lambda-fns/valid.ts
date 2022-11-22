@@ -4,6 +4,16 @@ export const VALID = {
   dateFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
   // renderDateFormat: 'HH:mm MMM DD YYYY',
 
+  dateTime: function (dateTime: string) {
+    if (
+      !/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]/.test(
+        dateTime,
+      )
+    ) {
+      throw 'Invalid date time format'
+    }
+  },
+
   phoneNumber: function (phoneNumber: string) {
     if (!phoneNumber) {
       throw 'Need to confirm phone number'

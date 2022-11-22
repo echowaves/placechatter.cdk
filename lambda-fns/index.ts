@@ -22,6 +22,7 @@ import placeChatList from './controllers/chats/placeChatList'
 import placeChatReadDefault from './controllers/chats/placeChatReadDefault'
 import unreadCounts from './controllers/chats/unreadCounts'
 import messageList from './controllers/chats/messageList'
+import isSubscribedToChat from './controllers/chats/isSubscribedToChat'
 
 import generateUploadUrlForCard from './controllers/places/generateUploadUrlForCard'
 import placeCardPhotoDelete from './controllers/places/placeCardPhotoDelete'
@@ -180,6 +181,14 @@ exports.handler = async (event: AppSyncEvent) => {
 
         event.arguments.chatUuid,
         event.arguments.lastLoaded,
+      )
+    case 'isSubscribedToChat':
+      return await isSubscribedToChat(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.chatUuid,
       )
 
     // ******************************************************

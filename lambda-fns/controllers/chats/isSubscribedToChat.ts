@@ -12,33 +12,29 @@ export default async function main(
   token: string,
 
   chatUuid: string,
-  lastLoaded: string,
 ) {
   await VALID.isValidToken(uuid, phoneNumber, token)
   VALID.uuid(chatUuid)
-  VALID.dateTime(lastLoaded)
 
   const limit = 20
 
   await psql.connect()
 
-  const messages = (
+  const count = (
     await psql.query(
       `
-  SELECT *
-      FROM "ChatsMessages"
+  SELECT count(*)
+      FROM "ChatsPhones"
       WHERE 
         "chatUuid" = $1
       AND
-        "createdAt" < $2
-      ORDER BY "createdAt" DESC
-      LIMIT $3
+        "phoneNumber" = $2      
       `,
-      [chatUuid, lastLoaded, limit],
+      [chatUuid, phoneNumber],
     )
-  ).rows
+  ).rows[0].count
 
   await psql.clean()
 
-  return messages
+  return count === 1 ? true : false
 }
