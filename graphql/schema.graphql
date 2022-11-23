@@ -376,7 +376,7 @@ type Mutation {
 
 # only works with nullable return types, the return type must match corresponding mutation
 type Subscription {
-  onSendMessage(chatUuid: String): ChatMessage
+  onSendMessage(chatUuidArg: String): ChatMessage
     @aws_subscribe(mutations: ["messageSend"])
 
   # onHelloWorld(helloMessage: String): String
