@@ -19,12 +19,21 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DATE,
         },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+        },
       })
       .then(() =>
         queryInterface.addIndex('ChatsPhones', ['chatUuid', 'phoneNumber'], {
           unique: true,
         }),
-      ),
+      )
+      .then(() => queryInterface.addIndex('ChatsPhones', ['updatedAt'])),
 
   down: (
     queryInterface,

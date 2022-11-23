@@ -55,6 +55,18 @@ export default async function main(
     )
   ).rows[0]
 
+  await psql.query(
+    // update all chats
+    `
+                  UPDATE "ChatsPhones"
+                  SET
+                    "updatedAt" = $1
+                  WHERE
+                    "chatUuid" = $2
+                    `,
+    [createdAt, chatUuid],
+  )
+
   await psql.clean()
 
   return message

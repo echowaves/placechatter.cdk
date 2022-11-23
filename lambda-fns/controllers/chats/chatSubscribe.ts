@@ -36,16 +36,20 @@ export default async function main(
                       "chatUuid",
                       "phoneNumber",
                       "optIn",
-                      "lastReadAt"
+                      "lastReadAt",
+                      "createdAt",
+                      "updatedAt"              
                   ) values (
                     $1,
                     $2,
                     $3,
-                    $4
+                    $4,
+                    $5,
+                    $6
                   )
                   returning *                    
                     `,
-    [chatUuid, phoneNumber, true, createdAt],
+    [chatUuid, phoneNumber, true, createdAt, createdAt, createdAt],
   )
 
   await psql.clean()

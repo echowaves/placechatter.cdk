@@ -117,6 +117,7 @@ type ChatPhone {
   optIn: Boolean!
   lastReadAt: AWSDateTime!
   unread: Int!
+  updatedAt: AWSDateTime!
 }
 
 type ChatMessage {
