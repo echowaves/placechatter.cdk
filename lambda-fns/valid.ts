@@ -1,5 +1,8 @@
 import psql from './psql'
 
+import { validate as uuidValidate } from 'uuid'
+import { version as uuidVersion } from 'uuid'
+
 export const VALID = {
   dateFormat: 'YYYY-MM-DD HH:mm:ss.SSS',
   // renderDateFormat: 'HH:mm MMM DD YYYY',
@@ -25,9 +28,10 @@ export const VALID = {
 
   uuid: function (uuid: string) {
     if (
-      !/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi.test(
-        uuid,
-      )
+      // !/^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi.test(
+      //   uuid,
+      // )
+      !(uuidValidate(uuid) && uuidVersion(uuid) === 4)
     ) {
       throw 'Invalid UUID format'
     }

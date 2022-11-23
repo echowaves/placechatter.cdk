@@ -358,11 +358,7 @@ type Mutation {
     token: String
 
     chatUuid: String!
-
-    messageUuid: String!
     messageText: String!
-    pendingArg: Boolean!
-    chatPhotoHashArg: String!
   ): ChatMessage!
 
   unreadCountReset(

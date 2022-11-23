@@ -5,9 +5,6 @@ import nickNameTypeAhead from './controllers/phones/nickNameTypeAhead'
 import activationCodeGenerate from './controllers/phones/activationCodeGenerate'
 import phoneActivate from './controllers/phones/phoneActivate'
 
-// ******************************************************
-//                       mutations
-// ******************************************************
 import placeCreate from './controllers/places/placeCreate'
 import placeCardCreate from './controllers/places/placeCardCreate'
 import placeCardSave from './controllers/places/placeCardSave'
@@ -24,6 +21,10 @@ import unreadCounts from './controllers/chats/unreadCounts'
 import messageList from './controllers/chats/messageList'
 import isSubscribedToChat from './controllers/chats/isSubscribedToChat'
 
+// ******************************************************
+//                       mutations
+// ******************************************************
+
 import generateUploadUrlForCard from './controllers/places/generateUploadUrlForCard'
 import placeCardPhotoDelete from './controllers/places/placeCardPhotoDelete'
 import placeCardDelete from './controllers/places/placeCardDelete'
@@ -32,7 +33,13 @@ import placeDelete from './controllers/places/placeDelete'
 
 import placePhoneCreate from './controllers/phones/placePhoneCreate'
 import placePhoneDelete from './controllers/phones/placePhoneDelete'
+
 import feedbackCreate from './controllers/feedback/feedbackCreate'
+
+import chatSubscribe from './controllers/chats/chatSubscribe'
+import chatUnsubscribe from './controllers/chats/chatUnsubscribe'
+import messageSend from './controllers/chats/messageSend'
+import unreadCountReset from './controllers/chats/unreadCountReset'
 
 // ******************************************************
 //                       mutations
@@ -88,6 +95,8 @@ type AppSyncEvent = {
 
     chatUuid: string
     lastLoaded: string
+
+    messageText: string
   }
 }
 
@@ -331,6 +340,43 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.token,
 
         event.arguments.feedbackText,
+      )
+
+    case 'chatSubscribe':
+      return await chatSubscribe(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.chatUuid,
+      )
+
+    case 'chatUnsubscribe':
+      return await chatUnsubscribe(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.chatUuid,
+      )
+
+    case 'messageSend':
+      return await messageSend(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.chatUuid,
+        event.arguments.messageText,
+      )
+
+    case 'unreadCountReset':
+      return await unreadCountReset(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.chatUuid,
       )
 
     default:

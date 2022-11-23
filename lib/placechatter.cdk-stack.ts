@@ -317,6 +317,23 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       fieldName: 'feedbackCreate',
     })
 
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'chatSubscribe',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'chatUnsubscribe',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'messageSend',
+    })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'unreadCountReset',
+    })
+
     // CFN Outputs
     new cdk.CfnOutput(this, 'AppSyncAPIURL', {
       value: api.graphqlUrl,
