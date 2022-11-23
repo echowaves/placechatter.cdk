@@ -19,6 +19,7 @@ export default async function main(
   messageText: string,
 ) {
   // console.log({ uuid, phoneNumber, token })
+
   await VALID.isValidToken(uuid, phoneNumber, token)
   VALID.uuid(chatUuid)
 

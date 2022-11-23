@@ -97,6 +97,13 @@ type AppSyncEvent = {
     lastLoaded: string
 
     messageText: string
+
+    uuidArg: string
+    phoneNumberArg: string
+    tokenArg: string
+
+    chatUuidArg: string
+    messageTextArg: string
   }
 }
 
@@ -362,12 +369,12 @@ exports.handler = async (event: AppSyncEvent) => {
 
     case 'messageSend':
       return await messageSend(
-        event.arguments.uuid,
-        event.arguments.phoneNumber,
-        event.arguments.token,
+        event.arguments.uuidArg,
+        event.arguments.phoneNumberArg,
+        event.arguments.tokenArg,
 
-        event.arguments.chatUuid,
-        event.arguments.messageText,
+        event.arguments.chatUuidArg,
+        event.arguments.messageTextArg,
       )
 
     case 'unreadCountReset':
