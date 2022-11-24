@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid'
 
 import { plainToClass } from 'class-transformer'
 import Photo from '../../models/photo'
+import placeChatList from '../chats/placeChatList'
 
 export default async function main(
   uuid: string,
@@ -53,6 +54,47 @@ export default async function main(
                     `,
     [placeUuid],
   )
+
+  // delete all placeChats
+  const placeChats = await placeChatList(
+    uuid,
+    phoneNumber,
+    token,
+
+    placeUuid,
+  )
+
+  placeChats.forEach(async (placeChat: { chatUuid: any }) => {
+    await psql.query(
+      `
+                      DELETE from "ChatsMessages"
+                      WHERE
+                        "chatUuid" = $1
+                      returning *
+                      `,
+      [placeChat.chatUuid],
+    )
+    await psql.query(
+      `
+                      DELETE from "ChatsPhones"
+                      WHERE
+                        "chatUuid" = $1
+                      returning *
+                      `,
+      [placeChat.chatUuid],
+    )
+    await psql.query(
+      `
+                      DELETE from "PlacesChats"
+                      WHERE
+                        "chatUuid" = $1
+                      returning *
+                      `,
+      [placeChat.chatUuid],
+    )
+  })
+
+  // now delete the place
   await psql.query(
     `
                     DELETE from "Places"
