@@ -4,6 +4,10 @@ import * as s3n from '@aws-cdk/aws-s3-notifications'
 import * as ec2 from '@aws-cdk/aws-ec2'
 import * as lambda from '@aws-cdk/aws-lambda'
 import * as logs from '@aws-cdk/aws-logs'
+import {
+  AwsCustomResource,
+  AwsCustomResourcePolicy,
+} from '@aws-cdk/custom-resources'
 
 import { LambdaFunction } from '@aws-cdk/aws-events-targets'
 import { Rule, Schedule } from '@aws-cdk/aws-events'
@@ -99,6 +103,46 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       },
     )
 
+    // Configure SNS using custom resource
+    // SNS Attributes
+    const setParameters = {
+      attributes: {
+        MonthlySpendLimit: String(50), // $50 per month, change here and redeploy when aws support increase the spending limit for sns sms
+        // DeliveryStatusIAMRole: statusRole.roleArn,
+        // DeliveryStatusSuccessSamplingRate: String(statusSamplingRate),
+        DefaultSenderID: 'PlaceChater', // !!!! can't be more than 11 characters
+        DefaultSMSType: 'Transactional',
+        // UsageReportS3Bucket: bucket.bucketName,
+      },
+    }
+    // const deleteParameters = {
+    //   attributes: {
+    //     MonthlySpendLimit: '',
+    //     DeliveryStatusIAMRole: '',
+    //     DeliveryStatusSuccessSamplingRate: '0',
+    //     DefaultSenderID: '',
+    //     UsageReportS3Bucket: '',
+    //   },
+    // }
+
+    new AwsCustomResource(this, 'snsConfig', {
+      onUpdate: {
+        service: 'SNS',
+        action: 'setSMSAttributes',
+        parameters: setParameters,
+        physicalResourceId: {},
+      },
+      // onDelete: {
+      //   service: 'SNS',
+      //   action: 'setSMSAttributes',
+      //   parameters: deleteParameters,
+      //   physicalResourceId: {},
+      // },
+      policy: AwsCustomResourcePolicy.fromSdkCalls({ resources: ['*'] }),
+      logRetention: 7,
+    })
+
+    
     // create a layer
     // const ffmpegLayer = lambda.LayerVersion.fromLayerVersionArn(this, 'ffmpegLayer',
     //   'arn:aws:lambda:us-east-1:963958500685:layer:ffmpeg:1'

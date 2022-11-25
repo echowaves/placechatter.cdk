@@ -58,6 +58,8 @@
     "@aws-cdk/aws-s3-notifications": "1.181.0",
     "@aws-cdk/aws-secretsmanager": "1.181.0",
     "@aws-cdk/core": "1.181.0",
+    "@aws-cdk/aws-sns": "1.181.0",
+    "@aws-cdk/custom-resources": "1.181.0",
     "dayjs": "1.11.6",
     "global": "4.4.0",
     "node-fetch": "3.3.0",
