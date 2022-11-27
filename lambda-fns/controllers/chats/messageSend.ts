@@ -67,7 +67,16 @@ export default async function main(
     [createdAt, chatUuid],
   )
 
+  const { nickName } = await psql.query(
+    `
+    SELECT *
+    FROM "Phones"
+    WHERE "phoneNumber" = $1
+    `,
+    [phoneNumber],
+  ).rows[0]
+
   await psql.clean()
 
-  return message
+  return { ...message, nickName }
 }

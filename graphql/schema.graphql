@@ -124,6 +124,7 @@ type ChatMessage {
   chatUuid: String!
   messageUuid: String!
   createdBy: String! #phone number
+  nickName: String!
   messageText: String!
   createdAt: AWSDateTime!
 }

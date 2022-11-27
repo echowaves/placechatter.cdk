@@ -25,8 +25,9 @@ export default async function main(
   const messages = (
     await psql.query(
       `
-  SELECT *
-      FROM "ChatsMessages"
+  SELECT cm.*, ph."nickName"
+      FROM "ChatsMessages" cm
+      INNER JOIN "Phones" ph ON cm."createdBy" = ph."phoneNumber"
       WHERE 
         "chatUuid" = $1
       AND

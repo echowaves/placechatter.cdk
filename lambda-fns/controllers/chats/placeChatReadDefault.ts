@@ -55,7 +55,7 @@ export default async function main(
                     )
                     returning *                    
                       `,
-        [placeUuid, chatUuid, 'main chat', true, createdAt],
+        [placeUuid, chatUuid, 'place chat', true, createdAt],
       )
     ).rows
   }
