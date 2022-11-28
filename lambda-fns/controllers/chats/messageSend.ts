@@ -6,8 +6,6 @@ import { VALID } from '../../valid'
 
 import * as dayjs from 'dayjs'
 
-import { v4 as uuidv4 } from 'uuid'
-
 import chatSubscribe from './chatSubscribe'
 
 export default async function main(
@@ -22,6 +20,7 @@ export default async function main(
   // console.log({ uuid, phoneNumber, token })
 
   await VALID.isValidToken(uuidArg, phoneNumberArg, tokenArg)
+  VALID.uuid(messageUuidArg)
   VALID.uuid(chatUuidArg)
 
   await chatSubscribe(uuidArg, phoneNumberArg, tokenArg, chatUuidArg)
