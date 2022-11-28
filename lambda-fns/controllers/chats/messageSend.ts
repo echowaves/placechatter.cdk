@@ -60,6 +60,7 @@ export default async function main(
       ],
     )
   ).rows[0]
+  // console.log({ message })
 
   await psql.query(
     // update all chats
@@ -73,16 +74,19 @@ export default async function main(
     [createdAt, chatUuidArg],
   )
 
-  const { nickName } = await psql.query(
-    `
+  const { nickName } = (
+    await psql.query(
+      `
     SELECT *
     FROM "Phones"
     WHERE "phoneNumber" = $1
     `,
-    [phoneNumberArg],
+      [phoneNumberArg],
+    )
   ).rows[0]
 
   await psql.clean()
 
+  // console.log({ ...message, nickName })
   return { ...message, nickName }
 }
