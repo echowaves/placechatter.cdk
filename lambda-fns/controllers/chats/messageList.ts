@@ -20,6 +20,7 @@ export default async function main(
 
   const limit = 20
 
+  // console.log({ lastLoaded })
   await psql.connect()
 
   const messages = (
@@ -31,13 +32,15 @@ export default async function main(
       WHERE 
         "chatUuid" = $1
       AND
-        "createdAt" < $2
-      ORDER BY "createdAt" DESC
+        cm."createdAt" < $2
+      ORDER BY cm."createdAt" DESC
       LIMIT $3
       `,
       [chatUuid, lastLoaded, limit],
     )
   ).rows
+
+  // console.log({ messages })
 
   await psql.clean()
 

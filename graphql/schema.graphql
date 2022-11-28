@@ -359,6 +359,7 @@ type Mutation {
     phoneNumberArg: String
     tokenArg: String
 
+    messageUuidArg: String!
     chatUuidArg: String!
     messageTextArg: String!
   ): ChatMessage!

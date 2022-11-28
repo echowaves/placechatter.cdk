@@ -102,6 +102,7 @@ type AppSyncEvent = {
     phoneNumberArg: string
     tokenArg: string
 
+    messageUuidArg: string
     chatUuidArg: string
     messageTextArg: string
   }
@@ -373,6 +374,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.phoneNumberArg,
         event.arguments.tokenArg,
 
+        event.arguments.messageUuidArg,
         event.arguments.chatUuidArg,
         event.arguments.messageTextArg,
       )

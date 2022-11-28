@@ -47,6 +47,8 @@ export default async function main(
                     $5,
                     $6
                   )
+                  ON CONFLICT  ("chatUuid", "phoneNumber")
+                  DO NOTHING
                   returning *                    
                     `,
     [chatUuid, phoneNumber, true, createdAt, createdAt, createdAt],

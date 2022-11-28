@@ -11,22 +11,22 @@ import { v4 as uuidv4 } from 'uuid'
 import chatSubscribe from './chatSubscribe'
 
 export default async function main(
-  uuid: string,
-  phoneNumber: string,
-  token: string,
+  uuidArg: string,
+  phoneNumberArg: string,
+  tokenArg: string,
 
-  chatUuid: string,
-  messageText: string,
+  messageUuidArg: string,
+  chatUuidArg: string,
+  messageTextArg: string,
 ) {
   // console.log({ uuid, phoneNumber, token })
 
-  await VALID.isValidToken(uuid, phoneNumber, token)
-  VALID.uuid(chatUuid)
+  await VALID.isValidToken(uuidArg, phoneNumberArg, tokenArg)
+  VALID.uuid(chatUuidArg)
 
-  await chatSubscribe(uuid, phoneNumber, token, chatUuid)
+  await chatSubscribe(uuidArg, phoneNumberArg, tokenArg, chatUuidArg)
 
   const createdAt = dayjs().format(VALID.dateFormat) // display
-  const messageUuid = uuidv4()
 
   await psql.connect()
 
@@ -51,7 +51,14 @@ export default async function main(
                   )
                   returning *                    
                     `,
-      [chatUuid, messageUuid, phoneNumber, messageText, createdAt, createdAt],
+      [
+        chatUuidArg,
+        messageUuidArg,
+        phoneNumberArg,
+        messageTextArg,
+        createdAt,
+        createdAt,
+      ],
     )
   ).rows[0]
 
@@ -64,7 +71,7 @@ export default async function main(
                   WHERE
                     "chatUuid" = $2
                     `,
-    [createdAt, chatUuid],
+    [createdAt, chatUuidArg],
   )
 
   const { nickName } = await psql.query(
@@ -73,7 +80,7 @@ export default async function main(
     FROM "Phones"
     WHERE "phoneNumber" = $1
     `,
-    [phoneNumber],
+    [phoneNumberArg],
   ).rows[0]
 
   await psql.clean()

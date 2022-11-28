@@ -1,4 +1,5 @@
 import psql from './psql'
+import * as dayjs from 'dayjs'
 
 import { validate as uuidValidate } from 'uuid'
 import { version as uuidVersion } from 'uuid'
@@ -8,11 +9,7 @@ export const VALID = {
   // renderDateFormat: 'HH:mm MMM DD YYYY',
 
   dateTime: function (dateTime: string) {
-    if (
-      !/[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]/.test(
-        dateTime,
-      )
-    ) {
+    if (!dayjs(dateTime).isValid()) {
       throw 'Invalid date time format'
     }
   },
