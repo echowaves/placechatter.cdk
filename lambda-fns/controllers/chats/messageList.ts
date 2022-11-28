@@ -28,7 +28,7 @@ export default async function main(
       `
   SELECT cm.*, ph."nickName"
       FROM "ChatsMessages" cm
-      INNER JOIN "Phones" ph ON cm."createdBy" = ph."phoneNumber"
+      LEFT JOIN "Phones" ph ON cm."createdBy" = ph."phoneNumber"
       WHERE 
         "chatUuid" = $1
       AND
