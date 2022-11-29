@@ -19,6 +19,17 @@ export default async function main(
 
   await psql.connect()
 
+  let place = (
+    await psql.query(
+      `
+                    SELECT * FROM "Places"
+                    WHERE
+                      "placeUuid" = $1 
+                    `,
+      [placeUuid],
+    )
+  ).rows[0]
+
   let placeChats = (
     await psql.query(
       `
@@ -55,7 +66,7 @@ export default async function main(
                     )
                     returning *                    
                       `,
-        [placeUuid, chatUuid, 'place chat', true, createdAt],
+        [placeUuid, chatUuid, place.placeName, true, createdAt],
       )
     ).rows
   }
