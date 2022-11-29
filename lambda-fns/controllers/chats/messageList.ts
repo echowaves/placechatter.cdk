@@ -26,8 +26,12 @@ export default async function main(
   const messages = (
     await psql.query(
       `
-  SELECT cm.*, ph."nickName"
-      FROM "ChatsMessages" cm
+  SELECT 
+    cm.*, 
+    COALESCE(ph."nickName", 'anonym') AS "nickName"  
+
+    
+  FROM "ChatsMessages" cm
       LEFT JOIN "Phones" ph ON cm."createdBy" = ph."phoneNumber"
       WHERE 
         "chatUuid" = $1
