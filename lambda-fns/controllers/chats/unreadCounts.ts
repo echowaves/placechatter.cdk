@@ -20,7 +20,7 @@ export default async function main(
       `
           SELECT
             cp.*,
-            COUNT(CASE WHEN m."createdAt" > cp."lastReadAt" THEN 1 END) AS "unread"
+            COUNT(CASE WHEN cm."createdAt" > cp."lastReadAt" THEN 1 END) AS "unread"
           FROM "ChatsPhones" cp
             INNER JOIN "ChatsMessages" cm ON cp."chatUuid" = cm."chatUuid"
           WHERE cp."phoneNumber" = $1
