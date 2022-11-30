@@ -113,8 +113,8 @@ type PlaceChat {
 
 type ChatPhone {
   chatUuid: String!
+  chatName: String!
   phoneNumber: String!
-  optIn: Boolean!
   lastReadAt: AWSDateTime!
   unread: Int!
   updatedAt: AWSDateTime!

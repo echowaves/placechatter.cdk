@@ -10,11 +10,6 @@ module.exports = {
           type: Sequelize.STRING(20),
           allowNull: false,
         },
-        optIn: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: true,
-        },
         unreadCounts: {
           type: Sequelize.INTEGER,
           allowNull: false,

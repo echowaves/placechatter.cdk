@@ -35,7 +35,6 @@ export default async function main(
                     (
                       "chatUuid",
                       "phoneNumber",
-                      "optIn",
                       "lastReadAt",
                       "createdAt",
                       "updatedAt"              
@@ -44,14 +43,13 @@ export default async function main(
                     $2,
                     $3,
                     $4,
-                    $5,
-                    $6
+                    $5
                   )
                   ON CONFLICT  ("chatUuid", "phoneNumber")
                   DO NOTHING
                   returning *                    
                     `,
-    [chatUuid, phoneNumber, true, createdAt, createdAt, createdAt],
+    [chatUuid, phoneNumber, createdAt, createdAt, createdAt],
   )
 
   await psql.clean()
