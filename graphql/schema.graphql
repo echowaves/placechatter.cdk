@@ -116,7 +116,7 @@ type ChatPhone {
   chatName: String!
   phoneNumber: String!
   lastReadAt: AWSDateTime!
-  unread: Int!
+  unreadCounts: Int!
   updatedAt: AWSDateTime!
 }
 
