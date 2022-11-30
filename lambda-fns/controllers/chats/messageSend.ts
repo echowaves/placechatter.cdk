@@ -74,6 +74,18 @@ export default async function main(
     [createdAt, chatUuidArg],
   )
 
+  await psql.query(
+    `
+                  UPDATE "ChatsPhones"
+                  SET
+                    "updatedAt" = $1,
+                    "unreadCounts" = "unreadCounts" + $2
+                  WHERE
+                    "chatUuid" = $3
+                    `,
+    [createdAt, 1, chatUuidArg],
+  )
+
   const { nickName } = (
     await psql.query(
       `

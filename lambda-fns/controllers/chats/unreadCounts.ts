@@ -19,14 +19,11 @@ export default async function main(
     await psql.query(
       `
           SELECT
-            cp.*,
-            COUNT(CASE WHEN cm."createdAt" > cp."lastReadAt" THEN 1 END) AS "unread"
-          FROM "ChatsPhones" cp
-            INNER JOIN "ChatsMessages" cm ON cp."chatUuid" = cm."chatUuid"
-          WHERE cp."phoneNumber" = $1
-          GROUP BY cp."chatUuid", cp."updatedAt"
+          FROM "ChatsPhones" 
+          WHERE "phoneNumber" = $1
+          AND "optIn" = $2
       `,
-      [phoneNumber],
+      [phoneNumber, true],
     )
   ).rows
 

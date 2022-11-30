@@ -30,13 +30,14 @@ export default async function main(
                   UPDATE "ChatsPhones"
                   SET
                     "lastReadAt" = $1,
-                    "updatedAt" = $2
+                    "updatedAt" = $2,
+                    "unreadCounts" = $3
                   WHERE
-                    "chatUuid" = $3
+                    "chatUuid" = $4
                   AND
-                    "phoneNumber" = $4
+                    "phoneNumber" = $5
                     `,
-    [lastRead, lastRead, chatUuid, phoneNumber],
+    [lastRead, lastRead, 0, chatUuid, phoneNumber],
   )
 
   await psql.clean()

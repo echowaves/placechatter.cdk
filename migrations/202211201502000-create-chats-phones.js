@@ -15,6 +15,12 @@ module.exports = {
           allowNull: false,
           defaultValue: true,
         },
+        unreadCounts: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 0,
+        },
+
         lastReadAt: {
           allowNull: false,
           type: Sequelize.DATE,
