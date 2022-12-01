@@ -18,7 +18,7 @@ export default async function main(
   const unreadCounts = (
     await psql.query(
       `
-          SELECT "ChatsPhones".*, "PlacesChats"."chatName"
+          SELECT "ChatsPhones".*, "PlacesChats"."chatName",  "PlacesChats"."placeUuid"
           FROM "ChatsPhones" 
           INNER JOIN "PlacesChats" ON "ChatsPhones"."chatUuid" = "PlacesChats"."chatUuid"
           WHERE 

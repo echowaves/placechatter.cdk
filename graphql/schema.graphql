@@ -112,6 +112,7 @@ type PlaceChat {
 }
 
 type ChatPhone {
+  placeUuid: String!
   chatUuid: String!
   chatName: String!
   phoneNumber: String!
