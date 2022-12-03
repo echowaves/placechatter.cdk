@@ -62,36 +62,36 @@ export default async function main(uuid: string, phoneNumber: string) {
   }
 
   // send sms via aws
-  // var params = {
-  //   PhoneNumber: `+1${phoneNumber}`,
-  //   Message: `Activation Code: ${smsCode}`,
-  //   MessageAttributes: {
-  //     'AWS.SNS.SMS.SMSType': {
-  //       DataType: 'String',
-  //       StringValue: 'Transactional',
-  //     },
-  //     'AWS.MM.SMS.OriginationNumber': {
-  //       DataType: 'String',
-  //       StringValue: '+18778901884', // origination number should be in E.164 format
-  //     },
-  //   },
-  // }
+  var params = {
+    PhoneNumber: `+1${phoneNumber}`,
+    Message: `Your Placechatter verification code is: ${smsCode}`,
+    MessageAttributes: {
+      'AWS.SNS.SMS.SMSType': {
+        DataType: 'String',
+        StringValue: 'Transactional',
+      },
+      'AWS.MM.SMS.OriginationNumber': {
+        DataType: 'String',
+        StringValue: '+18778901884', // origination number should be in E.164 format
+      },
+    },
+  }
 
-  // const publish_resp = await SNS.publish(params).promise()
+  const publish_resp = await SNS.publish(params).promise()
   // console.log({ publish_resp })
   /////////////////////////////////////////////////////////////////////////////////
 
   // send sms via twillio
-  const accountSid = process.env.TWILIO_ACCOUNT_SID
-  const authToken = process.env.TWILIO_AUTH_TOKEN
-  const client = require('twilio')(accountSid, authToken)
+  // const accountSid = process.env.TWILIO_ACCOUNT_SID
+  // const authToken = process.env.TWILIO_AUTH_TOKEN
+  // const client = require('twilio')(accountSid, authToken)
 
-  // twilio SMS send
-  const message = await client.messages.create({
-    body: `Your placechatter activation code: ${smsCode}`,
-    from: '+19303365867',
-    to: `+1${phoneNumber}`,
-  })
+  // // twilio SMS send
+  // const message = await client.messages.create({
+  //   body: `Your Placechatter verification code is: ${smsCode}`,
+  //   from: '+19303365867',
+  //   to: `+1${phoneNumber}`,
+  // })
   /////////////////////////////////////////////////////////////////////////////////
 
   // console.log({ message })

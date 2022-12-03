@@ -103,6 +103,12 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       },
     )
 
+    // give SNS publuish permissions to the lambda
+    const statement = new iam.PolicyStatement()
+    statement.addActions('sns:Publish')
+    statement.addResources('*')
+    placechatterFn.addToRolePolicy(statement)
+
     // Configure SNS using custom resource
     // SNS Attributes
     const setParameters = {
@@ -142,7 +148,6 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       logRetention: 7,
     })
 
-    
     // create a layer
     // const ffmpegLayer = lambda.LayerVersion.fromLayerVersionArn(this, 'ffmpegLayer',
     //   'arn:aws:lambda:us-east-1:963958500685:layer:ffmpeg:1'
