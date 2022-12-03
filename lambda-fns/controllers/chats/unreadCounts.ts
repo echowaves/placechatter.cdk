@@ -25,7 +25,8 @@ export default async function main(
           FROM "ChatsPhones" 
           INNER JOIN "PlacesChats" ON "ChatsPhones"."chatUuid" = "PlacesChats"."chatUuid"
           WHERE 
-            "ChatsPhones"."phoneNumber" = $1                    
+            "ChatsPhones"."phoneNumber" = $1         
+          ORDER BY "ChatsPhones"."updatedAt" DESC
       `,
       [phoneNumber],
     )
