@@ -16,8 +16,6 @@ export default async function main(
   await VALID.isValidToken(uuid, phoneNumber, token)
   VALID.uuid(chatUuid)
 
-  const limit = 20
-
   await psql.connect()
 
   const count = (
@@ -34,7 +32,10 @@ export default async function main(
     )
   ).rows[0].count
 
+  // console.log({ count })
+  // console.log(count === 1 ? true : false)
+
   await psql.clean()
 
-  return count === 1 ? true : false
+  return count === '1' ? true : false
 }
