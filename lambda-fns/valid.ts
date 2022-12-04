@@ -98,6 +98,12 @@ export const VALID = {
     }
   },
 
+  messageText: function (param: string) {
+    if (!/^(.|\s){1,1024}$/.test(param)) {
+      throw 'Invalid message Text'
+    }
+  },
+
   contentType: function (param: string) {
     if (param !== 'image/png') {
       throw 'Invalid Content Type'

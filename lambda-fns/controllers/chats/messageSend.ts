@@ -23,6 +23,8 @@ export default async function main(
   VALID.uuid(messageUuidArg)
   VALID.uuid(chatUuidArg)
 
+  VALID.messageText(messageTextArg)
+
   await chatSubscribe(uuidArg, phoneNumberArg, tokenArg, chatUuidArg)
 
   const createdAt = dayjs().format(VALID.dateFormat) // display
