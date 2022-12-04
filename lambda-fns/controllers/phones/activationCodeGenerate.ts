@@ -74,6 +74,10 @@ export default async function main(uuid: string, phoneNumber: string) {
         DataType: 'String',
         StringValue: '+18778901884', // origination number should be in E.164 format
       },
+      'AWS.SNS.SMS.SenderID': {
+        DataType: 'String',
+        StringValue: 'Placechater', // origination number should be in E.164 format
+      },
     },
   }
 
