@@ -119,7 +119,8 @@ export default async function main(
   ).rows[0]
 
   await psql.clean()
+  const convertedMessage = plainToClass(Message, message)
+  // console.log({ convertedMessage: convertedMessage.toJSON() })
 
-  // console.log({ message: plainToClass(Message, message) })
-  return { ...plainToClass(Message, message), nickName }
+  return { ...convertedMessage.toJSON(), nickName }
 }

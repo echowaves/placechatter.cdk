@@ -50,5 +50,7 @@ export default async function main(
 
   await psql.clean()
 
-  return messages.map((message: Message) => plainToClass(Message, message))
+  return messages.map((message: Message) =>
+    plainToClass(Message, message).toJSON(),
+  )
 }
