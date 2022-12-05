@@ -87,6 +87,7 @@ export default async function main(
     )
   } else {
     // deleting existing message
+    // message text param is ignored
     message = (
       await psql.query(
         `
