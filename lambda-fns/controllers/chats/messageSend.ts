@@ -120,6 +120,6 @@ export default async function main(
 
   await psql.clean()
 
-  // console.log({ ...message, nickName })
+  // console.log({ message: plainToClass(Message, message) })
   return { ...plainToClass(Message, message), nickName }
 }

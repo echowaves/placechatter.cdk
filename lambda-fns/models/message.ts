@@ -11,7 +11,9 @@ class Message {
   public toJSON() {
     return {
       ...this,
-      messageText: this.deleted === true ? '...deleted...' : this.messageText,
+      messageText: `${
+        this.deleted === true ? '...deleted...' : this.messageText
+      }`,
     }
   }
 }
