@@ -1,4 +1,6 @@
 const AWS = require('aws-sdk')
+import Message from '../../models/message'
+import { plainToClass } from 'class-transformer'
 
 import psql from '../../psql'
 
@@ -48,5 +50,5 @@ export default async function main(
 
   await psql.clean()
 
-  return messages
+  return messages.map((message: Message) => plainToClass(Message, message))
 }

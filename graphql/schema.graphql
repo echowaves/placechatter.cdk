@@ -128,6 +128,7 @@ type ChatMessage {
   nickName: String!
   messageText: String!
   createdAt: AWSDateTime!
+  deleted: Boolean!
 }
 
 # ... ******************************************************
@@ -363,6 +364,8 @@ type Mutation {
     messageUuidArg: String!
     chatUuidArg: String!
     messageTextArg: String!
+
+    deletedArg: Boolean!
   ): ChatMessage!
 
   unreadCountReset(

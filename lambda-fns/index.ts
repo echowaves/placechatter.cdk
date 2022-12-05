@@ -105,6 +105,8 @@ type AppSyncEvent = {
     messageUuidArg: string
     chatUuidArg: string
     messageTextArg: string
+
+    deletedArg: boolean
   }
 }
 
@@ -377,6 +379,7 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.messageUuidArg,
         event.arguments.chatUuidArg,
         event.arguments.messageTextArg,
+        event.arguments.deletedArg,
       )
 
     case 'unreadCountReset':

@@ -1,4 +1,6 @@
 var AWS = require('aws-sdk')
+import Message from '../../models/message'
+import { plainToClass } from 'class-transformer'
 
 import psql from '../../psql'
 
@@ -16,6 +18,8 @@ export default async function main(
   messageUuidArg: string,
   chatUuidArg: string,
   messageTextArg: string,
+
+  deletedArg: boolean,
 ) {
   // console.log({ uuid, phoneNumber, token })
 
@@ -31,9 +35,13 @@ export default async function main(
 
   await psql.connect()
 
-  const message = (
-    await psql.query(
-      `
+  let message = null
+
+  if (deletedArg === false) {
+    // this is a new message
+    message = (
+      await psql.query(
+        `
                     INSERT INTO "ChatsMessages"
                     (
                       "chatUuid",
@@ -41,43 +49,33 @@ export default async function main(
                       "createdBy",
                       "messageText",
                       "createdAt",
-                      "updatedAt"
+                      "updatedAt", 
+                      "deleted"
                   ) values (
                     $1,
                     $2,
                     $3,
                     $4,
                     $5,
-                    $6
+                    $6, 
+                    $7
                   )
                   returning *                    
                     `,
-      [
-        chatUuidArg,
-        messageUuidArg,
-        phoneNumberArg,
-        messageTextArg,
-        createdAt,
-        createdAt,
-      ],
-    )
-  ).rows[0]
-  // console.log({ message })
+        [
+          chatUuidArg,
+          messageUuidArg,
+          phoneNumberArg,
+          messageTextArg,
+          createdAt,
+          createdAt,
+          false,
+        ],
+      )
+    ).rows[0]
 
-  await psql.query(
-    // update all chats
-    `
-                  UPDATE "ChatsPhones"
-                  SET
-                    "updatedAt" = $1
-                  WHERE
-                    "chatUuid" = $2
-                    `,
-    [createdAt, chatUuidArg],
-  )
-
-  await psql.query(
-    `
+    await psql.query(
+      `
                   UPDATE "ChatsPhones"
                   SET
                     "updatedAt" = $1,
@@ -85,8 +83,28 @@ export default async function main(
                   WHERE
                     "chatUuid" = $3
                     `,
-    [createdAt, 1, chatUuidArg],
-  )
+      [createdAt, 1, chatUuidArg],
+    )
+  } else {
+    // deleting existing message
+    message = (
+      await psql.query(
+        `
+                    UPDATE "ChatsMessages"
+                    SET 
+                      "deleted" = $1,
+                      "updatedAt" = $2
+                    WHERE
+                      "chatUuid" = $3
+                    AND
+                      "messageUuid" = $4
+                  returning *                    
+                    `,
+        [true, createdAt, chatUuidArg, messageUuidArg],
+      )
+    ).rows[0]
+  }
+  // console.log({ message })
 
   const { nickName } = (
     await psql.query(
@@ -102,5 +120,5 @@ export default async function main(
   await psql.clean()
 
   // console.log({ ...message, nickName })
-  return { ...message, nickName }
+  return { ...plainToClass(Message, message), nickName }
 }
