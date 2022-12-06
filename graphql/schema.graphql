@@ -375,6 +375,14 @@ type Mutation {
 
     chatUuid: String!
   ): Boolean!
+
+  abuseReportCreate(
+    uuid: String
+    phoneNumber: String
+    token: String
+
+    messageUuid: String!
+  ): Boolean!
 }
 
 # ... ******************************************************

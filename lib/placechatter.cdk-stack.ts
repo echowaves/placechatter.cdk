@@ -382,6 +382,10 @@ export class PlaceChatterCdkStack extends cdk.Stack {
       typeName: 'Mutation',
       fieldName: 'unreadCountReset',
     })
+    lambdaDs.createResolver({
+      typeName: 'Mutation',
+      fieldName: 'abuseReportCreate',
+    })
 
     // CFN Outputs
     new cdk.CfnOutput(this, 'AppSyncAPIURL', {

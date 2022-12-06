@@ -40,6 +40,7 @@ import chatSubscribe from './controllers/chats/chatSubscribe'
 import chatUnsubscribe from './controllers/chats/chatUnsubscribe'
 import messageSend from './controllers/chats/messageSend'
 import unreadCountReset from './controllers/chats/unreadCountReset'
+import abuseReportCreate from './controllers/chats/abuseReportCreate'
 
 // ******************************************************
 //                       mutations
@@ -93,6 +94,7 @@ type AppSyncEvent = {
 
     feedbackText: string
 
+    messageUuid: string
     chatUuid: string
     lastLoaded: string
 
@@ -389,6 +391,15 @@ exports.handler = async (event: AppSyncEvent) => {
         event.arguments.token,
 
         event.arguments.chatUuid,
+      )
+
+    case 'abuseReportCreate':
+      return await abuseReportCreate(
+        event.arguments.uuid,
+        event.arguments.phoneNumber,
+        event.arguments.token,
+
+        event.arguments.messageUuid,
       )
 
     default:
