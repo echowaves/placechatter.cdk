@@ -32,8 +32,8 @@ export default async function main(
                   (
                     "messageUuid",
                     "createdBy",
-                    "createdAt",
-                ) values (
+                    "createdAt"
+                  ) values (
                   $1,
                   $2,
                   $3
