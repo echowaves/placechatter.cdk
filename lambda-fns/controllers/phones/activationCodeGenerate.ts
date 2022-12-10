@@ -13,11 +13,18 @@ export default async function main(uuid: string, phoneNumber: string) {
   VALID.uuid(uuid)
   VALID.phoneNumber(phoneNumber)
 
+  const testPhoneNumber = '3232223333'
+
   await psql.connect()
   const createdAt = dayjs().format(VALID.dateFormat) // display
   console.log({ createdAt })
 
-  const smsCode = srs({ length: 4, alphanumeric: true })
+  let smsCode = srs({ length: 4, alphanumeric: true })
+
+  if (phoneNumber === testPhoneNumber) {
+    smsCode = '4242'
+  }
+
   console.log({ smsCode })
 
   await psql.query(
@@ -57,7 +64,12 @@ export default async function main(uuid: string, phoneNumber: string) {
   await psql.clean()
 
   // skip sending message for area code 000
-  if (phoneNumber.startsWith('000')) {
+  if (phoneNumber.startsWith('000') || phoneNumber === testPhoneNumber) {
+    return smsCode // 4 alpha numeric
+  }
+
+  // skip sending message for test phone number
+  if (phoneNumber === testPhoneNumber) {
     return smsCode // 4 alpha numeric
   }
 
