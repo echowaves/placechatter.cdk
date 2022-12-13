@@ -13,7 +13,7 @@ export default async function main(uuid: string, phoneNumber: string) {
   VALID.uuid(uuid)
   VALID.phoneNumber(phoneNumber)
 
-  const testPhoneNumber = '3232223333'
+  // const testPhoneNumber = '3232223333'
 
   await psql.connect()
   const createdAt = dayjs().format(VALID.dateFormat) // display
@@ -21,9 +21,10 @@ export default async function main(uuid: string, phoneNumber: string) {
 
   let smsCode = srs({ length: 4, alphanumeric: true })
 
-  if (phoneNumber === testPhoneNumber) {
-    smsCode = '4242'
-  }
+  // hardcode sms code for testPhoneNumber
+  // if (phoneNumber === testPhoneNumber) {
+  //   smsCode = '4242'
+  // }
 
   console.log({ smsCode })
 
@@ -64,14 +65,14 @@ export default async function main(uuid: string, phoneNumber: string) {
   await psql.clean()
 
   // skip sending message for area code 000
-  if (phoneNumber.startsWith('000') || phoneNumber === testPhoneNumber) {
+  if (phoneNumber.startsWith('000')) {
     return smsCode // 4 alpha numeric
   }
 
   // skip sending message for test phone number
-  if (phoneNumber === testPhoneNumber) {
-    return smsCode // 4 alpha numeric
-  }
+  // if (phoneNumber === testPhoneNumber) {
+  //   return smsCode // 4 alpha numeric
+  // }
 
   // send sms via aws
   var params = {
@@ -88,7 +89,7 @@ export default async function main(uuid: string, phoneNumber: string) {
       },
       'AWS.SNS.SMS.SenderID': {
         DataType: 'String',
-        StringValue: 'Placechater', // origination number should be in E.164 format
+        StringValue: 'PlaceChater', // origination number should be in E.164 format
       },
     },
   }
