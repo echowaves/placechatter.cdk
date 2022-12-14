@@ -77,7 +77,7 @@ export default async function main(uuid: string, phoneNumber: string) {
   // send sms via aws
   var params = {
     PhoneNumber: `+1${phoneNumber}`,
-    Message: `PlaceChatter security code: ${smsCode}`,
+    Message: `${smsCode} is your PlaceChatter verification code.`,
     MessageAttributes: {
       'AWS.SNS.SMS.SMSType': {
         DataType: 'String',
