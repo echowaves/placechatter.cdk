@@ -22,6 +22,15 @@ module.exports = {
           defaultValue: true,
         },
 
+        promotionText: {
+          type: Sequelize.STRING(1024),
+          allowNull: false,
+        },
+        requiredEventCounts: {
+          // how many events should happen to fullfill the promotion
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
         createdBy: {
           type: Sequelize.STRING(20), //phone number
           allowNull: false,
@@ -33,36 +42,13 @@ module.exports = {
         },
       })
       .then(() =>
-        queryInterface.createTable('PromotionsCards', {
+        queryInterface.createTable('PromotionsEvents', {
           promotionUuid: {
             type: Sequelize.UUID,
             allowNull: false,
           },
 
-          promotionsCardUuid: {
-            type: Sequelize.UUID,
-            allowNull: false,
-          },
-
-          createdBy: {
-            type: Sequelize.STRING(20), //phone number
-            allowNull: false,
-          },
-
-          createdAt: {
-            allowNull: false,
-            type: Sequelize.DATE,
-          },
-        }),
-      )
-      .then(() =>
-        queryInterface.createTable('PromotionsCardsPunches', {
-          promotionsCardUuid: {
-            type: Sequelize.UUID,
-            allowNull: false,
-          },
-
-          promotionsCardsPunchesUuid: {
+          eventUuid: {
             type: Sequelize.UUID,
             allowNull: false,
           },
@@ -80,7 +66,15 @@ module.exports = {
       )
 
       .then(() => queryInterface.addIndex('Promotions', ['promotionUuid']))
-      .then(() => queryInterface.addIndex('Promotions', ['createdAt'])),
+      .then(() => queryInterface.addIndex('Promotions', ['placeUuid']))
+      .then(() => queryInterface.addIndex('Promotions', ['createdAt']))
+      .then(() =>
+        queryInterface.addIndex('PromotionsEvents', [
+          'promotionUuid',
+          'createdBy',
+        ]),
+      )
+      .then(() => queryInterface.addIndex('PromotionsEvents', ['createdAt'])),
 
   down: (
     queryInterface,
@@ -88,6 +82,5 @@ module.exports = {
   ) =>
     queryInterface
       .dropTable('Promotions')
-      .then(() => queryInterface.dropTable('PromotionsCards'))
-      .then(() => queryInterface.dropTable('PromotionsCardsPunches')),
+      .then(() => queryInterface.dropTable('PromotionsEvents')),
 }
